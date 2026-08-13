@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f0ebf8; color: #202124; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .portal-container { max-width: 640px; width: 100%; }
+        .header-card { background-color: #fff; border-top: 10px solid #673ab7; padding: 32px; border-radius: 8px; margin-bottom: 32px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); text-align: center; }
+        .header-card h1 { margin: 0 0 12px 0; font-size: 32px; font-weight: 400; }
+        .header-card p { margin: 0; color: #5f6368; font-size: 16px; line-height: 1.5; }
+        .quiz-link { display: block; background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); text-decoration: none; color: #202124; transition: transform 0.2s ease, box-shadow 0.2s ease; border-left: 8px solid #673ab7; }
+        .quiz-link:hover { transform: translateY(-2px); box-shadow: 0 4px 8px 0 rgba(60,64,67,0.3), 0 4px 12px 4px rgba(60,64,67,0.15); background-color: #f8f9fa; }
+        .quiz-link h2 { margin: 0 0 8px 0; font-size: 20px; color: #673ab7; font-weight: 500; }
+        .quiz-link p { margin: 0; color: #5f6368; font-size: 14px; }
+        #loading { text-align: center; color: #5f6368; }
+    </style>
+</head>
+<body>
+
+<div class="portal-container">
+    <div class="header-card">
+        <h1>Interactive Quiz Portal</h1>
+        <p>Select a quiz below to test your knowledge.</p>
+    </div>
+
+    <div id="quiz-list">
+        <p id="loading">Loading quizzes...</p>
+    </div>
+</div>
+
+<script>
+    // Fetch the configuration file dynamically
+    fetch('index_config.json')
+        .then(response => {
+            if (!response.ok) throw new Error("Config file not found");
+            return response.json();
+        })
+        .then(data => {
+            const listContainer = document.getElementById('quiz-list');
+            listContainer.innerHTML = ''; // Clear loading text
+
+            // Iterate over the dictionary and create links
+            for (const [quizName, fileName] of Object.entries(data)) {
+                const link = document.createElement('a');
+                // Pass the json file name as a URL parameter to the template
+                link.href = `quiz_template.html?file=${encodeURIComponent(fileName)}`;
+                link.className = 'quiz-link';
+                
+                link.innerHTML = `
+                    <h2>${quizName}</h2>
+                    <p>Click here to load and attempt this quiz.</p>
+                `;
+                listContainer.appendChild(link);
+            }
+        })
+        .catch(error => {
+            document.getElementById('loading').innerText = "Error loading quizzes. Ensure index_config.json exists.";
+            console.error("Error:", error);
+        });
+</script>
+
+</body>
+</html>

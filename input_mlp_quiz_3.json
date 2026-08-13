@@ -1,0 +1,552 @@
+[
+    {
+        "q": "Who is credited with inventing the original Perceptron algorithm in 1958?",
+        "options": [
+            "Geoffrey Hinton",
+            "Frank Rosenblatt",
+            "Yann LeCun",
+            "Warren McCulloch"
+        ],
+        "answer": 1,
+        "explanation": "Frank Rosenblatt developed the Perceptron in 1958 as one of the earliest models of a supervised, binary linear classifier inspired by biological neurons."
+    },
+    {
+        "q": "What type of decision boundary does a single-layer Perceptron produce?",
+        "options": [
+            "A non-linear curve",
+            "A linear hyperplane",
+            "A piecewise polynomial",
+            "A circular boundary"
+        ],
+        "answer": 1,
+        "explanation": "A single-layer Perceptron can only separate classes using a straight line (in 2D) or a linear hyperplane in higher dimensions, since it computes a weighted sum passed through a threshold function."
+    },
+    {
+        "q": "What is the output of a classic Perceptron for a given input vector?",
+        "options": [
+            "A continuous probability between 0 and 1",
+            "A binary value based on whether the weighted sum exceeds a threshold",
+            "A vector of class probabilities",
+            "The raw weighted sum with no transformation"
+        ],
+        "answer": 1,
+        "explanation": "The classic Perceptron applies a step (threshold) function to the weighted sum of inputs, producing a binary output such as 0 or 1."
+    },
+    {
+        "q": "Which of the following logic gates CANNOT be learned by a single-layer Perceptron?",
+        "options": [
+            "AND",
+            "OR",
+            "NAND",
+            "XOR"
+        ],
+        "answer": 3,
+        "explanation": "XOR is not linearly separable, so no single straight-line decision boundary can correctly classify it, making it impossible for a single-layer Perceptron to learn."
+    },
+    {
+        "q": "What does the Perceptron Convergence Theorem guarantee?",
+        "options": [
+            "The Perceptron will always converge to zero error, even on non-separable data",
+            "If the data is linearly separable, the Perceptron learning algorithm will find a separating hyperplane in a finite number of steps",
+            "The Perceptron will converge faster than gradient descent on any dataset",
+            "The Perceptron always finds the maximum-margin hyperplane"
+        ],
+        "answer": 1,
+        "explanation": "The theorem states that if the training data is linearly separable, the Perceptron learning rule is guaranteed to converge to a separating hyperplane within a finite number of updates."
+    },
+    {
+        "q": "In the classic Perceptron learning rule, when are the weights updated?",
+        "options": [
+            "After every single training sample, regardless of correctness",
+            "Only when the Perceptron misclassifies a training sample",
+            "Only at the end of every epoch",
+            "Only when the loss function reaches a local minimum"
+        ],
+        "answer": 1,
+        "explanation": "The Perceptron learning rule updates weights only when a prediction is wrong; correctly classified samples leave the weights unchanged."
+    },
+    {
+        "q": "What is the Perceptron weight update rule for a misclassified sample x with true label y and prediction y_hat?",
+        "options": [
+            "w = w - learning_rate * x",
+            "w = w + learning_rate * (y - y_hat) * x",
+            "w = w * (y - y_hat)",
+            "w = w + learning_rate * loss_gradient"
+        ],
+        "answer": 1,
+        "explanation": "The standard update rule adjusts weights in the direction that reduces the classification error, scaled by the learning rate and the input vector."
+    },
+    {
+        "q": "What is the key architectural limitation that separates a Perceptron from an MLP?",
+        "options": [
+            "A Perceptron uses floating point numbers, an MLP does not",
+            "A Perceptron has no hidden layers, while an MLP has one or more",
+            "A Perceptron cannot use a bias term",
+            "A Perceptron only works with image data"
+        ],
+        "answer": 1,
+        "explanation": "A Perceptron is essentially a single-layer model with no hidden layers, whereas an MLP stacks multiple layers, including at least one hidden layer, enabling non-linear modeling."
+    },
+    {
+        "q": "Which of these best describes a 'Multi-class Perceptron' setup for classifying 3 classes?",
+        "options": [
+            "A single neuron with three possible outputs",
+            "Three separate output neurons, each with its own weight vector, often via one-vs-rest",
+            "A single Perceptron that outputs the class name directly",
+            "It is impossible to extend the Perceptron beyond binary classification"
+        ],
+        "answer": 1,
+        "explanation": "Multi-class Perceptrons are commonly implemented using multiple weight vectors, one per class, typically trained with a one-vs-rest strategy."
+    },
+    {
+        "q": "What role does the threshold (or bias) play in the original Perceptron model?",
+        "options": [
+            "It normalizes the input features",
+            "It shifts the decision boundary away from passing through the origin",
+            "It controls the learning rate",
+            "It determines the number of hidden units"
+        ],
+        "answer": 1,
+        "explanation": "Without a bias term, the decision boundary is forced to pass through the origin. The bias allows the boundary to shift, increasing the model's flexibility."
+    },
+    {
+        "q": "Historically, what impact did Minsky and Papert's 1969 book 'Perceptrons' have on the field?",
+        "options": [
+            "It sparked rapid growth in neural network research",
+            "It highlighted the Perceptron's inability to solve non-linearly separable problems and contributed to reduced funding known as the first 'AI Winter'",
+            "It introduced the backpropagation algorithm",
+            "It proved the Universal Approximation Theorem"
+        ],
+        "answer": 1,
+        "explanation": "By formally showing the limitations of single-layer Perceptrons (such as the XOR problem), the book dampened enthusiasm for neural networks and contributed to a decline in research funding during the 1970s."
+    },
+    {
+        "q": "In terms of biological inspiration, what does the Perceptron's weighted sum loosely model?",
+        "options": [
+            "The firing rate of a biological neuron based on the strength of its synaptic inputs",
+            "The chemical composition of a neuron's cell membrane",
+            "The physical distance between neurons in the brain",
+            "The color processing in the visual cortex"
+        ],
+        "answer": 0,
+        "explanation": "The weighted sum of inputs loosely mimics how a biological neuron integrates signals from its dendrites, firing when the combined input exceeds a certain threshold."
+    },
+    {
+        "q": "If a Perceptron is trained on data that is NOT linearly separable, what typically happens?",
+        "options": [
+            "The algorithm converges quickly to a perfect classifier",
+            "The weights may oscillate indefinitely and never converge to zero error",
+            "The Perceptron automatically adds a hidden layer to solve the problem",
+            "The learning rate is automatically set to zero"
+        ],
+        "answer": 1,
+        "explanation": "On non-linearly separable data, there is no weight vector that classifies every point correctly, so the Perceptron learning rule can keep updating weights indefinitely without converging."
+    },
+    {
+        "q": "In standard MLP terminology, what is a 'dense' layer also commonly called?",
+        "options": [
+            "Convolutional layer",
+            "Fully connected layer",
+            "Recurrent layer",
+            "Pooling layer"
+        ],
+        "answer": 1,
+        "explanation": "A dense layer and a fully connected layer refer to the same concept: every neuron in the layer connects to every neuron in the previous layer."
+    },
+    {
+        "q": "Which of the following best describes 'backpropagation' in the context of training an MLP?",
+        "options": [
+            "The process of randomly initializing weights before training begins",
+            "An algorithm that propagates the error gradient backward through the network to update weights using the chain rule",
+            "A technique for reducing the size of the network after training",
+            "The forward pass used to generate predictions"
+        ],
+        "answer": 1,
+        "explanation": "Backpropagation computes the gradient of the loss with respect to each weight by applying the chain rule layer by layer, moving backward from the output to the input."
+    },
+    {
+        "q": "If an MLP has an input layer of 8 nodes and a first hidden layer of 6 nodes (with biases), how many trainable parameters exist between these two layers?",
+        "options": [
+            "48",
+            "54",
+            "14",
+            "56"
+        ],
+        "answer": 1,
+        "explanation": "Weights = 8 * 6 = 48, plus one bias per hidden neuron = 6, giving a total of 54 trainable parameters."
+    },
+    {
+        "q": "What is the main reason MLPs typically use non-linear activation functions between layers?",
+        "options": [
+            "To speed up matrix multiplication",
+            "Without non-linearity, stacking multiple layers collapses into an equivalent single linear transformation",
+            "To reduce the number of parameters",
+            "To guarantee the loss function is convex"
+        ],
+        "answer": 1,
+        "explanation": "Composing multiple linear layers without non-linear activations is mathematically equivalent to a single linear layer, so non-linear activations are essential for learning complex functions."
+    },
+    {
+        "q": "What is 'weight initialization' in an MLP, and why does it matter?",
+        "options": [
+            "Setting the learning rate before training; it controls convergence speed only",
+            "Assigning initial values to weights before training; poor initialization can cause vanishing/exploding gradients or symmetry problems",
+            "Choosing the number of layers in the network",
+            "Selecting which loss function to use"
+        ],
+        "answer": 1,
+        "explanation": "Proper weight initialization (e.g., Xavier or He initialization) helps maintain stable gradient magnitudes across layers and breaks symmetry between neurons."
+    },
+    {
+        "q": "Which initialization scheme is commonly recommended for layers using ReLU activations?",
+        "options": [
+            "Zero initialization",
+            "He initialization",
+            "Constant initialization",
+            "Xavier initialization designed specifically for Sigmoid/Tanh only"
+        ],
+        "answer": 1,
+        "explanation": "He initialization scales weights based on the number of input units and is designed to work well with ReLU and its variants, helping maintain stable variance through layers."
+    },
+    {
+        "q": "What does 'batch normalization' do within an MLP?",
+        "options": [
+            "It randomly drops neurons during training",
+            "It normalizes the inputs to a layer across a mini-batch to stabilize and speed up training",
+            "It reduces the number of layers automatically",
+            "It converts the network output into probabilities"
+        ],
+        "answer": 1,
+        "explanation": "Batch normalization normalizes layer inputs using batch statistics (mean and variance), which helps reduce internal covariate shift and often accelerates and stabilizes training."
+    },
+    {
+        "q": "What is the purpose of a validation set when training an MLP?",
+        "options": [
+            "To directly update the model's weights",
+            "To tune hyperparameters and monitor for overfitting without touching the test set",
+            "To replace the need for a loss function",
+            "To increase the size of the training data"
+        ],
+        "answer": 1,
+        "explanation": "A validation set is used to evaluate model performance during training and guide hyperparameter choices, while the test set remains untouched for a final, unbiased evaluation."
+    },
+    {
+        "q": "Which of the following is a sign that an MLP is overfitting the training data?",
+        "options": [
+            "Training loss and validation loss both decrease steadily together",
+            "Training loss keeps decreasing while validation loss starts increasing",
+            "Both training and validation loss remain high and flat",
+            "The model fails to fit even the training data"
+        ],
+        "answer": 1,
+        "explanation": "A widening gap where training loss keeps falling but validation loss rises indicates the model is memorizing training data rather than generalizing."
+    },
+    {
+        "q": "What is 'early stopping' used for when training an MLP?",
+        "options": [
+            "Stopping training as soon as the training loss reaches zero",
+            "Halting training once validation performance stops improving, to prevent overfitting",
+            "Reducing the learning rate at the start of training",
+            "Skipping the first few epochs of training"
+        ],
+        "answer": 1,
+        "explanation": "Early stopping monitors validation loss (or another metric) and stops training once it stops improving, helping avoid overfitting to the training set."
+    },
+    {
+        "q": "Why do MLPs generally require input features to be numeric and often scaled (e.g., normalized or standardized)?",
+        "options": [
+            "MLPs cannot perform any arithmetic operations internally",
+            "Because the network performs weighted sums and gradient-based optimization, unscaled or non-numeric features can cause slow or unstable training",
+            "Scaling is only needed for convolutional networks, not MLPs",
+            "Scaling eliminates the need for activation functions"
+        ],
+        "answer": 1,
+        "explanation": "Since MLPs rely on weighted sums and gradient descent, features on vastly different scales can distort gradients and slow convergence, so numeric, scaled inputs are standard practice."
+    },
+    {
+        "q": "What is the effect of increasing the number of neurons in a hidden layer, all else equal?",
+        "options": [
+            "It always decreases the risk of overfitting",
+            "It increases the model's capacity to fit complex patterns, but may also raise the risk of overfitting",
+            "It has no effect on the number of trainable parameters",
+            "It guarantees faster convergence during training"
+        ],
+        "answer": 1,
+        "explanation": "More hidden neurons give the network greater representational capacity to model complex functions, but this added flexibility can also lead to overfitting if not managed properly."
+    },
+    {
+        "q": "Which statement about 'deep' versus 'shallow' MLPs is most accurate?",
+        "options": [
+            "A shallow MLP with one wide hidden layer is always strictly better than a deep MLP",
+            "Deep MLPs with multiple narrower hidden layers can often represent complex functions more efficiently than a single very wide hidden layer, though they can be harder to train",
+            "Depth has no relationship to a network's ability to model complex patterns",
+            "Adding depth always guarantees lower training loss"
+        ],
+        "answer": 1,
+        "explanation": "While the Universal Approximation Theorem shows a single hidden layer can theoretically approximate any function, deeper architectures often achieve comparable expressiveness with far fewer total parameters, though they introduce optimization challenges like vanishing gradients."
+    },
+    {
+        "q": "What is the mathematical formula for the Sigmoid activation function?",
+        "options": [
+            "f(x) = max(0, x)",
+            "f(x) = 1 / (1 + e^(-x))",
+            "f(x) = x",
+            "f(x) = (e^x - e^-x) / (e^x + e^-x)"
+        ],
+        "answer": 1,
+        "explanation": "The Sigmoid function squashes any real-valued input into the range (0, 1) using the formula 1 / (1 + e^(-x))."
+    },
+    {
+        "q": "Which activation function outputs values in the range (-1, 1)?",
+        "options": [
+            "ReLU",
+            "Sigmoid",
+            "Tanh",
+            "Softmax"
+        ],
+        "answer": 2,
+        "explanation": "The Tanh (hyperbolic tangent) function outputs values strictly between -1 and 1, making it zero-centered unlike the Sigmoid function."
+    },
+    {
+        "q": "Why is a zero-centered activation function, such as Tanh, sometimes preferred over Sigmoid in hidden layers?",
+        "options": [
+            "It guarantees the network will never overfit",
+            "Zero-centered outputs can lead to more balanced gradient updates and often faster convergence than non-zero-centered outputs",
+            "It removes the need for a bias term entirely",
+            "It ensures all gradients are exactly equal in magnitude"
+        ],
+        "answer": 1,
+        "explanation": "Because Sigmoid outputs are always positive, gradients for weights in the next layer tend to move in the same direction, which can slow convergence; zero-centered functions like Tanh mitigate this issue."
+    },
+    {
+        "q": "What is the Softmax function primarily used for in neural networks?",
+        "options": [
+            "Introducing sparsity into hidden layers",
+            "Converting a vector of raw scores (logits) into a probability distribution over multiple classes",
+            "Normalizing the input features before training",
+            "Preventing exploding gradients in RNNs"
+        ],
+        "answer": 1,
+        "explanation": "Softmax exponentiates and normalizes a vector of logits so that the outputs sum to 1, making it ideal for the output layer of multi-class classification problems."
+    },
+    {
+        "q": "What is a key computational advantage of ReLU over Sigmoid and Tanh?",
+        "options": [
+            "ReLU always outputs values between 0 and 1",
+            "ReLU is computationally cheap since it only involves a simple threshold at zero, and it helps mitigate vanishing gradients",
+            "ReLU never produces zero gradients",
+            "ReLU guarantees a globally convex loss surface"
+        ],
+        "answer": 1,
+        "explanation": "ReLU's simplicity (max(0, x)) makes it fast to compute, and unlike Sigmoid/Tanh it does not saturate for positive inputs, which helps gradients flow better through deep networks."
+    },
+    {
+        "q": "What is Parametric ReLU (PReLU)?",
+        "options": [
+            "A version of ReLU with a fixed small negative slope of 0.01",
+            "A version of ReLU where the slope for negative inputs is a learnable parameter",
+            "A ReLU variant that clips outputs above a fixed maximum",
+            "An activation function identical to Softmax"
+        ],
+        "answer": 1,
+        "explanation": "PReLU generalizes Leaky ReLU by making the negative-region slope a parameter that is learned during training rather than a fixed constant."
+    },
+    {
+        "q": "What is the primary motivation behind the Swish activation function (f(x) = x * sigmoid(x))?",
+        "options": [
+            "To force all outputs to be strictly non-negative",
+            "It is a smooth, non-monotonic function that has been found empirically to outperform ReLU in some deep networks",
+            "To eliminate the need for backpropagation",
+            "To make the network equivalent to a linear model"
+        ],
+        "answer": 1,
+        "explanation": "Swish is smooth and non-monotonic, and empirical studies (including from Google Brain) found it can outperform ReLU in some deep architectures, though it is more computationally expensive."
+    },
+    {
+        "q": "Which statement correctly describes the GELU (Gaussian Error Linear Unit) activation function?",
+        "options": [
+            "It is a step function used only in the output layer",
+            "It weights inputs by their value under the standard Gaussian cumulative distribution function, and is widely used in Transformer architectures",
+            "It is identical to the Sigmoid function",
+            "It can only be used with binary classification tasks"
+        ],
+        "answer": 1,
+        "explanation": "GELU multiplies the input by the standard Gaussian CDF evaluated at that input, producing a smooth curve resembling ReLU; it is commonly used in models like BERT and GPT."
+    },
+    {
+        "q": "What is the main problem with using the Sigmoid activation function in many stacked hidden layers of a deep network?",
+        "options": [
+            "It causes the network to output negative values only",
+            "Its derivative is at most 0.25 and shrinks toward zero at saturation, causing gradients to vanish as they are multiplied across many layers",
+            "It cannot be differentiated at all",
+            "It always produces exploding gradients"
+        ],
+        "answer": 1,
+        "explanation": "Because the Sigmoid derivative peaks at 0.25 and approaches 0 for large positive or negative inputs, repeatedly multiplying these small values during backpropagation through many layers causes gradients to vanish."
+    },
+    {
+        "q": "In what scenario would you most likely choose a linear (identity) activation function in the output layer?",
+        "options": [
+            "Multi-class classification with mutually exclusive classes",
+            "Binary classification",
+            "Regression tasks where the output can take any real value",
+            "Multi-label classification"
+        ],
+        "answer": 2,
+        "explanation": "For regression problems where the target is an unbounded continuous value, a linear activation in the output layer allows predictions across the full range of real numbers."
+    },
+    {
+        "q": "For a multi-label classification problem, where an input can belong to multiple classes simultaneously, which output activation is typically used?",
+        "options": [
+            "Softmax across all classes",
+            "Independent Sigmoid activations for each output node",
+            "Tanh across all classes",
+            "ReLU across all classes"
+        ],
+        "answer": 1,
+        "explanation": "In multi-label problems, each class is treated as an independent binary decision, so a Sigmoid is applied to each output node separately rather than a single Softmax over all classes."
+    },
+    {
+        "q": "Which of the following activation functions is monotonic AND bounded (has a fixed output range)?",
+        "options": [
+            "ReLU",
+            "Sigmoid",
+            "Swish",
+            "GELU"
+        ],
+        "answer": 1,
+        "explanation": "Sigmoid is both monotonic (always increasing) and bounded, with output confined to the open interval (0, 1), unlike ReLU (unbounded above) or Swish and GELU (non-monotonic)."
+    },
+    {
+        "q": "What does the gradient of the loss function with respect to a weight represent?",
+        "options": [
+            "The current value of that weight",
+            "The direction and rate of steepest increase of the loss with respect to that weight",
+            "The total number of training samples",
+            "The final accuracy of the model"
+        ],
+        "answer": 1,
+        "explanation": "The gradient points in the direction of steepest ascent of the loss function; gradient descent moves weights in the opposite direction to reduce the loss."
+    },
+    {
+        "q": "What is the basic weight update formula in vanilla Gradient Descent?",
+        "options": [
+            "w_new = w_old + learning_rate * gradient",
+            "w_new = w_old - learning_rate * gradient",
+            "w_new = w_old * learning_rate",
+            "w_new = gradient / learning_rate"
+        ],
+        "answer": 1,
+        "explanation": "Weights are updated by subtracting the gradient scaled by the learning rate, moving the weights in the direction that decreases the loss."
+    },
+    {
+        "q": "What distinguishes Batch Gradient Descent from Stochastic Gradient Descent (SGD)?",
+        "options": [
+            "Batch Gradient Descent computes the gradient using the entire training set for each update, while SGD uses a single sample at a time",
+            "Batch Gradient Descent never converges, while SGD always converges",
+            "SGD requires more memory than Batch Gradient Descent",
+            "There is no meaningful difference between the two"
+        ],
+        "answer": 0,
+        "explanation": "Batch Gradient Descent uses the full dataset to compute each gradient update, which is accurate but slow and memory-intensive, whereas SGD updates using one sample at a time, which is noisier but much faster per update."
+    },
+    {
+        "q": "Why does the noise inherent in Stochastic Gradient Descent's updates sometimes help training?",
+        "options": [
+            "It guarantees the global minimum is always found",
+            "The noise can help the optimizer escape shallow local minima or saddle points",
+            "It eliminates the need for a learning rate",
+            "It removes the possibility of overfitting entirely"
+        ],
+        "answer": 1,
+        "explanation": "The randomness in SGD's gradient estimates can perturb the optimization path enough to escape shallow local minima or saddle points that a smoother, exact gradient method might get stuck in."
+    },
+    {
+        "q": "What is a common range of batch sizes used in Mini-batch Gradient Descent for many deep learning tasks?",
+        "options": [
+            "1 to 5",
+            "to 256",
+            "10,000 to 100,000",
+            "The entire dataset every time"
+        ],
+        "answer": 1,
+        "explanation": "Mini-batch sizes such as 32, 64, 128, or 256 are common in practice, balancing computational efficiency (using vectorized operations) with reasonably stable gradient estimates."
+    },
+    {
+        "q": "What does the 'learning rate schedule' (or learning rate decay) refer to?",
+        "options": [
+            "Keeping the learning rate fixed throughout all of training",
+            "Systematically reducing the learning rate over the course of training, often to fine-tune convergence near a minimum",
+            "Randomly changing the learning rate at every step with no pattern",
+            "Setting the learning rate equal to the loss value"
+        ],
+        "answer": 1,
+        "explanation": "A learning rate schedule gradually decreases the learning rate as training progresses, allowing large steps early on and smaller, more precise steps as the model approaches convergence."
+    },
+    {
+        "q": "How does the Adam optimizer improve upon plain Stochastic Gradient Descent?",
+        "options": [
+            "It removes the need for a loss function",
+            "It maintains adaptive per-parameter learning rates using estimates of both the first moment (mean) and second moment (uncentered variance) of the gradients",
+            "It only works for convolutional networks",
+            "It guarantees convergence to the global minimum on any loss surface"
+        ],
+        "answer": 1,
+        "explanation": "Adam combines ideas from Momentum and RMSprop, tracking running averages of both the gradients and their squared values to adapt the effective learning rate for each parameter."
+    },
+    {
+        "q": "What is the primary purpose of the RMSprop optimizer's use of a moving average of squared gradients?",
+        "options": [
+            "To increase the learning rate for parameters with large recent gradients",
+            "To adapt the effective learning rate per parameter, dividing updates by the square root of this moving average so that parameters with large gradients take smaller steps",
+            "To completely remove momentum from the optimization process",
+            "To ensure all parameters always update by the same fixed amount"
+        ],
+        "answer": 1,
+        "explanation": "RMSprop divides the gradient by the square root of a running average of squared gradients, effectively shrinking updates for parameters with historically large gradients and enlarging them for parameters with small gradients."
+    },
+    {
+        "q": "What is a 'plateau' in the context of a loss landscape during Gradient Descent?",
+        "options": [
+            "A region where the loss surface is very steep in all directions",
+            "A relatively flat region of the loss surface where gradients are small, which can slow down training",
+            "The exact location of the global minimum",
+            "A synonym for the learning rate"
+        ],
+        "answer": 1,
+        "explanation": "A plateau is a flat area of the loss surface where the gradient magnitude is small, causing weight updates to be tiny and training progress to slow considerably."
+    },
+    {
+        "q": "Why is it generally recommended to shuffle training data before each epoch when using Mini-batch or Stochastic Gradient Descent?",
+        "options": [
+            "Shuffling has no effect on training",
+            "It prevents the model from learning any spurious ordering patterns in the data and helps each mini-batch be a more representative sample of the dataset",
+            "It guarantees a lower final loss value than not shuffling",
+            "It reduces the number of parameters in the model"
+        ],
+        "answer": 1,
+        "explanation": "Shuffling avoids the model learning artifacts from the order of the data and helps ensure that gradient estimates from mini-batches are less biased and more representative of the overall dataset."
+    },
+    {
+        "q": "What is the key difference between 'Momentum' and 'Nesterov Accelerated Gradient (NAG)'?",
+        "options": [
+            "NAG does not use gradients at all",
+            "NAG computes the gradient at an approximated future position (after applying the current momentum) rather than at the current position, often giving more accurate updates",
+            "Momentum is only usable with Batch Gradient Descent",
+            "There is no practical difference between the two"
+        ],
+        "answer": 1,
+        "explanation": "NAG first takes a step in the direction of the accumulated momentum, then computes the gradient at that 'lookahead' position, which often provides a more accurate correction than standard Momentum."
+    },
+    {
+        "q": "If Gradient Descent is converging extremely slowly and the loss curve is very noisy and erratic, what is a likely first hyperparameter to investigate?",
+        "options": [
+            "The number of GPUs available",
+            "The learning rate, since it may be poorly tuned (too high causing instability, or combined with too small a batch size causing excessive noise)",
+            "The programming language used to implement the model",
+            "The file format of the training data"
+        ],
+        "answer": 1,
+        "explanation": "Erratic, slow convergence is a classic symptom of a poorly chosen learning rate or overly small batch size; tuning the learning rate (and potentially the batch size) is usually the first diagnostic step."
+    }
+]

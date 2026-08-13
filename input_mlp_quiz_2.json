@@ -1,0 +1,552 @@
+[
+    {
+        "q": "In an MLP, which layer receives the original feature values?",
+        "options": [
+            "Output layer",
+            "Input layer",
+            "Hidden layer",
+            "Loss layer"
+        ],
+        "answer": 1,
+        "explanation": "The input layer receives the feature values and passes them to the first hidden layer."
+    },
+    {
+        "q": "For a fully connected layer with 6 inputs and 4 neurons, how many weight parameters are required?",
+        "options": [
+            "10",
+            "24",
+            "20",
+            "30"
+        ],
+        "answer": 1,
+        "explanation": "Each of the 4 neurons connects to all 6 inputs, so there are 6 × 4 = 24 weights."
+    },
+    {
+        "q": "For a fully connected layer with 6 inputs and 4 neurons, how many bias parameters are required?",
+        "options": [
+            "6",
+            "10",
+            "4",
+            "24"
+        ],
+        "answer": 2,
+        "explanation": "Each neuron has one bias, so 4 neurons require 4 bias parameters."
+    },
+    {
+        "q": "What is the main reason an MLP needs non-linear activation functions between layers?",
+        "options": [
+            "To reduce the number of parameters",
+            "To make multiple layers capable of learning non-linear relationships",
+            "To eliminate the loss function",
+            "To guarantee zero training error"
+        ],
+        "answer": 1,
+        "explanation": "Without non-linear activations, stacking linear layers is equivalent to a single linear transformation."
+    },
+    {
+        "q": "Which sequence best describes the computation in one neuron?",
+        "options": [
+            "Activation → weighted sum → bias",
+            "Weighted sum plus bias → activation",
+            "Loss → activation → weighted sum",
+            "Bias → loss → weighted sum"
+        ],
+        "answer": 1,
+        "explanation": "A neuron first computes z = Wx + b and then applies an activation function to z."
+    },
+    {
+        "q": "What is the main purpose of the bias in a neuron?",
+        "options": [
+            "To change the learning rate",
+            "To shift the neuron's activation or decision boundary",
+            "To replace the weights",
+            "To normalize every input"
+        ],
+        "answer": 1,
+        "explanation": "The bias provides an adjustable offset, allowing the neuron to shift its activation or decision boundary."
+    },
+    {
+        "q": "Which problem cannot be solved by a single-layer perceptron because it is not linearly separable?",
+        "options": [
+            "AND",
+            "OR",
+            "XOR",
+            "NOT"
+        ],
+        "answer": 2,
+        "explanation": "XOR is not linearly separable, which motivated the use of hidden layers in neural networks."
+    },
+    {
+        "q": "What does an MLP learn during training?",
+        "options": [
+            "Only the input features",
+            "Weights and biases that reduce the loss",
+            "Only the activation functions",
+            "Only the number of layers"
+        ],
+        "answer": 1,
+        "explanation": "Training adjusts the network's weights and biases to reduce the chosen loss function."
+    },
+    {
+        "q": "What is forward propagation used for?",
+        "options": [
+            "Computing predictions from the inputs",
+            "Updating weights directly",
+            "Computing the learning rate",
+            "Splitting the dataset"
+        ],
+        "answer": 0,
+        "explanation": "Forward propagation passes inputs through the network to compute the model's prediction."
+    },
+    {
+        "q": "What is backpropagation primarily used to compute?",
+        "options": [
+            "The number of training samples",
+            "Gradients of the loss with respect to model parameters",
+            "The test-set accuracy",
+            "The batch size"
+        ],
+        "answer": 1,
+        "explanation": "Backpropagation applies the chain rule efficiently to calculate parameter gradients."
+    },
+    {
+        "q": "If an MLP has 3 input features, a hidden layer with 5 neurons, and an output layer with 2 neurons, how many total weights are there?",
+        "options": [
+            "15",
+            "10",
+            "25",
+            "30"
+        ],
+        "answer": 2,
+        "explanation": "Input-to-hidden weights = 3 × 5 = 15 and hidden-to-output weights = 5 × 2 = 10, giving 25 weights."
+    },
+    {
+        "q": "For the network in the previous question, how many total biases are there?",
+        "options": [
+            "3",
+            "5",
+            "7",
+            "10"
+        ],
+        "answer": 2,
+        "explanation": "There is one bias for each hidden and output neuron: 5 + 2 = 7."
+    },
+    {
+        "q": "Why is initializing all neurons in a hidden layer with identical weights undesirable?",
+        "options": [
+            "It makes every neuron learn the same representation",
+            "It makes the loss function linear",
+            "It prevents forward propagation",
+            "It automatically causes overfitting"
+        ],
+        "answer": 0,
+        "explanation": "Identical initialization creates symmetry, causing neurons to receive identical gradients and learn the same features."
+    },
+    {
+        "q": "What is an epoch?",
+        "options": [
+            "One parameter update",
+            "One complete pass through the training dataset",
+            "One neuron activation",
+            "One test prediction"
+        ],
+        "answer": 1,
+        "explanation": "An epoch is one complete pass through all training examples."
+    },
+    {
+        "q": "What is an iteration during mini-batch training?",
+        "options": [
+            "One complete pass through the entire dataset",
+            "One parameter update using one mini-batch",
+            "One complete training run",
+            "One hidden layer"
+        ],
+        "answer": 1,
+        "explanation": "Each mini-batch produces one forward/backward computation and parameter update, which is one iteration."
+    },
+    {
+        "q": "If a dataset contains 1,000 examples and the batch size is 100, how many iterations are in one epoch?",
+        "options": [
+            "5",
+            "10",
+            "100",
+            "1,000"
+        ],
+        "answer": 1,
+        "explanation": "There are 1,000 / 100 = 10 mini-batches, so one epoch has 10 iterations."
+    },
+    {
+        "q": "What is the main role of an activation function?",
+        "options": [
+            "Introduce non-linearity",
+            "Choose the batch size",
+            "Calculate the dataset mean",
+            "Initialize the weights"
+        ],
+        "answer": 0,
+        "explanation": "Activation functions introduce non-linearity so an MLP can model complex relationships."
+    },
+    {
+        "q": "What is the output range of the sigmoid function?",
+        "options": [
+            "[-1, 1]",
+            "[0, 1]",
+            "(-∞, ∞)",
+            "[0, ∞)"
+        ],
+        "answer": 1,
+        "explanation": "Sigmoid maps every real-valued input to a value between 0 and 1."
+    },
+    {
+        "q": "What is the output range of tanh?",
+        "options": [
+            "[0, 1]",
+            "[-1, 1]",
+            "[0, ∞)",
+            "(-∞, ∞)"
+        ],
+        "answer": 1,
+        "explanation": "Tanh maps real-valued inputs to the range [-1, 1] and is zero-centered."
+    },
+    {
+        "q": "Which activation is defined as max(0, x)?",
+        "options": [
+            "Tanh",
+            "Sigmoid",
+            "ReLU",
+            "Softmax"
+        ],
+        "answer": 2,
+        "explanation": "ReLU outputs zero for negative inputs and the input itself for positive inputs."
+    },
+    {
+        "q": "What is the derivative of ReLU for a strictly positive input?",
+        "options": [
+            "0",
+            "1",
+            "x",
+            "-1"
+        ],
+        "answer": 1,
+        "explanation": "For x > 0, ReLU(x) = x, so its derivative is 1."
+    },
+    {
+        "q": "What is a key advantage of ReLU in deep hidden layers?",
+        "options": [
+            "It always produces probabilities",
+            "Its positive-region derivative does not shrink toward zero",
+            "It is zero-centered",
+            "It has a bounded output range"
+        ],
+        "answer": 1,
+        "explanation": "For positive inputs, ReLU has derivative 1, which helps reduce vanishing-gradient effects compared with sigmoid or tanh."
+    },
+    {
+        "q": "What is the dying ReLU problem?",
+        "options": [
+            "ReLU outputs values larger than 1",
+            "A neuron can become stuck outputting zero for relevant inputs",
+            "ReLU cannot be used in hidden layers",
+            "ReLU makes all gradients explode"
+        ],
+        "answer": 1,
+        "explanation": "A ReLU neuron receiving negative inputs has zero activation and zero gradient, so it may stop learning."
+    },
+    {
+        "q": "How does Leaky ReLU address dying ReLU?",
+        "options": [
+            "It removes the bias",
+            "It uses a small non-zero slope for negative inputs",
+            "It clips all positive values",
+            "It converts outputs to probabilities"
+        ],
+        "answer": 1,
+        "explanation": "Leaky ReLU keeps a small positive slope for negative inputs, allowing some gradient to flow."
+    },
+    {
+        "q": "Which activation is commonly used for a single output in binary classification?",
+        "options": [
+            "Softmax",
+            "Sigmoid",
+            "ReLU",
+            "Linear"
+        ],
+        "answer": 1,
+        "explanation": "Sigmoid produces one value between 0 and 1, suitable for representing the positive-class probability."
+    },
+    {
+        "q": "Which activation is commonly used at the output of a multi-class classifier with one output per class?",
+        "options": [
+            "Tanh",
+            "ReLU",
+            "Softmax",
+            "Linear"
+        ],
+        "answer": 2,
+        "explanation": "Softmax converts class logits into probabilities that sum to 1."
+    },
+    {
+        "q": "Which activation is typically appropriate for an unrestricted continuous regression output?",
+        "options": [
+            "Sigmoid",
+            "Softmax",
+            "Linear",
+            "Step"
+        ],
+        "answer": 2,
+        "explanation": "A linear output is not bounded, allowing the model to predict arbitrary continuous values."
+    },
+    {
+        "q": "Why is the step function unsuitable for standard gradient-based training?",
+        "options": [
+            "It is too smooth",
+            "Its derivative is zero almost everywhere",
+            "It always outputs probabilities",
+            "It has an unbounded derivative"
+        ],
+        "answer": 1,
+        "explanation": "The step function has zero derivative almost everywhere, preventing useful gradient-based updates."
+    },
+    {
+        "q": "What is the derivative of sigmoid σ(x) in terms of σ(x)?",
+        "options": [
+            "σ(x) + 1",
+            "σ(x)(1 − σ(x))",
+            "1 − σ(x)",
+            "σ(x)^2"
+        ],
+        "answer": 1,
+        "explanation": "The sigmoid derivative can be written as σ(x)(1 − σ(x))."
+    },
+    {
+        "q": "Why can sigmoid activations cause vanishing gradients in deep networks?",
+        "options": [
+            "Their derivatives can be much smaller than 1 and are multiplied through layers",
+            "Their outputs are always negative",
+            "They have no derivative",
+            "They always produce gradients larger than 1"
+        ],
+        "answer": 0,
+        "explanation": "Backpropagation multiplies derivatives across layers; repeated factors smaller than 1 can make gradients extremely small."
+    },
+    {
+        "q": "Which activation is zero-centered, unlike sigmoid?",
+        "options": [
+            "ReLU",
+            "Tanh",
+            "Softmax",
+            "Step"
+        ],
+        "answer": 1,
+        "explanation": "Tanh outputs values from -1 to 1 and is centered around zero."
+    },
+    {
+        "q": "Which activation has the form x · sigmoid(x)?",
+        "options": [
+            "ELU",
+            "Swish",
+            "ReLU",
+            "Tanh"
+        ],
+        "answer": 1,
+        "explanation": "Swish is defined as x multiplied by sigmoid(x)."
+    },
+    {
+        "q": "What is a characteristic of ELU compared with ReLU?",
+        "options": [
+            "ELU can produce negative outputs with a smooth exponential negative region",
+            "ELU always outputs probabilities",
+            "ELU is a step function",
+            "ELU has no negative region"
+        ],
+        "answer": 0,
+        "explanation": "ELU uses an exponential form for negative inputs and can produce negative outputs, unlike standard ReLU."
+    },
+    {
+        "q": "What is the fundamental objective of gradient descent?",
+        "options": [
+            "Maximize the loss",
+            "Minimize the loss by updating parameters",
+            "Increase the number of neurons",
+            "Remove activation functions"
+        ],
+        "answer": 1,
+        "explanation": "Gradient descent iteratively changes parameters in a direction intended to reduce the loss."
+    },
+    {
+        "q": "What determines the magnitude of a gradient-descent parameter update?",
+        "options": [
+            "Only the number of layers",
+            "The learning rate and the gradient",
+            "Only the activation function",
+            "Only the batch size"
+        ],
+        "answer": 1,
+        "explanation": "The learning rate scales the gradient to determine the size of the parameter update."
+    },
+    {
+        "q": "What can happen when the learning rate is too large?",
+        "options": [
+            "Training always becomes faster and stable",
+            "Updates can overshoot the minimum and cause divergence",
+            "Gradients become exactly zero",
+            "The network becomes linear"
+        ],
+        "answer": 1,
+        "explanation": "Very large updates can overshoot low-loss regions, causing oscillation or divergence."
+    },
+    {
+        "q": "What is likely when the learning rate is too small?",
+        "options": [
+            "Training may become very slow",
+            "The loss must immediately diverge",
+            "All neurons die",
+            "The model cannot perform forward propagation"
+        ],
+        "answer": 0,
+        "explanation": "A very small learning rate produces tiny updates, so convergence can take a long time."
+    },
+    {
+        "q": "What distinguishes batch gradient descent from stochastic gradient descent?",
+        "options": [
+            "Batch GD uses the whole training set for an update; SGD uses one example",
+            "Batch GD uses one example; SGD uses the whole dataset",
+            "They use different activation functions",
+            "Only SGD uses backpropagation"
+        ],
+        "answer": 0,
+        "explanation": "Batch GD computes a gradient using all training examples for an update, whereas SGD uses one example at a time."
+    },
+    {
+        "q": "What is a mini-batch in gradient descent?",
+        "options": [
+            "The entire dataset",
+            "A small subset of training examples used for one update",
+            "A single model parameter",
+            "A validation metric"
+        ],
+        "answer": 1,
+        "explanation": "Mini-batch gradient descent computes each update using a small subset of the training data."
+    },
+    {
+        "q": "Why is mini-batch gradient descent widely used in neural-network training?",
+        "options": [
+            "It needs no learning rate",
+            "It combines vectorized computational efficiency with more frequent updates",
+            "It guarantees the global minimum",
+            "It eliminates all gradient noise"
+        ],
+        "answer": 1,
+        "explanation": "Mini-batches work efficiently with GPUs and provide a practical compromise between full-batch and single-example updates."
+    },
+    {
+        "q": "What does the gradient of a loss function indicate?",
+        "options": [
+            "The direction and rate of greatest increase of the loss",
+            "The exact test accuracy",
+            "The number of layers",
+            "The batch size"
+        ],
+        "answer": 0,
+        "explanation": "The gradient points in the direction of steepest increase of the loss; gradient descent moves in the opposite direction."
+    },
+    {
+        "q": "Why does gradient descent move opposite to the gradient?",
+        "options": [
+            "The gradient points toward increasing loss",
+            "The gradient is always zero",
+            "The opposite direction always has a fixed length",
+            "The gradient contains no parameter information"
+        ],
+        "answer": 0,
+        "explanation": "Since the gradient points toward increasing loss, moving in the opposite direction tends to decrease the loss."
+    },
+    {
+        "q": "What is the role of the loss function during MLP training?",
+        "options": [
+            "Measure the discrepancy between predictions and targets",
+            "Set the number of neurons",
+            "Initialize all weights to zero",
+            "Choose the hardware device"
+        ],
+        "answer": 0,
+        "explanation": "The loss quantifies prediction error and provides the objective that gradient-based optimization attempts to minimize."
+    },
+    {
+        "q": "Which loss is commonly associated with continuous-value regression?",
+        "options": [
+            "Mean Squared Error",
+            "Binary Cross-Entropy",
+            "Categorical Cross-Entropy",
+            "Hinge loss only"
+        ],
+        "answer": 0,
+        "explanation": "Mean Squared Error measures the average squared difference between predictions and continuous targets."
+    },
+    {
+        "q": "Which loss is commonly used for multi-class classification?",
+        "options": [
+            "Mean Absolute Error",
+            "Categorical Cross-Entropy",
+            "Mean Squared Error only",
+            "Huber loss only"
+        ],
+        "answer": 1,
+        "explanation": "Cross-entropy is a standard loss for comparing predicted class probabilities with the target class."
+    },
+    {
+        "q": "What does the chain rule enable backpropagation to do?",
+        "options": [
+            "Compute how changes in parameters affect the final loss through successive operations",
+            "Choose the number of training examples",
+            "Avoid all activation functions",
+            "Guarantee a global minimum"
+        ],
+        "answer": 0,
+        "explanation": "The chain rule combines local derivatives across layers to calculate gradients of the final loss with respect to earlier parameters."
+    },
+    {
+        "q": "What is momentum in gradient-based optimization intended to do?",
+        "options": [
+            "Use information from previous updates to smooth and accelerate optimization",
+            "Set every gradient to zero",
+            "Randomly remove neurons",
+            "Replace the loss function"
+        ],
+        "answer": 0,
+        "explanation": "Momentum accumulates a component of previous updates, helping reduce oscillation and accelerate movement in consistent directions."
+    },
+    {
+        "q": "Which optimizer combines momentum-like first-moment information with adaptive scaling based on squared gradients?",
+        "options": [
+            "Vanilla SGD",
+            "Adam",
+            "K-Means",
+            "PCA"
+        ],
+        "answer": 1,
+        "explanation": "Adam uses estimates of the first and second moments of gradients to adapt parameter updates."
+    },
+    {
+        "q": "What is a local minimum in a loss landscape?",
+        "options": [
+            "A point lower than nearby points but not necessarily the lowest point globally",
+            "Always the global minimum",
+            "The point with maximum loss",
+            "A point where the learning rate is zero"
+        ],
+        "answer": 0,
+        "explanation": "A local minimum is lower than its immediate neighborhood but may have a lower-loss region elsewhere."
+    },
+    {
+        "q": "What is a saddle point?",
+        "options": [
+            "A point that behaves like a minimum in some directions and a maximum in others",
+            "The global minimum of every loss function",
+            "A point where all parameters are zero",
+            "A point where the learning rate is infinite"
+        ],
+        "answer": 0,
+        "explanation": "At a saddle point, curvature can differ by direction, so it is neither a conventional local minimum nor maximum."
+    }
+]

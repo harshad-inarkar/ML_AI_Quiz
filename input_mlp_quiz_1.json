@@ -1,0 +1,552 @@
+[
+    {
+        "q": "What is a Multi-Layer Perceptron (MLP)?",
+        "options": [
+            "A type of Recurrent Neural Network (RNN)",
+            "A class of feedforward artificial neural network",
+            "An unsupervised learning clustering algorithm",
+            "A single-layer linear classifier"
+        ],
+        "answer": 1,
+        "explanation": "An MLP is a fully connected class of feedforward artificial neural network (ANN) that has at least three layers of nodes: an input layer, a hidden layer, and an output layer."
+    },
+    {
+        "q": "What is the minimum number of layers required for a network to be considered an MLP?",
+        "options": [
+            "One",
+            "Two",
+            "Three",
+            "Four"
+        ],
+        "answer": 2,
+        "explanation": "An MLP requires at least three layers: an input layer, one or more hidden layers, and an output layer."
+    },
+    {
+        "q": "Which theorem states that a feedforward network with a single hidden layer can approximate any continuous function, given enough neurons?",
+        "options": [
+            "No Free Lunch Theorem",
+            "Universal Approximation Theorem",
+            "Bayes' Theorem",
+            "Central Limit Theorem"
+        ],
+        "answer": 1,
+        "explanation": "The Universal Approximation Theorem states that a standard multi-layer feedforward network with a single hidden layer that contains a finite number of hidden neurons can approximate any continuous function."
+    },
+    {
+        "q": "What characterizes a 'fully connected' layer in an MLP?",
+        "options": [
+            "Nodes are only connected to themselves across time steps",
+            "Each node in a layer is connected to every node in the subsequent layer",
+            "Nodes share weights to reduce computational cost",
+            "Nodes are randomly connected to prevent overfitting"
+        ],
+        "answer": 1,
+        "explanation": "In a fully connected layer (dense layer), every neuron is connected to every neuron in the preceding and succeeding layers."
+    },
+    {
+        "q": "What is the primary purpose of adding hidden layers to a neural network?",
+        "options": [
+            "To decrease training time",
+            "To allow the network to learn non-linear decision boundaries",
+            "To automatically normalize the input data",
+            "To increase the learning rate"
+        ],
+        "answer": 1,
+        "explanation": "Hidden layers, combined with non-linear activation functions, allow the neural network to capture non-linear relationships and complex patterns in the data."
+    },
+    {
+        "q": "Which famous problem demonstrated the limitations of a single-layer perceptron, proving the need for MLPs?",
+        "options": [
+            "The AND problem",
+            "The OR problem",
+            "The XOR problem",
+            "The NOT problem"
+        ],
+        "answer": 2,
+        "explanation": "Marvin Minsky and Seymour Papert proved that a single-layer perceptron cannot solve linearly inseparable problems like the XOR (exclusive OR) function. An MLP with a hidden layer easily solves this."
+    },
+    {
+        "q": "In a neural network, what does the term 'forward propagation' refer to?",
+        "options": [
+            "Updating the weights based on error",
+            "Passing inputs through the network to generate an output",
+            "Passing the error gradient backward through the network",
+            "Initializing the weights randomly"
+        ],
+        "answer": 1,
+        "explanation": "Forward propagation is the process of pushing data forward through the neural network layers to generate a prediction or output."
+    },
+    {
+        "q": "What is the role of a 'bias' term in a neuron?",
+        "options": [
+            "To multiply the input features",
+            "To act as an activation function",
+            "To shift the activation function to the left or right",
+            "To reduce overfitting by penalizing large weights"
+        ],
+        "answer": 2,
+        "explanation": "The bias allows you to shift the activation function to the left or right, which is crucial for successful learning, much like the y-intercept in a linear equation."
+    },
+    {
+        "q": "If an MLP has an input layer of size 4, a hidden layer of size 5, and an output layer of size 2, how many weight parameters exist between the hidden and output layer?",
+        "options": [
+            "10",
+            "12",
+            "7",
+            "20"
+        ],
+        "answer": 0,
+        "explanation": "The number of weights between two fully connected layers is (Nodes in Layer L) * (Nodes in Layer L+1). Here, 5 * 2 = 10 weights."
+    },
+    {
+        "q": "In the same network as Question 9 (hidden size 5, output size 2), how many biases exist in the output layer?",
+        "options": [
+            "1",
+            "2",
+            "5",
+            "10"
+        ],
+        "answer": 1,
+        "explanation": "There is exactly one bias term per neuron. Since the output layer has 2 neurons, there are 2 biases."
+    },
+    {
+        "q": "What algorithm is standardly used to calculate the gradients of the loss function with respect to the weights in an MLP?",
+        "options": [
+            "Forward propagation",
+            "K-Means",
+            "Backpropagation",
+            "Principal Component Analysis"
+        ],
+        "answer": 2,
+        "explanation": "Backpropagation (backward propagation of errors) is the algorithm used to compute gradients efficiently using the chain rule of calculus."
+    },
+    {
+        "q": "Why should we NOT initialize all weights in an MLP to zero?",
+        "options": [
+            "It makes the network train too fast, causing instability",
+            "It causes the 'dying ReLU' problem immediately",
+            "It leads to symmetry, causing all neurons in a layer to learn the exact same features",
+            "Weights must be initialized to 1 for the math to work"
+        ],
+        "answer": 2,
+        "explanation": "If all weights are initialized to zero, all hidden units will calculate the exact same gradients during backpropagation and update identically. This 'symmetry' prevents the network from learning complex features."
+    },
+    {
+        "q": "What is an 'epoch' in the context of training an MLP?",
+        "options": [
+            "One forward and backward pass of a single training example",
+            "One forward and backward pass of all the training examples",
+            "The process of splitting data into batches",
+            "The time it takes the network to converge"
+        ],
+        "answer": 1,
+        "explanation": "An epoch refers to one complete cycle through the entire training dataset, involving both forward and backward passes."
+    },
+    {
+        "q": "Which technique is commonly used in MLPs to prevent overfitting by randomly dropping nodes during training?",
+        "options": [
+            "Batch Normalization",
+            "Gradient Clipping",
+            "Dropout",
+            "Early Stopping"
+        ],
+        "answer": 2,
+        "explanation": "Dropout is a regularization technique where randomly selected neurons are ignored during training, forcing the network to learn robust, redundant representations."
+    },
+    {
+        "q": "In an MLP, what mathematical operation occurs right before the activation function is applied?",
+        "options": [
+            "Element-wise division",
+            "Dot product of inputs and weights, plus bias",
+            "Matrix inversion",
+            "Logarithmic scaling"
+        ],
+        "answer": 1,
+        "explanation": "The pre-activation value is calculated as the weighted sum of inputs plus the bias term (z = W*x + b)."
+    },
+    {
+        "q": "Which of the following tasks is an MLP least suited for compared to specialized architectures?",
+        "options": [
+            "Tabular data classification",
+            "Image recognition",
+            "Simple regression tasks",
+            "Boolean logic approximation"
+        ],
+        "answer": 1,
+        "explanation": "While an MLP can process flattened images, Convolutional Neural Networks (CNNs) are vastly superior for image recognition because they preserve spatial relationships and share parameters."
+    },
+    {
+        "q": "What happens if you stack multiple hidden layers in an MLP but only use linear activation functions?",
+        "options": [
+            "The network becomes a deep non-linear classifier",
+            "The network collapses into the mathematical equivalent of a single-layer linear model",
+            "The network suffers from the exploding gradient problem",
+            "The network achieves 100% accuracy on training data"
+        ],
+        "answer": 1,
+        "explanation": "The composition of multiple linear functions is just another linear function. Without non-linear activations, a deep MLP has no more representational power than a linear regression model."
+    },
+    {
+        "q": "What is the primary purpose of an activation function in a neural network?",
+        "options": [
+            "To initialize weights",
+            "To calculate the final loss",
+            "To introduce non-linearity into the network",
+            "To normalize input data"
+        ],
+        "answer": 2,
+        "explanation": "Activation functions introduce non-linear properties to the network, allowing it to learn complex, non-linear mappings between inputs and outputs."
+    },
+    {
+        "q": "What is the output range of the standard Sigmoid activation function?",
+        "options": [
+            "[-1, 1]",
+            "[0, 1]",
+            "[0, infinity)",
+            "(-infinity, infinity)"
+        ],
+        "answer": 1,
+        "explanation": "The Sigmoid function squashes input values into a probability-like range between 0 and 1."
+    },
+    {
+        "q": "What is a major disadvantage of the Sigmoid activation function?",
+        "options": [
+            "It is not differentiable",
+            "It is computationally very cheap but inaccurate",
+            "It suffers from the vanishing gradient problem",
+            "It always outputs negative values"
+        ],
+        "answer": 2,
+        "explanation": "For very high or very low input values, the gradient of the Sigmoid function is almost zero. This causes the 'vanishing gradient' problem, halting the learning process in deep networks."
+    },
+    {
+        "q": "How does the Tanh (Hyperbolic Tangent) function differ from the Sigmoid function?",
+        "options": [
+            "Tanh ranges from [-1, 1] and is zero-centered",
+            "Tanh ranges from [0, 1] but is computationally faster",
+            "Tanh does not suffer from vanishing gradients",
+            "Tanh is a linear function"
+        ],
+        "answer": 0,
+        "explanation": "Unlike Sigmoid, Tanh is zero-centered, meaning its output range is between -1 and 1. This often makes optimization easier as it keeps the average activation closer to zero."
+    },
+    {
+        "q": "Which activation function is defined mathematically as f(x) = max(0, x)?",
+        "options": [
+            "Sigmoid",
+            "Tanh",
+            "ReLU",
+            "Softmax"
+        ],
+        "answer": 2,
+        "explanation": "ReLU (Rectified Linear Unit) outputs the input directly if it is positive, and outputs zero if it is negative."
+    },
+    {
+        "q": "Why is ReLU preferred over Sigmoid and Tanh in deep hidden layers?",
+        "options": [
+            "It mitigates the vanishing gradient problem for positive values",
+            "It is fully differentiable at zero",
+            "It limits the output to a strict [0,1] range",
+            "It acts as a regularizer by increasing variance"
+        ],
+        "answer": 0,
+        "explanation": "Because the derivative of ReLU is a constant 1 for positive inputs, gradients do not vanish as they propagate backward through many layers."
+    },
+    {
+        "q": "What is the 'Dying ReLU' problem?",
+        "options": [
+            "ReLU units outputting extremely large positive numbers",
+            "Neurons permanently outputting zero and stopping learning because weights updated them into the negative regime",
+            "The network dying because ReLU requires too much memory",
+            "ReLU functions oscillating continuously"
+        ],
+        "answer": 1,
+        "explanation": "If a large weight update pushes a ReLU neuron into a state where it only receives negative inputs, it will always output zero, its gradient will be zero, and it will never update again ('die')."
+    },
+    {
+        "q": "How does Leaky ReLU attempt to solve the Dying ReLU problem?",
+        "options": [
+            "By capping the maximum output at 1",
+            "By replacing the linear function with a sine wave",
+            "By allowing a small, non-zero gradient when the input is negative",
+            "By randomly dropping neurons during training"
+        ],
+        "answer": 2,
+        "explanation": "Leaky ReLU uses a small positive slope (like 0.01) for negative values (f(x) = 0.01x for x < 0), ensuring the gradient is never exactly zero and the neuron can 'recover'."
+    },
+    {
+        "q": "Which activation function is typically used in the final layer of a multi-class classification neural network?",
+        "options": [
+            "Linear",
+            "ReLU",
+            "Sigmoid",
+            "Softmax"
+        ],
+        "answer": 3,
+        "explanation": "Softmax converts a vector of raw scores (logits) into a probability distribution where all values sum to 1, making it ideal for multi-class classification."
+    },
+    {
+        "q": "For a binary classification problem (e.g., predicting Spam or Not Spam), what is the most appropriate activation function for the single output node?",
+        "options": [
+            "Softmax",
+            "Sigmoid",
+            "Tanh",
+            "ReLU"
+        ],
+        "answer": 1,
+        "explanation": "Sigmoid squashes the output to a single value between 0 and 1, which can be interpreted directly as the probability of the positive class."
+    },
+    {
+        "q": "What activation function should be used in the output layer for a regression problem predicting continuous house prices?",
+        "options": [
+            "Linear (Identity)",
+            "Sigmoid",
+            "Softmax",
+            "Tanh"
+        ],
+        "answer": 0,
+        "explanation": "A Linear (or Identity) activation function simply outputs the pre-activation value without bounding it, which is exactly what is needed to predict arbitrary continuous numbers."
+    },
+    {
+        "q": "What is the derivative of the ReLU function for x > 0?",
+        "options": [
+            "0",
+            "x",
+            "1",
+            "infinity"
+        ],
+        "answer": 2,
+        "explanation": "For x > 0, f(x) = x. The derivative (slope) of x with respect to x is 1."
+    },
+    {
+        "q": "Which activation function multiplies the input by the sigmoid of the input: f(x) = x * sigmoid(x)?",
+        "options": [
+            "GELU",
+            "ELU",
+            "Swish",
+            "Maxout"
+        ],
+        "answer": 2,
+        "explanation": "Swish is an activation function discovered by Google researchers that often outperforms ReLU in deep networks. Its formula is x * sigmoid(x)."
+    },
+    {
+        "q": "The derivative of the Sigmoid function, denoted as f(x), can be expressed elegantly in terms of itself. What is it?",
+        "options": [
+            "f(x) * f(x)",
+            "f(x) * (1 - f(x))",
+            "1 - f(x)",
+            "f(x) + 1"
+        ],
+        "answer": 1,
+        "explanation": "The derivative of the sigmoid function σ(x) is mathematically σ(x) * (1 - σ(x)). Notice that its maximum value is 0.25, contributing to the vanishing gradient."
+    },
+    {
+        "q": "Why is the Step Function (Heaviside step function) practically never used for backpropagation?",
+        "options": [
+            "It requires complex numbers",
+            "Its derivative is zero almost everywhere, preventing gradient-based learning",
+            "It outputs values in the wrong range",
+            "It causes exploding gradients immediately"
+        ],
+        "answer": 1,
+        "explanation": "The step function is flat everywhere except at 0 (where it is undefined). Because the slope is zero everywhere else, no gradients can flow back to update the weights."
+    },
+    {
+        "q": "What is the primary characteristic of the Exponential Linear Unit (ELU)?",
+        "options": [
+            "It is exactly the same as Leaky ReLU",
+            "It smoothly curves into the negative regime, creating negative outputs but avoiding a sharp corner at zero",
+            "It oscillates like a sine wave",
+            "It only outputs positive integers"
+        ],
+        "answer": 1,
+        "explanation": "ELU uses an exponential function for negative values, making it smoother than ReLU/Leaky ReLU and centering activations closer to zero, which speeds up learning."
+    },
+    {
+        "q": "If a network suffers from 'exploding gradients', which of the following is NOT a common solution?",
+        "options": [
+            "Gradient clipping",
+            "Using ReLU instead of Sigmoid",
+            "Weight regularization (L1/L2)",
+            "Careful weight initialization (e.g., He or Xavier)"
+        ],
+        "answer": 1,
+        "explanation": "Using ReLU actually exacerbates exploding gradients because its derivative is exactly 1 and doesn't squash large values, unlike Sigmoid/Tanh which bounds outputs. Gradient clipping, regularization, and initialization are standard fixes."
+    },
+    {
+        "q": "What is the fundamental goal of Gradient Descent in neural networks?",
+        "options": [
+            "To maximize the activation functions",
+            "To minimize the loss function by iteratively updating model parameters",
+            "To increase the number of hidden layers automatically",
+            "To cluster data points into groups"
+        ],
+        "answer": 1,
+        "explanation": "Gradient descent is an optimization algorithm used to minimize the cost/loss function by tweaking the weights and biases in the direction that reduces the error."
+    },
+    {
+        "q": "In Gradient Descent, what determines the size of the steps taken towards the minimum?",
+        "options": [
+            "The Bias",
+            "The Batch Size",
+            "The Learning Rate",
+            "The Activation Function"
+        ],
+        "answer": 2,
+        "explanation": "The Learning Rate (often denoted by alpha or eta) is a hyperparameter that controls how much to change the model in response to the estimated error each time the model weights are updated."
+    },
+    {
+        "q": "What is likely to happen if the learning rate is set too high?",
+        "options": [
+            "The model will converge perfectly and quickly",
+            "The algorithm may overshoot the minimum and fail to converge, or even diverge",
+            "The model will become a linear classifier",
+            "The algorithm will take millions of epochs to slowly crawl to the minimum"
+        ],
+        "answer": 1,
+        "explanation": "A high learning rate causes the weight updates to be too large, causing the loss to bounce around the minimum or diverge entirely to infinity."
+    },
+    {
+        "q": "What characterizes 'Stochastic Gradient Descent' (SGD)?",
+        "options": [
+            "It updates parameters after computing the gradient over the entire dataset",
+            "It updates parameters using one randomly chosen training sample per iteration",
+            "It uses second-order derivatives to find the minimum",
+            "It freezes layers randomly during training"
+        ],
+        "answer": 1,
+        "explanation": "Standard Gradient Descent (Batch) looks at all data. Stochastic Gradient Descent looks at exactly one training sample per step, making it noisy but much faster per iteration."
+    },
+    {
+        "q": "Why is 'Mini-batch Gradient Descent' the most commonly used variant in practice?",
+        "options": [
+            "It requires zero memory",
+            "It completely eliminates local minima",
+            "It balances the computational efficiency of Batch GD with the speed and noise reduction of SGD",
+            "It doesn't require a learning rate"
+        ],
+        "answer": 2,
+        "explanation": "Mini-batch processes a small subset (e.g., 32, 64) of data at a time. It allows for vectorized operations (GPU efficiency) while providing a stable, yet suitably noisy gradient to escape local minima."
+    },
+    {
+        "q": "What is a 'Local Minimum' in the context of the loss landscape?",
+        "options": [
+            "The absolute lowest point in the entire error surface",
+            "A point where the error is higher than all surrounding points",
+            "A valley that is lower than its immediate surroundings, but not the lowest overall point",
+            "The learning rate required for convergence"
+        ],
+        "answer": 2,
+        "explanation": "A local minimum is a point where the loss is lower than nearby points, meaning gradients are zero, but it is not the global minimum (the absolute best solution)."
+    },
+    {
+        "q": "What is a 'Saddle Point'?",
+        "options": [
+            "A point that is a minimum in one dimension and a maximum in another",
+            "The highest point on the loss surface",
+            "The point where the learning rate becomes zero",
+            "A point where gradient descent converges immediately"
+        ],
+        "answer": 0,
+        "explanation": "A saddle point looks like a horse's saddle: the gradient is zero, but it curves up in some directions and down in others. They are very common in high-dimensional neural network loss landscapes and can slow down training."
+    },
+    {
+        "q": "How does 'Momentum' help Gradient Descent?",
+        "options": [
+            "By setting the learning rate to zero when error increases",
+            "By adding a fraction of the previous weight update to the current one, helping to push past saddle points and smooth out oscillations",
+            "By dropping neurons temporarily",
+            "By multiplying gradients by a random number"
+        ],
+        "answer": 1,
+        "explanation": "Momentum acts like a ball rolling down a hill; it accumulates velocity in directions with consistent gradients and dampens oscillations in directions where gradients alternate, accelerating convergence."
+    },
+    {
+        "q": "Which advanced optimizer combines the concepts of Momentum and RMSprop (adapting learning rates for individual parameters)?",
+        "options": [
+            "L-BFGS",
+            "Adagrad",
+            "Adam (Adaptive Moment Estimation)",
+            "Vanilla SGD"
+        ],
+        "answer": 2,
+        "explanation": "Adam calculates adaptive learning rates for each parameter by keeping track of an exponentially decaying average of past gradients (momentum) and past squared gradients (RMSprop)."
+    },
+    {
+        "q": "What does the term 'Loss Function' (or Cost Function) represent?",
+        "options": [
+            "The accuracy of the model on the test set",
+            "A mathematical measure of how far off the neural network's predictions are from the true labels",
+            "The speed at which the model trains",
+            "The number of parameters in the network"
+        ],
+        "answer": 1,
+        "explanation": "The loss function evaluates the penalty for a bad prediction. Gradient descent works specifically to minimize this mathematical function."
+    },
+    {
+        "q": "Which loss function is the standard choice for multi-class classification problems?",
+        "options": [
+            "Mean Squared Error (MSE)",
+            "Mean Absolute Error (MAE)",
+            "Categorical Cross-Entropy",
+            "Huber Loss"
+        ],
+        "answer": 2,
+        "explanation": "Categorical Cross-Entropy compares the predicted probability distribution (output from Softmax) against the true one-hot encoded label, heavily penalizing confident wrong answers."
+    },
+    {
+        "q": "Which loss function is the standard choice for regression problems?",
+        "options": [
+            "Binary Cross-Entropy",
+            "Categorical Cross-Entropy",
+            "Mean Squared Error (MSE)",
+            "Hinge Loss"
+        ],
+        "answer": 2,
+        "explanation": "Mean Squared Error calculates the average squared difference between the predicted continuous values and the actual continuous values."
+    },
+    {
+        "q": "According to the Chain Rule in backpropagation, how is the gradient of a weight in an early layer calculated?",
+        "options": [
+            "By adding the gradients of all subsequent layers",
+            "By multiplying the local derivative by the gradients passed down from subsequent layers",
+            "By completely ignoring the layers ahead of it",
+            "By randomly sampling gradients from the output layer"
+        ],
+        "answer": 1,
+        "explanation": "Backpropagation uses the calculus Chain Rule: the gradient of an early weight is the product of the derivative of the cost function with respect to the output, multiplied backwards through all intermediate derivatives."
+    },
+    {
+        "q": "Mathematically, why does the Vanishing Gradient problem happen in deep networks with Sigmoid activations?",
+        "options": [
+            "Because adding many large numbers causes floating point errors",
+            "Because the chain rule multiplies many derivatives that are between 0 and 0.25, driving the final gradient exponentially close to zero",
+            "Because weights naturally decay to zero",
+            "Because the bias term becomes negative"
+        ],
+        "answer": 1,
+        "explanation": "The maximum derivative of the sigmoid function is 0.25. When multiplying many numbers smaller than 1 together via the chain rule across deep layers, the resulting gradient shrinks exponentially."
+    },
+    {
+        "q": "What is 'Gradient Clipping'?",
+        "options": [
+            "A technique to force gradients to zero to stop learning",
+            "A technique to artificially bound gradients to a maximum threshold to prevent the exploding gradient problem",
+            "Removing the bias terms during gradient descent",
+            "Cropping input images to make gradients smaller"
+        ],
+        "answer": 1,
+        "explanation": "Gradient clipping scales or caps gradients during backpropagation so they never exceed a specified maximum value, preventing catastrophic weight updates (exploding gradients)."
+    },
+    {
+        "q": "In optimization terminology, what is an 'iteration'?",
+        "options": [
+            "One complete pass through the entire dataset",
+            "The process of computing a prediction",
+            "One weight update step (processing one batch of data)",
+            "The total time spent training"
+        ],
+        "answer": 2,
+        "explanation": "An iteration is a single update of the model's weights. If you have 1000 samples and a batch size of 100, one epoch consists of 10 iterations."
+    }
+]
