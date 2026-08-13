@@ -45,8 +45,8 @@
             // Iterate over the dictionary and create links
             for (const [quizName, fileName] of Object.entries(data)) {
                 const link = document.createElement('a');
-                // Pass the json file name as a URL parameter to the template
-                link.href = `quiz_template.html?file=${encodeURIComponent(fileName)}`;
+                // Pass BOTH the json file name and the quiz title as URL parameters
+                link.href = `quiz_template.html?file=${encodeURIComponent(fileName)}&title=${encodeURIComponent(quizName)}`;
                 link.className = 'quiz-link';
                 
                 link.innerHTML = `
