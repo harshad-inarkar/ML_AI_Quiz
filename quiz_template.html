@@ -52,18 +52,19 @@
 </div>
 
 <script>
-    // Global variable to hold fetched data
+// Global variable to hold fetched data
     let currentQuizData = [];
 
-    // 1. Get the requested JSON file from the URL parameter (e.g., ?file=input_quiz1.json)
+    // 1. Get the requested JSON file and Title from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const quizFile = urlParams.get('file');
+    const quizTitle = urlParams.get('title');
 
     if (!quizFile) {
         document.getElementById('status-msg').innerText = "Error: No quiz file specified in the URL.";
     } else {
-        // Set title based on filename for immediate feedback
-        document.getElementById('quiz-title').innerText = quizFile.replace('.json', '').replace(/_/g, ' ').toUpperCase();
+        // Set title based on the passed parameter (fallback to formatted filename if missing)
+        document.getElementById('quiz-title').innerText = quizTitle ? quizTitle : quizFile.replace('.json', '').replace(/_/g, ' ').toUpperCase();
 
         // 2. Fetch the JSON file
         fetch(quizFile)
