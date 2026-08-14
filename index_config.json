@@ -1,4 +1,10 @@
 {
-    "Quiz1: MLP, Act Funcs, GD": "input_mlp_quiz_1.json",
-    "Quiz2: MLP, Act Funcs, GD": "input_mlp_quiz_2.json"
+    "1": {
+        "title": "Quiz 1: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_1.json"
+    },
+    "2": {
+        "title": "Quiz 2: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_2.json"
+    }
 }
