@@ -42,19 +42,24 @@
             const listContainer = document.getElementById('quiz-list');
             listContainer.innerHTML = ''; // Clear loading text
 
-            // Iterate over the dictionary and create links
-            for (const [quizName, fileName] of Object.entries(data)) {
+            // Extract keys and sort them numerically 
+            const sortedKeys = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
+
+            // Iterate over the sorted dictionary and create links
+            sortedKeys.forEach(key => {
+                const quizData = data[key];
                 const link = document.createElement('a');
-                // Pass BOTH the json file name and the quiz title as URL parameters
-                link.href = `quiz_template.html?file=${encodeURIComponent(fileName)}&title=${encodeURIComponent(quizName)}`;
+                
+                // Pass ONLY the quiz_key as a URL parameter
+                link.href = `quiz_template.html?quiz_key=${encodeURIComponent(key)}`;
                 link.className = 'quiz-link';
                 
                 link.innerHTML = `
-                    <h2>${quizName}</h2>
+                    <h2>${quizData.title}</h2>
                     <p>Click here to load and attempt this quiz.</p>
                 `;
                 listContainer.appendChild(link);
-            }
+            });
         })
         .catch(error => {
             document.getElementById('loading').innerText = "Error loading quizzes. Ensure index_config.json exists.";
