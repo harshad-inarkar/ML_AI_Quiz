@@ -37,7 +37,7 @@
         <p>Attempt as many questions as you'd like and hit submit to view your score and explanations.</p>
     </div>
 
-    <div id="status-msg">Fetching quiz data...</div>
+    <div id="status-msg">Fetching configuration...</div>
 
     <div id="results" class="result-section">
         <h2>Your Score: <span id="score">0</span> / <span id="total-qs">0</span></h2>
@@ -52,39 +52,54 @@
 </div>
 
 <script>
-// Global variable to hold fetched data
+    // Global variable to hold fetched data
     let currentQuizData = [];
 
-    // 1. Get the requested JSON file and Title from the URL parameters
+    // 1. Get the quiz key from URL, default to '1' if none provided
     const urlParams = new URLSearchParams(window.location.search);
-    const quizFile = urlParams.get('file');
-    const quizTitle = urlParams.get('title');
+    let quizKey = urlParams.get('quiz_key') || '1';
 
-    if (!quizFile) {
-        document.getElementById('status-msg').innerText = "Error: No quiz file specified in the URL.";
-    } else {
-        // Set title based on the passed parameter (fallback to formatted filename if missing)
-        document.getElementById('quiz-title').innerText = quizTitle ? quizTitle : quizFile.replace('.json', '').replace(/_/g, ' ').toUpperCase();
+    // 2. Fetch the config file to lookup the title and file path
+    fetch('index_config.json')
+        .then(response => {
+            if (!response.ok) throw new Error("Config file not found");
+            return response.json();
+        })
+        .then(config => {
+            // Check if the key exists in the config
+            if (!config[quizKey]) {
+                document.getElementById('quiz-title').innerText = "Quiz Not Found";
+                document.getElementById('status-msg').innerText = "Quiz Key does not exist.";
+                return; // Stop execution here
+            }
 
-        // 2. Fetch the JSON file
-        fetch(quizFile)
-            .then(response => {
-                if (!response.ok) throw new Error("File not found");
-                return response.json();
-            })
-            .then(data => {
-                currentQuizData = data;
-                document.getElementById('status-msg').style.display = 'none';
-                document.getElementById('total-qs').innerText = data.length;
-                buildQuiz(data);
-            })
-            .catch(error => {
-                document.getElementById('status-msg').innerText = "Failed to load quiz data. Ensure the JSON file exists.";
-                console.error(error);
-            });
-    }
+            const quizInfo = config[quizKey];
+            
+            // Set the title from the config
+            document.getElementById('quiz-title').innerText = quizInfo.title;
+            document.getElementById('status-msg').innerText = "Fetching quiz data...";
 
-    // 3. Dynamically build the HTML for the questions
+            // 3. Fetch the actual quiz JSON file
+            return fetch(quizInfo.input_file);
+        })
+        .then(response => {
+            if (!response) return; // Happens if the key was invalid and we returned early
+            if (!response.ok) throw new Error("Quiz file not found");
+            return response.json();
+        })
+        .then(data => {
+            if (!data) return; // Happens if the key was invalid
+            currentQuizData = data;
+            document.getElementById('status-msg').style.display = 'none';
+            document.getElementById('total-qs').innerText = data.length;
+            buildQuiz(data);
+        })
+        .catch(error => {
+            document.getElementById('status-msg').innerText = "Failed to load quiz data. Ensure configuration is correct.";
+            console.error(error);
+        });
+
+    // 4. Dynamically build the HTML for the questions
     function buildQuiz(data) {
         const container = document.getElementById('questions-container');
         
@@ -125,7 +140,7 @@
         document.getElementById('submitBtn').style.display = 'block';
     }
 
-    // 4. Handle grading
+    // 5. Handle grading
     function submitQuiz() {
         let score = 0;
 
