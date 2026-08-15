@@ -8,29 +8,27 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
         :root {
-            --bg-900: #03181a;
-            --surface: #0a3033;
-            --surface-alt: #0d3a3d;
-            --surface-border: #144e50;
-            --turquoise: #2dd4bf;
-            --turquoise-soft: #5eead4;
-            --peacock: #0ea5b7;
-            --teal-mid: #0d9488;
-            --text-primary: #eafffb;
-            --text-secondary: #8fb8b4;
-            --green-bg: rgba(16, 185, 129, 0.14);
-            --green-text: #6ee7b7;
-            --green-border: #10b981;
-            --red-bg: rgba(248, 113, 113, 0.12);
-            --red-text: #fca5a5;
-            --red-border: #f87171;
+            --bg-main: #112223;
+            --surface: #1a3335;
+            --surface-alt: #234244;
+            --surface-border: #295355;
+            --primary-accent: #4fd1c5;
+            --secondary-accent: #319795;
+            --text-primary: #f0fdfa;
+            --text-secondary: #a1c2c2;
+            --green-bg: rgba(72, 187, 120, 0.15);
+            --green-text: #68d391;
+            --green-border: #48bb78;
+            --red-bg: rgba(245, 101, 101, 0.15);
+            --red-text: #fc8181;
+            --red-border: #f56565;
         }
 
         * { box-sizing: border-box; }
 
         body {
             font-family: 'Inter', Arial, sans-serif;
-            background: radial-gradient(circle at 15% 0%, #0b3d3f 0%, var(--bg-900) 55%, #010e0f 100%);
+            background-color: var(--bg-main);
             color: var(--text-primary);
             margin: 0;
             padding: 24px 20px 48px;
@@ -45,7 +43,7 @@
             padding: 30px 28px 26px;
             border-radius: 20px;
             margin-bottom: 26px;
-            box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.04), 0 20px 45px -20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
             overflow: hidden;
         }
 
@@ -54,7 +52,7 @@
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 5px;
-            background: linear-gradient(90deg, var(--teal-mid), var(--turquoise), var(--peacock));
+            background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
         }
 
         .header-card h1 {
@@ -74,9 +72,9 @@
             top: 16px;
             right: 16px;
             font-size: 12px;
-            color: var(--turquoise-soft);
+            color: var(--primary-accent);
             font-weight: 600;
-            background: rgba(45, 212, 191, 0.08);
+            background: rgba(79, 209, 197, 0.1);
             border: 1px solid var(--surface-border);
             padding: 4px 12px;
             border-radius: 999px;
@@ -85,7 +83,7 @@
         .nav-link {
             display: inline-block;
             margin-bottom: 20px;
-            color: var(--turquoise-soft);
+            color: var(--primary-accent);
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
@@ -98,7 +96,7 @@
             border-radius: 16px;
             margin-bottom: 20px;
             border: 1px solid var(--surface-border);
-            box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.4);
         }
 
         .question-text {
@@ -128,12 +126,12 @@
             cursor: pointer;
             width: 18px;
             height: 18px;
-            accent-color: var(--turquoise);
+            accent-color: var(--primary-accent);
         }
 
         .submit-btn {
-            background: linear-gradient(120deg, var(--teal-mid), var(--peacock));
-            color: #04191a;
+            background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
+            color: #0b1a1b;
             border: none;
             padding: 11px 26px;
             border-radius: 10px;
@@ -141,10 +139,10 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 40px;
-            transition: background 0.2s;
+            transition: opacity 0.2s;
             display: none;
         }
-        .submit-btn:hover { background: linear-gradient(120deg, var(--turquoise), var(--peacock)); }
+        .submit-btn:hover { opacity: 0.9; }
 
         .result-section {
             display: none;
@@ -153,7 +151,7 @@
             padding: 28px;
             border-radius: 20px;
             margin-bottom: 26px;
-            box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.04), 0 20px 45px -20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
             text-align: center;
         }
 

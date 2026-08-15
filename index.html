@@ -8,22 +8,21 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
         :root {
-            --bg-900: #03181a;
-            --surface: #0a3033;
-            --surface-border: #144e50;
-            --turquoise: #2dd4bf;
-            --turquoise-soft: #5eead4;
-            --peacock: #0ea5b7;
-            --teal-mid: #0d9488;
-            --text-primary: #eafffb;
-            --text-secondary: #8fb8b4;
+            --bg-main: #112223;
+            --surface: #1a3335;
+            --surface-alt: #234244;
+            --surface-border: #295355;
+            --primary-accent: #4fd1c5;
+            --secondary-accent: #319795;
+            --text-primary: #f0fdfa;
+            --text-secondary: #a1c2c2;
         }
 
         * { box-sizing: border-box; }
 
         body {
             font-family: 'Inter', Arial, sans-serif;
-            background: radial-gradient(circle at 15% 0%, #0b3d3f 0%, var(--bg-900) 55%, #010e0f 100%);
+            background-color: var(--bg-main);
             color: var(--text-primary);
             margin: 0;
             padding: 48px 20px;
@@ -41,7 +40,7 @@
             padding: 36px 32px 32px;
             border-radius: 20px;
             margin-bottom: 32px;
-            box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.04), 0 20px 45px -20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
             text-align: center;
             overflow: hidden;
         }
@@ -51,7 +50,7 @@
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 5px;
-            background: linear-gradient(90deg, var(--teal-mid), var(--turquoise), var(--peacock));
+            background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
         }
 
         .header-card h1 {
@@ -75,9 +74,9 @@
             top: 16px;
             right: 16px;
             font-size: 12px;
-            color: var(--turquoise-soft);
+            color: var(--primary-accent);
             font-weight: 600;
-            background: rgba(45, 212, 191, 0.08);
+            background: rgba(79, 209, 197, 0.1);
             border: 1px solid var(--surface-border);
             padding: 4px 12px;
             border-radius: 999px;
@@ -89,15 +88,14 @@
             border-radius: 16px;
             margin-bottom: 18px;
             border: 1px solid var(--surface-border);
-            border-left: 4px solid var(--turquoise);
-            box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.7);
-            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+            border-left: 4px solid var(--primary-accent);
+            box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.15s ease, border-color 0.15s ease;
         }
 
         .quiz-card:hover {
             transform: translateY(-2px);
-            border-color: var(--turquoise);
-            box-shadow: 0 16px 34px -16px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(45, 212, 191, 0.15);
+            border-color: var(--primary-accent);
         }
 
         .quiz-card h2 {
@@ -126,18 +124,18 @@
         }
 
         .btn-primary {
-            background: linear-gradient(120deg, var(--teal-mid), var(--peacock));
-            color: #04191a;
+            background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
+            color: #0b1a1b;
             border: 1px solid transparent;
         }
-        .btn-primary:hover { background: linear-gradient(120deg, var(--turquoise), var(--peacock)); }
+        .btn-primary:hover { opacity: 0.9; }
 
         .btn-secondary {
             background-color: transparent;
-            color: var(--turquoise-soft);
+            color: var(--primary-accent);
             border: 1px solid var(--surface-border);
         }
-        .btn-secondary:hover { background-color: rgba(45, 212, 191, 0.08); border-color: var(--turquoise); }
+        .btn-secondary:hover { background-color: rgba(79, 209, 197, 0.1); border-color: var(--primary-accent); }
 
         #loading { text-align: center; color: var(--text-secondary); }
     </style>
