@@ -75,24 +75,21 @@
     const urlParams = new URLSearchParams(window.location.search);
     let quizKey = urlParams.get('quiz_key') || '1';
 
-    // Fetch config from data/ directory
-    fetch('data/index_config.json')
-        .then(response => {
-            if (!response.ok) throw new Error("Config file not found");
-            return response.json();
-        })
-        .then(config => {
-            if (!config[quizKey]) {
+ // Fetch config to find which quiz to load
+    db.ref('configs/index/' + quizKey).once('value')
+        .then(snapshot => {
+            if (!snapshot.exists()) {
                 document.getElementById('quiz-title').innerText = "Quiz Not Found";
                 document.getElementById('status-msg').innerText = "Quiz Key does not exist.";
-                return;
+                throw new Error("Invalid Quiz Key"); // Stop execution
             }
 
-            const quizInfo = config[quizKey];
+            const quizInfo = snapshot.val();
             
             document.getElementById('quiz-title').innerText = quizInfo.title;
             document.getElementById('status-msg').innerText = "Fetching quiz data...";
 
+            // Track view counts
             const countRef = db.ref('quiz_views/quiz_' + quizKey);
             const localKey = 'visited_quiz_' + quizKey;
 
@@ -101,28 +98,31 @@
                 localStorage.setItem(localKey, 'true');
             }
 
-            countRef.on('value', (snapshot) => {
-                document.getElementById('visitor-count').innerText = snapshot.val() || 0;
+            countRef.on('value', (countSnap) => {
+                document.getElementById('visitor-count').innerText = countSnap.val() || 0;
             });
 
-            // Fetch quiz file from data/ directory
-            return fetch('data/' + quizInfo.input_file);
+            // Clean the ".json" extension off the input_file string to get the Firebase Database Key
+            const databaseKey = quizInfo.input_file.replace('.json', '');
+            
+            // Query the specific quiz from the database
+            return db.ref('quizzes/' + databaseKey).once('value');
         })
-        .then(response => {
-            if (!response) return; 
-            if (!response.ok) throw new Error("Quiz file not found");
-            return response.json();
-        })
-        .then(data => {
-            if (!data) return; 
+        .then(snapshot => {
+            if (!snapshot || !snapshot.exists()) throw new Error("Quiz data not found in database");
+            
+            const data = snapshot.val();
             currentQuizData = data;
+            
             document.getElementById('status-msg').style.display = 'none';
             document.getElementById('total-qs').innerText = data.length;
             buildQuiz(data);
         })
         .catch(error => {
-            document.getElementById('status-msg').innerText = "Failed to load quiz data. Ensure configuration is correct.";
-            console.error(error);
+            if(error.message !== "Invalid Quiz Key") {
+                document.getElementById('status-msg').innerText = "Failed to load quiz data from database.";
+                console.error(error);
+            }
         });
 
     function buildQuiz(data) {

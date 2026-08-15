@@ -70,13 +70,12 @@
         document.getElementById('portal-visitor-count').innerText = snapshot.val() || 0;
     });
 
-    // Fetch config from data/ directory
-    fetch('data/index_config.json')
-        .then(response => {
-            if (!response.ok) throw new Error("Config file not found");
-            return response.json();
-        })
-        .then(data => {
+    /// Fetch config directly from Firebase
+    db.ref('configs/index').once('value')
+        .then((snapshot) => {
+            if (!snapshot.exists()) throw new Error("Config not found in Firebase");
+            const data = snapshot.val();
+            
             const listContainer = document.getElementById('quiz-list');
             listContainer.innerHTML = ''; 
 
@@ -87,7 +86,6 @@
                 const card = document.createElement('div');
                 card.className = 'quiz-card';
                 
-                // Build resource button conditionally
                 let resourceBtnHtml = '';
                 if (quizData.resources_keys && quizData.resources_keys.length > 0) {
                     const keysQuery = quizData.resources_keys.join(',');
@@ -106,7 +104,7 @@
             });
         })
         .catch(error => {
-            document.getElementById('loading').innerText = "Error loading quizzes. Ensure data/index_config.json exists.";
+            document.getElementById('loading').innerText = "Error loading quizzes from database.";
             console.error("Error:", error);
         });
 </script>

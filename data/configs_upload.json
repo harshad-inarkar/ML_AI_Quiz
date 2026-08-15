@@ -1,0 +1,59 @@
+{
+  "index": {
+    "1": {
+        "title": "Quiz 1: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_1.json",
+        "resources_keys": ["1", "2"]
+    },
+    "2": {
+        "title": "Quiz 2: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_2.json",
+        "resources_keys": ["1"]
+    },
+    "3": {
+        "title": "Quiz 3: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_3.json",
+        "resources_keys": ["2"]
+    },
+    "4": {
+        "title": "Quiz 4: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_4.json"
+    }
+  },
+  "resources": {
+    "1": {
+        "title": "Olympus Resources Perceptron",
+        "resources": [ 
+            {   
+                "title" : "Title is GL Perceptron Slide",
+                "desc" : "GL Perceptron Slide", 
+                "link" : "https://olympus.mygreatlearning.com/courses/157286/modules/items/8957909"
+            },
+            { 
+                "desc" : "GL Perceptron Video Recording", 
+                "link" : "https://olympus.mygreatlearning.com/recordings/3084339"
+            },
+            { 
+                "title" : "GL Perceptron Video Recording", 
+                "link" : "https://olympus.mygreatlearning.com/recordings/3084339"
+            },
+            { 
+                "title" : "Follow path Courses->Deep Learning->Learning->Faculty Session Learning Resource - 25th July Session"
+            }
+        ]
+    },
+    "2": {
+        "title": "Deeplearning Prof Bryce Youtube",
+        "resources": [ 
+            { 
+                "desc" : "Lecture Series", 
+                "link" : "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=1"
+            },
+            { 
+                "desc" : "MLP Feed Forward Networks", 
+                "link" : "https://www.youtube.com/watch?v=AsyPA69QBks&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=7"
+            }
+        ]
+    }
+  }
+}

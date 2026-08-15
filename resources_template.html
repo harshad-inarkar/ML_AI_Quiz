@@ -87,16 +87,11 @@
     
     const requestedKeys = keysParam ? keysParam.split(',').map(k => k.trim()) : null;
 
-    fetch('data/resources_config.json')
-        .then(async response => {
-            if (!response.ok) throw new Error(`HTTP Error ${response.status}: The file data/resources_config.json could not be found.`);
-            try {
-                return await response.json();
-            } catch (e) {
-                throw new Error("JSON Syntax Error: Please check data/resources_config.json for missing quotes or trailing commas.");
-            }
-        })
-        .then(data => {
+ db.ref('configs/resources').once('value')
+        .then(snapshot => {
+            if (!snapshot.exists()) throw new Error("Resources config not found in Firebase.");
+            const data = snapshot.val();
+            
             document.getElementById('status-msg').style.display = 'none';
             const container = document.getElementById('resources-container');
             
@@ -120,7 +115,6 @@
                     let itemHtml = '';
                     let linkArea = '';
                     
-                    // Determine how to format the link/desc part
                     if (res.desc && res.link) {
                         linkArea = `<a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.desc}</a>`;
                     } else if (res.link) {
@@ -129,14 +123,11 @@
                         linkArea = `<span>${res.desc}</span>`;
                     }
                     
-                    // Combine Title and the Link Area
                     if (res.title && linkArea) {
                         itemHtml = `<strong>${res.title}</strong> : ${linkArea}`;
                     } else if (res.title) {
-                        // Only title is present
                         itemHtml = `<strong>${res.title}</strong>`;
                     } else if (linkArea) {
-                        // No title, just link area
                         itemHtml = linkArea;
                     }
                     
