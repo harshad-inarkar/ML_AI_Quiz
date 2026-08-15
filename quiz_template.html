@@ -5,28 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f0ebf8; color: #202124; margin: 0; padding: 20px; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --teal-50: #f0fdfa;
+            --teal-100: #ccfbf1;
+            --teal-200: #99f6e4;
+            --teal-500: #14b8a6;
+            --teal-600: #0d9488;
+            --teal-700: #0f766e;
+            --teal-900: #134e4a;
+            --turquoise: #2dd4bf;
+            --sky: #38bdf8;
+            --slate-500: #64748b;
+            --ink: #16302d;
+            --green-bg: #ecfdf5;
+            --green-text: #047857;
+            --green-border: #10b981;
+            --red-bg: #fef2f2;
+            --red-text: #b91c1c;
+            --red-border: #ef4444;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: radial-gradient(circle at top left, #e6fffb 0%, var(--teal-50) 45%, #eafcf7 100%);
+            color: var(--ink);
+            margin: 0;
+            padding: 24px 20px 48px;
+        }
+
         .form-container { max-width: 640px; margin: 0 auto; }
-        .header-card { position: relative; background-color: #fff; border-top: 10px solid #673ab7; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
-        .header-card h1 { margin: 0 0 10px 0; font-size: 32px; font-weight: 400; padding-right: 60px; }
-        .header-card p { margin: 0; color: #5f6368; font-size: 14px; }
-        .view-count { position: absolute; top: 12px; right: 16px; font-size: 12px; color: #5f6368; font-weight: 500; }
-        
-        .nav-link { display:inline-block; margin-bottom: 20px; color: #673ab7; text-decoration: none; font-weight: 500; }
-        .question-card { background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); }
-        .question-text { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
-        .option-label { display: flex; align-items: center; margin-bottom: 12px; cursor: pointer; font-size: 14px; padding: 8px; border-radius: 4px; transition: background-color 0.2s; }
-        .option-label:hover { background-color: #f8f9fa; }
-        .option-label input { margin-right: 12px; cursor: pointer; width: 20px; height: 20px; accent-color: #673ab7; }
-        .submit-btn { background-color: #673ab7; color: white; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; margin-bottom: 40px; transition: background-color 0.2s; display: none; }
-        .submit-btn:hover { background-color: #5e35b1; }
-        .result-section { display: none; background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); text-align: center; }
-        .result-section h2 { margin: 0 0 10px 0; font-size: 24px; }
-        .explanation-box { display: none; margin-top: 16px; padding: 16px; border-radius: 8px; background-color: #fce8e6; color: #c5221f; font-size: 14px; border-left: 4px solid #c5221f; }
-        .explanation-box.correct { background-color: #e6f4ea; color: #137333; border-left: 4px solid #137333; }
-        .disabled-form { pointer-events: none; opacity: 0.8; }
-        #status-msg { text-align: center; color: #5f6368; padding: 40px; font-size: 18px; }
+
+        .header-card {
+            position: relative;
+            background-color: #fff;
+            padding: 30px 28px 26px;
+            border-radius: 20px;
+            margin-bottom: 26px;
+            box-shadow: 0 1px 3px rgba(15, 118, 110, 0.08), 0 10px 30px -12px rgba(15, 118, 110, 0.25);
+            overflow: hidden;
+        }
+
+        .header-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--teal-700), var(--turquoise), var(--sky));
+        }
+
+        .header-card h1 {
+            margin: 8px 0 10px 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--teal-900);
+            padding-right: 70px;
+            letter-spacing: -0.02em;
+        }
+
+        .header-card p { margin: 0; color: var(--slate-500); font-size: 14px; }
+
+        .view-count {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 12px;
+            color: var(--teal-700);
+            font-weight: 600;
+            background: var(--teal-50);
+            border: 1px solid var(--teal-100);
+            padding: 4px 12px;
+            border-radius: 999px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--teal-700);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .nav-link:hover { color: var(--teal-900); }
+
+        .question-card {
+            background: #fff;
+            padding: 22px 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(15, 118, 110, 0.06), 0 6px 18px -10px rgba(15, 118, 110, 0.2);
+            border: 1px solid var(--teal-100);
+        }
+
+        .question-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--teal-900);
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            transition: background-color 0.15s, border-color 0.15s;
+        }
+        .option-label:hover { background-color: var(--teal-50); border-color: var(--teal-100); }
+
+        .option-label input {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--teal-600);
+        }
+
+        .submit-btn {
+            background-color: var(--teal-600);
+            color: white;
+            border: none;
+            padding: 11px 26px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            transition: background-color 0.2s;
+            display: none;
+        }
+        .submit-btn:hover { background-color: var(--teal-700); }
+
+        .result-section {
+            display: none;
+            background: #fff;
+            padding: 28px;
+            border-radius: 20px;
+            margin-bottom: 26px;
+            box-shadow: 0 1px 3px rgba(15, 118, 110, 0.08), 0 10px 30px -12px rgba(15, 118, 110, 0.25);
+            text-align: center;
+        }
+
+        .result-section h2 {
+            margin: 0 0 10px 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            color: var(--teal-900);
+        }
+
+        .result-section p { color: var(--slate-500); font-size: 14px; }
+
+        .explanation-box {
+            display: none;
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background-color: var(--red-bg);
+            color: var(--red-text);
+            font-size: 14px;
+            border-left: 4px solid var(--red-border);
+        }
+        .explanation-box.correct {
+            background-color: var(--green-bg);
+            color: var(--green-text);
+            border-left: 4px solid var(--green-border);
+        }
+
+        .disabled-form { pointer-events: none; opacity: 0.85; }
+
+        #status-msg { text-align: center; color: var(--slate-500); padding: 40px; font-size: 17px; }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>

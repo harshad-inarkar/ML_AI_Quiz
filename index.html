@@ -5,28 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Portal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f0ebf8; color: #202124; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --teal-50: #f0fdfa;
+            --teal-100: #ccfbf1;
+            --teal-200: #99f6e4;
+            --teal-500: #14b8a6;
+            --teal-600: #0d9488;
+            --teal-700: #0f766e;
+            --teal-900: #134e4a;
+            --turquoise: #2dd4bf;
+            --sky: #38bdf8;
+            --slate-500: #64748b;
+            --ink: #16302d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: radial-gradient(circle at top left, #e6fffb 0%, var(--teal-50) 45%, #eafcf7 100%);
+            color: var(--ink);
+            margin: 0;
+            padding: 48px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
         .portal-container { max-width: 640px; width: 100%; }
-        .header-card { position: relative; background-color: #fff; border-top: 10px solid #673ab7; padding: 32px; border-radius: 8px; margin-bottom: 32px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); text-align: center; }
-        .header-card h1 { margin: 0 0 12px 0; font-size: 32px; font-weight: 400; }
-        .header-card p { margin: 0 0 16px 0; color: #5f6368; font-size: 16px; line-height: 1.5; }
-        .view-count { position: absolute; top: 12px; right: 16px; font-size: 12px; color: #5f6368; font-weight: 500; }
-        
-        .quiz-card { background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); border-left: 8px solid #673ab7; }
-        .quiz-card h2 { margin: 0 0 8px 0; font-size: 20px; color: #202124; font-weight: 500; }
-        .quiz-card p { margin: 0 0 16px 0; color: #5f6368; font-size: 14px; }
-        
+
+        .header-card {
+            position: relative;
+            background-color: #fff;
+            padding: 36px 32px 32px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(15, 118, 110, 0.08), 0 10px 30px -12px rgba(15, 118, 110, 0.25);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .header-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--teal-700), var(--turquoise), var(--sky));
+        }
+
+        .header-card h1 {
+            margin: 8px 0 10px 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--teal-900);
+            letter-spacing: -0.02em;
+        }
+
+        .header-card p {
+            margin: 0 0 20px 0;
+            color: var(--slate-500);
+            font-size: 15px;
+            line-height: 1.55;
+        }
+
+        .view-count {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 12px;
+            color: var(--teal-700);
+            font-weight: 600;
+            background: var(--teal-50);
+            border: 1px solid var(--teal-100);
+            padding: 4px 12px;
+            border-radius: 999px;
+        }
+
+        .quiz-card {
+            background: #fff;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 2px rgba(15, 118, 110, 0.06), 0 6px 18px -10px rgba(15, 118, 110, 0.2);
+            border: 1px solid var(--teal-100);
+            border-left: 5px solid var(--teal-600);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(15, 118, 110, 0.06), 0 12px 24px -10px rgba(15, 118, 110, 0.3);
+        }
+
+        .quiz-card h2 {
+            margin: 0 0 8px 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 19px;
+            color: var(--teal-900);
+            font-weight: 600;
+        }
+
+        .quiz-card p {
+            margin: 0 0 18px 0;
+            color: var(--slate-500);
+            font-size: 14px;
+        }
+
         .action-links { display: flex; gap: 12px; flex-wrap: wrap; }
-        .btn { padding: 8px 16px; border-radius: 4px; text-decoration: none; font-size: 14px; font-weight: 500; transition: background-color 0.2s; }
-        .btn-primary { background-color: #673ab7; color: white; border: 1px solid #673ab7; }
-        .btn-primary:hover { background-color: #5e35b1; }
-        .btn-secondary { background-color: #f0ebf8; color: #673ab7; border: 1px solid #d1c4e9; }
-        .btn-secondary:hover { background-color: #e4d8f1; }
-        
-        #loading { text-align: center; color: #5f6368; }
+
+        .btn {
+            padding: 9px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--teal-600);
+            color: white;
+            border: 1px solid var(--teal-600);
+        }
+        .btn-primary:hover { background-color: var(--teal-700); border-color: var(--teal-700); }
+
+        .btn-secondary {
+            background-color: var(--teal-50);
+            color: var(--teal-700);
+            border: 1px solid var(--teal-200);
+        }
+        .btn-secondary:hover { background-color: var(--teal-100); }
+
+        #loading { text-align: center; color: var(--slate-500); }
     </style>
-    
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
