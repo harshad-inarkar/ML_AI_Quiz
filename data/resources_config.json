@@ -2,12 +2,17 @@
     "1": {
         "title": "Olympus Resources Perceptron",
         "resources": [ 
-            { 
+            {   
+                "title" : "GL Perceptron Slide"
                 "desc" : "GL Perceptron Slide", 
                 "link" : "https://olympus.mygreatlearning.com/courses/157286/modules/items/8957909"
             },
             { 
                 "desc" : "GL Perceptron Video Recording", 
+                "link" : "https://olympus.mygreatlearning.com/recordings/3084339"
+            }
+            { 
+                "title" : "GL Perceptron Video Recording", 
                 "link" : "https://olympus.mygreatlearning.com/recordings/3084339"
             }
         ]

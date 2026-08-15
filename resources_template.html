@@ -17,8 +17,8 @@
         .resource-card h2 { margin: 0 0 16px 0; font-size: 20px; color: #202124; font-weight: 500; }
         
         .resource-list { list-style-type: none; padding: 0; margin: 0; }
-        .resource-list li { margin-bottom: 12px; font-size: 15px; }
-        .resource-list a { color: #1a73e8; text-decoration: none; font-weight: 500; }
+        .resource-list li { margin-bottom: 16px; font-size: 15px; line-height: 1.4; }
+        .resource-list a { color: #1a73e8; text-decoration: none; font-weight: 500; word-break: break-all; }
         .resource-list a:hover { text-decoration: underline; }
         
         #status-msg { text-align: center; color: #5f6368; padding: 40px; font-size: 18px; }
@@ -45,7 +45,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     const keysParam = urlParams.get('keys');
     
-    // Convert '1,2' into an array, or keep it null if not provided
     const requestedKeys = keysParam ? keysParam.split(',').map(k => k.trim()) : null;
 
     fetch('data/resources_config.json')
@@ -61,7 +60,6 @@
             document.getElementById('status-msg').style.display = 'none';
             const container = document.getElementById('resources-container');
             
-            // If no keys provided, grab all keys available in the JSON file
             const keysToRender = requestedKeys || Object.keys(data);
             
             if (keysToRender.length === 0) {
@@ -71,7 +69,7 @@
 
             keysToRender.forEach(key => {
                 const group = data[key];
-                if (!group) return; // Skip if requested key does not exist
+                if (!group) return; 
 
                 const card = document.createElement('div');
                 card.className = 'resource-card';
@@ -79,12 +77,32 @@
                 let listHtml = '<ul class="resource-list">';
                 
                 group.resources.forEach(res => {
+                    let itemHtml = '';
+                    
+                    // 1. Process Title if present
+                    if (res.title) {
+                        itemHtml += `<strong>${res.title}</strong>`;
+                    }
+                    
+                    // 2. Process Desc and Link
+                    let secondaryHtml = '';
                     if (res.desc && res.link) {
-                        listHtml += `<li><a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.desc}</a></li>`;
+                        secondaryHtml = `<a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.desc}</a>`;
                     } else if (res.link) {
-                        listHtml += `<li><a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.link}</a></li>`;
+                        secondaryHtml = `<a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.link}</a>`;
                     } else if (res.desc) {
-                        listHtml += `<li>${res.desc}</li>`;
+                        secondaryHtml = `<span>${res.desc}</span>`;
+                    }
+                    
+                    // 3. Combine them appropriately
+                    if (itemHtml && secondaryHtml) {
+                        itemHtml += `<br>${secondaryHtml}`;
+                    } else if (secondaryHtml) {
+                        itemHtml = secondaryHtml;
+                    }
+                    
+                    if (itemHtml) {
+                        listHtml += `<li>${itemHtml}</li>`;
                     }
                 });
                 
@@ -97,7 +115,6 @@
                 container.appendChild(card);
             });
             
-            // Edge case if someone requests a specific key that doesn't exist
             if (container.innerHTML.trim() === '') {
                 container.innerHTML = `<p style="text-align: center; color: #5f6368;">Requested resources could not be found.</p>`;
             }
