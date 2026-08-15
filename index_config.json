@@ -6,5 +6,13 @@
     "2": {
         "title": "Quiz 2: MLP, Act Funcs, GD",
         "input_file": "input_mlp_quiz_2.json"
+    },
+     "3": {
+        "title": "Quiz 3: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_3.json"
+    },
+     "4": {
+        "title": "Quiz 4: MLP, Act Funcs, GD",
+        "input_file": "input_mlp_quiz_4.json"
     }
 }
