@@ -17,6 +17,10 @@
         .quiz-link p { margin: 0; color: #5f6368; font-size: 14px; }
         #loading { text-align: center; color: #5f6368; }
     </style>
+    
+    <!-- ADD FIREBASE LIBRARIES -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -24,6 +28,11 @@
     <div class="header-card">
         <h1>Quiz Portal</h1>
         <p>Select a quiz below to test your knowledge.</p>
+        
+        <!-- Portal Visitor Counter -->
+        <p style="margin-top: 15px; font-weight: 500; color: #673ab7;">
+            Total Portal Visitors: <span id="portal-visitor-count">Loading...</span>
+        </p>
     </div>
 
     <div id="quiz-list">
@@ -32,7 +41,40 @@
 </div>
 
 <script>
-    // Fetch the configuration file dynamically
+    // --- 1. INITIALIZE FIREBASE ---
+    // PASTE YOUR FIREBASE CONFIG OBJECT HERE (Same as in quiz_template.html)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBugi9hxa8hsMZ_MZHUrEguA_k-tMtPtaQ",
+      authDomain: "quizportal-d0eff.firebaseapp.com",
+      databaseURL: "https://quizportal-d0eff-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "quizportal-d0eff",
+      storageBucket: "quizportal-d0eff.firebasestorage.app",
+      messagingSenderId: "545650564737",
+      appId: "1:545650564737:web:feb792a331ce365976f780"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    // ------------------------------
+
+    // --- 2. TRACK UNIQUE PORTAL VISITOR ---
+    const portalCountRef = db.ref('portal_views/main');
+    const localPortalKey = 'visited_portal_main';
+
+    // Check if user has visited the main portal before
+    if (!localStorage.getItem(localPortalKey)) {
+        portalCountRef.set(firebase.database.ServerValue.increment(1));
+        localStorage.setItem(localPortalKey, 'true');
+    }
+
+    // Listen for live updates to the portal count
+    portalCountRef.on('value', (snapshot) => {
+        const currentCount = snapshot.val() || 0;
+        document.getElementById('portal-visitor-count').innerText = currentCount;
+    });
+    // --------------------------------------
+
+    // Fetch the configuration file dynamically[cite: 5]
     fetch('index_config.json')
         .then(response => {
             if (!response.ok) throw new Error("Config file not found");
@@ -40,25 +82,38 @@
         })
         .then(data => {
             const listContainer = document.getElementById('quiz-list');
-            listContainer.innerHTML = ''; // Clear loading text
+            listContainer.innerHTML = ''; // Clear loading text[cite: 5]
 
-            // Extract keys and sort them numerically 
+            // Extract keys and sort them numerically[cite: 5]
             const sortedKeys = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
 
-            // Iterate over the sorted dictionary and create links
+            // Iterate over the sorted dictionary and create links[cite: 5]
             sortedKeys.forEach(key => {
                 const quizData = data[key];
                 const link = document.createElement('a');
                 
-                // Pass ONLY the quiz_key as a URL parameter
+                // Pass ONLY the quiz_key as a URL parameter[cite: 5]
                 link.href = `quiz_template.html?quiz_key=${encodeURIComponent(key)}`;
                 link.className = 'quiz-link';
                 
+                // Add the layout for the link, including a span for the individual quiz view count
                 link.innerHTML = `
                     <h2>${quizData.title}</h2>
                     <p>Click here to load and attempt this quiz.</p>
+                    <p style="margin-top: 10px; font-size: 13px; color: #673ab7; font-weight: 500;">
+                        Quiz Views: <span id="quiz-view-count-${key}">0</span>
+                    </p>
                 `;
                 listContainer.appendChild(link);
+
+                // --- 3. FETCH INDIVIDUAL QUIZ COUNTS ---
+                // Fetch the live count for each quiz from the database and display it on the card
+                db.ref('quiz_views/quiz_' + key).on('value', (snapshot) => {
+                    const countSpan = document.getElementById(`quiz-view-count-${key}`);
+                    if (countSpan) {
+                        countSpan.innerText = snapshot.val() || 0;
+                    }
+                });
             });
         })
         .catch(error => {
