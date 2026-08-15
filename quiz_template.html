@@ -26,6 +26,9 @@
         .disabled-form { pointer-events: none; opacity: 0.8; }
         #status-msg { text-align: center; color: #5f6368; padding: 40px; font-size: 18px; }
     </style>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -34,7 +37,11 @@
     
     <div class="header-card">
         <h1 id="quiz-title">Loading Quiz...</h1>
+        <p style="margin-top: 15px; font-weight: 500; color: #673ab7;">
+        Unique Visitors: <span id="visitor-count">Loading...</span>
+        </p>
         <p>Attempt as many questions as you'd like and hit submit to view your score and explanations.</p>
+        
     </div>
 
     <div id="status-msg">Fetching configuration...</div>
@@ -55,6 +62,23 @@
     // Global variable to hold fetched data
     let currentQuizData = [];
 
+    // --- 1. INITIALIZE FIREBASE ---
+    // PASTE YOUR FIREBASE CONFIG OBJECT HERE
+    const firebaseConfig = {
+      apiKey: "AIzaSyBugi9hxa8hsMZ_MZHUrEguA_k-tMtPtaQ",
+      authDomain: "quizportal-d0eff.firebaseapp.com",
+      databaseURL: "https://quizportal-d0eff-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "quizportal-d0eff",
+      storageBucket: "quizportal-d0eff.firebasestorage.app",
+      messagingSenderId: "545650564737",
+      appId: "1:545650564737:web:feb792a331ce365976f780"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    // ------------------------------
+
+    
     // 1. Get the quiz key from URL, default to '1' if none provided
     const urlParams = new URLSearchParams(window.location.search);
     let quizKey = urlParams.get('quiz_key') || '1';
@@ -78,6 +102,25 @@
             // Set the title from the config
             document.getElementById('quiz-title').innerText = quizInfo.title;
             document.getElementById('status-msg').innerText = "Fetching quiz data...";
+
+            // --- 2. TRACK UNIQUE VISITOR ---
+            const countRef = db.ref('quiz_views/quiz_' + quizKey);
+            const localKey = 'visited_quiz_' + quizKey;
+
+            // Check if user has visited this specific quiz before
+            if (!localStorage.getItem(localKey)) {
+                // If new, increment the database count by 1
+                countRef.set(firebase.database.ServerValue.increment(1));
+                // Save token in browser so they aren't counted again
+                localStorage.setItem(localKey, 'true');
+            }
+
+            // Continuously listen for the updated count and display it
+            countRef.on('value', (snapshot) => {
+                const currentCount = snapshot.val() || 0;
+                document.getElementById('visitor-count').innerText = currentCount;
+            });
+            // -------------------------------
 
             // 3. Fetch the actual quiz JSON file
             return fetch(quizInfo.input_file);
