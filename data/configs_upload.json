@@ -4,10 +4,10 @@
     {
       "input_file": "input_mlp_quiz_1.json",
       "resources_keys": [
+        "4",
         "5",
         "6",
-        "7",
-        "8"
+        "7"
       ],
       "title": "Quiz 1: MLP, Act Funcs, GD"
     },
@@ -27,11 +27,11 @@
   "resources": [
     null,
     {
-      "title": "GL Olympus Resources for Module1: Foundations of Gen AI",
+      "title": "GL/Olympus: Module-1: Foundations of Gen AI",
       "resources": [
         {
-          "title": "Module1 Foundations of Gen AI: Machine Learning",
-          "desc": "Module1-ML",
+          "title": "Module-1 Foundations of Gen AI: Machine Learning",
+          "desc": "Module-1-ML",
           "link": "https://olympus.mygreatlearning.com/courses/149817"
         },
         {
@@ -47,7 +47,7 @@
       ]
     },
     {
-      "title": "Compiled Colab Notebooks: Module-1 Foundations of Gen AI",
+      "title": "Colab Notebooks: Module-1 Foundations of Gen AI",
       "resources": [
         {
           "title": "Python Foundations (python_foundations.ipynb)",
@@ -109,11 +109,11 @@
       ]
     },
     {
-      "title": "GL Olympus Resources for Module2: DeepLearning",
+      "title": "GL/Olympus: Module-2: DeepLearning",
       "resources": [
         {
-          "title": "Module2 Fundamentals of Deeplearning",
-          "desc": "Module2-Deeplearning",
+          "title": "Module-2 Fundamentals of Deeplearning",
+          "desc": "Module-2-Deeplearning",
           "link": "https://olympus.mygreatlearning.com/courses/157286"
         },
         {
@@ -128,7 +128,7 @@
         },
         {
           "title": "Perceptron 18th July Recording",
-          "desc": "Module2-Session1",
+          "desc": "Module-2-Session1",
           "link": "https://olympus.mygreatlearning.com/recordings/3084339"
         },
         {
@@ -138,7 +138,7 @@
         },
         {
           "title": "MLP 25th July Recording",
-          "desc": "Module2-Session2",
+          "desc": "Module-2-Session2",
           "link": "https://olympus.mygreatlearning.com/recordings/3089921"
         },
         {
@@ -148,13 +148,13 @@
         },
         {
           "title": "MLP Gradients 1st Aug Recording",
-          "desc": "Module2-Session3",
+          "desc": "Module-2-Session3",
           "link": "https://olympus.mygreatlearning.com/recordings/3095125"
         }
       ]
     },
     {
-      "title": "Compiled Colab Notebooks: Module2-Deeplearning",
+      "title": "Compiled Colab Notebooks: Module-2-Deeplearning",
       "resources": [
         {
           "title": "PyTorch Fundamentals: Tensors with Images",
@@ -219,11 +219,11 @@
       ]
     },
     {
-      "title": "GL Olympus Resources for Module3: NLP",
+      "title": "GL/Olympus: Module-3: NLP",
       "resources": [
         {
-          "title": "Module3 NLP",
-          "desc": "Module3-NLP",
+          "title": "Module-3 NLP",
+          "desc": "Module-3-NLP",
           "link": "https://olympus.mygreatlearning.com/courses/149818"
         }
       ]

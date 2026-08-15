@@ -8,20 +8,20 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
         :root {
-            --bg-main: #112223;
-            --surface: #1a3335;
-            --surface-alt: #234244;
-            --surface-border: #295355;
+            --bg-main: #000000;
+            --surface: #0a272a;
+            --surface-alt: #0e373b;
+            --surface-border: #185559;
             --primary-accent: #4fd1c5;
-            --secondary-accent: #319795;
+            --secondary-accent: #0ea5b7;
             --text-primary: #f0fdfa;
-            --text-secondary: #a1c2c2;
-            --green-bg: rgba(72, 187, 120, 0.15);
-            --green-text: #68d391;
-            --green-border: #48bb78;
-            --red-bg: rgba(245, 101, 101, 0.15);
-            --red-text: #fc8181;
-            --red-border: #f56565;
+            --text-secondary: #94c3c0;
+            --green-bg: rgba(45, 212, 191, 0.12);
+            --green-text: #4fd1c5;
+            --green-border: #14b8a6;
+            --red-bg: rgba(244, 63, 94, 0.12);
+            --red-text: #fda4af;
+            --red-border: #e11d48;
         }
 
         * { box-sizing: border-box; }
@@ -43,7 +43,7 @@
             padding: 30px 28px 26px;
             border-radius: 20px;
             margin-bottom: 26px;
-            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 183, 0.05);
             overflow: hidden;
         }
 
@@ -96,7 +96,7 @@
             border-radius: 16px;
             margin-bottom: 20px;
             border: 1px solid var(--surface-border);
-            box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
         }
 
         .question-text {
@@ -131,7 +131,7 @@
 
         .submit-btn {
             background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
-            color: #0b1a1b;
+            color: #000000;
             border: none;
             padding: 11px 26px;
             border-radius: 10px;
@@ -151,7 +151,7 @@
             padding: 28px;
             border-radius: 20px;
             margin-bottom: 26px;
-            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 183, 0.05);
             text-align: center;
         }
 
@@ -231,13 +231,12 @@
     const urlParams = new URLSearchParams(window.location.search);
     let quizKey = urlParams.get('quiz_key') || '1';
 
- // Fetch config to find which quiz to load
     db.ref('configs/index/' + quizKey).once('value')
         .then(snapshot => {
             if (!snapshot.exists()) {
                 document.getElementById('quiz-title').innerText = "Quiz Not Found";
                 document.getElementById('status-msg').innerText = "Quiz Key does not exist.";
-                throw new Error("Invalid Quiz Key"); // Stop execution
+                throw new Error("Invalid Quiz Key");
             }
 
             const quizInfo = snapshot.val();
@@ -245,7 +244,6 @@
             document.getElementById('quiz-title').innerText = quizInfo.title;
             document.getElementById('status-msg').innerText = "Fetching quiz data...";
 
-            // Track view counts
             const countRef = db.ref('quiz_views/quiz_' + quizKey);
             const localKey = 'visited_quiz_' + quizKey;
 
@@ -258,10 +256,8 @@
                 document.getElementById('visitor-count').innerText = countSnap.val() || 0;
             });
 
-            // Clean the ".json" extension off the input_file string to get the Firebase Database Key
             const databaseKey = quizInfo.input_file.replace('.json', '');
             
-            // Query the specific quiz from the database
             return db.ref('quizzes/' + databaseKey).once('value');
         })
         .then(snapshot => {

@@ -8,16 +8,17 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
         :root {
-            --bg-main: #112223;
-            --surface: #1a3335;
-            --surface-border: #295355;
+            --bg-main: #000000;
+            --surface: #0a272a;
+            --surface-alt: #0e373b;
+            --surface-border: #185559;
             --primary-accent: #4fd1c5;
-            --secondary-accent: #319795;
+            --secondary-accent: #0ea5b7;
             --text-primary: #f0fdfa;
-            --text-secondary: #a1c2c2;
-            --red-bg: rgba(245, 101, 101, 0.15);
-            --red-text: #fc8181;
-            --red-border: #f56565;
+            --text-secondary: #94c3c0;
+            --red-bg: rgba(244, 63, 94, 0.12);
+            --red-text: #fda4af;
+            --red-border: #e11d48;
         }
 
         * { box-sizing: border-box; }
@@ -42,7 +43,7 @@
             padding: 30px 28px 26px;
             border-radius: 20px;
             margin-bottom: 26px;
-            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 183, 0.05);
             overflow: hidden;
         }
 
@@ -96,7 +97,7 @@
             margin-bottom: 18px;
             border: 1px solid var(--surface-border);
             border-left: 4px solid var(--primary-accent);
-            box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
         }
 
         .resource-card h2 {
@@ -131,7 +132,6 @@
         }
     </style>
 
-    <!-- Added Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
@@ -141,7 +141,6 @@
     <a href="index.html" class="nav-link">&larr; Back to Portal</a>
     
     <div class="header-card">
-        <!-- View Counter Display -->
         <div class="view-count">Views: <span id="visitor-count">...</span></div>
         
         <h1>Study Resources</h1>
@@ -154,7 +153,6 @@
 </div>
 
 <script>
-    // --- 1. INITIALIZE FIREBASE FOR VIEW TRACKING ---
     const firebaseConfig = {
       apiKey: "AIzaSyBugi9hxa8hsMZ_MZHUrEguA_k-tMtPtaQ",
       authDomain: "quizportal-d0eff.firebaseapp.com",
@@ -178,15 +176,13 @@
     resCountRef.on('value', (snapshot) => {
         document.getElementById('visitor-count').innerText = snapshot.val() || 0;
     });
-    // ------------------------------------------------
 
-    // --- 2. FETCH AND RENDER RESOURCES ---
     const urlParams = new URLSearchParams(window.location.search);
     const keysParam = urlParams.get('keys');
     
     const requestedKeys = keysParam ? keysParam.split(',').map(k => k.trim()) : null;
 
- db.ref('configs/resources').once('value')
+    db.ref('configs/resources').once('value')
         .then(snapshot => {
             if (!snapshot.exists()) throw new Error("Resources config not found in Firebase.");
             const data = snapshot.val();

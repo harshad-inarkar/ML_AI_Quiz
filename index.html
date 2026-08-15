@@ -8,14 +8,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
         :root {
-            --bg-main: #112223;
-            --surface: #1a3335;
-            --surface-alt: #234244;
-            --surface-border: #295355;
+            --bg-main: #000000;
+            --surface: #0a272a;
+            --surface-alt: #0e373b;
+            --surface-border: #185559;
             --primary-accent: #4fd1c5;
-            --secondary-accent: #319795;
+            --secondary-accent: #0ea5b7;
             --text-primary: #f0fdfa;
-            --text-secondary: #a1c2c2;
+            --text-secondary: #94c3c0;
         }
 
         * { box-sizing: border-box; }
@@ -40,7 +40,7 @@
             padding: 36px 32px 32px;
             border-radius: 20px;
             margin-bottom: 32px;
-            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 183, 0.05);
             text-align: center;
             overflow: hidden;
         }
@@ -89,7 +89,7 @@
             margin-bottom: 18px;
             border: 1px solid var(--surface-border);
             border-left: 4px solid var(--primary-accent);
-            box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
             transition: transform 0.15s ease, border-color 0.15s ease;
         }
 
@@ -125,7 +125,7 @@
 
         .btn-primary {
             background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
-            color: #0b1a1b;
+            color: #000000;
             border: 1px solid transparent;
         }
         .btn-primary:hover { opacity: 0.9; }
@@ -183,7 +183,6 @@
         document.getElementById('portal-visitor-count').innerText = snapshot.val() || 0;
     });
 
-    /// Fetch config directly from Firebase
     db.ref('configs/index').once('value')
         .then((snapshot) => {
             if (!snapshot.exists()) throw new Error("Config not found in Firebase");
