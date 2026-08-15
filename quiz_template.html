@@ -8,9 +8,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
         body { font-family: 'Roboto', Arial, sans-serif; background-color: #f0ebf8; color: #202124; margin: 0; padding: 20px; }
         .form-container { max-width: 640px; margin: 0 auto; }
-        .header-card { background-color: #fff; border-top: 10px solid #673ab7; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
-        .header-card h1 { margin: 0 0 10px 0; font-size: 32px; font-weight: 400; }
+        .header-card { position: relative; background-color: #fff; border-top: 10px solid #673ab7; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
+        .header-card h1 { margin: 0 0 10px 0; font-size: 32px; font-weight: 400; padding-right: 60px; }
         .header-card p { margin: 0; color: #5f6368; font-size: 14px; }
+        .view-count { position: absolute; top: 12px; right: 16px; font-size: 12px; color: #5f6368; font-weight: 500; }
+        
         .nav-link { display:inline-block; margin-bottom: 20px; color: #673ab7; text-decoration: none; font-weight: 500; }
         .question-card { background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); }
         .question-text { font-size: 16px; font-weight: 500; margin-bottom: 16px; }
@@ -27,8 +29,8 @@
         #status-msg { text-align: center; color: #5f6368; padding: 40px; font-size: 18px; }
     </style>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -36,12 +38,9 @@
     <a href="index.html" class="nav-link">&larr; Back to Portal</a>
     
     <div class="header-card">
+        <div class="view-count">Views: <span id="visitor-count">...</span></div>
         <h1 id="quiz-title">Loading Quiz...</h1>
-        <p style="margin-top: 15px; font-weight: 500; color: #673ab7;">
-        Unique Visitors: <span id="visitor-count">Loading...</span>
-        </p>
         <p>Attempt as many questions as you'd like and hit submit to view your score and explanations.</p>
-        
     </div>
 
     <div id="status-msg">Fetching configuration...</div>
@@ -59,11 +58,8 @@
 </div>
 
 <script>
-    // Global variable to hold fetched data
     let currentQuizData = [];
 
-    // --- 1. INITIALIZE FIREBASE ---
-    // PASTE YOUR FIREBASE CONFIG OBJECT HERE
     const firebaseConfig = {
       apiKey: "AIzaSyBugi9hxa8hsMZ_MZHUrEguA_k-tMtPtaQ",
       authDomain: "quizportal-d0eff.firebaseapp.com",
@@ -73,65 +69,52 @@
       messagingSenderId: "545650564737",
       appId: "1:545650564737:web:feb792a331ce365976f780"
     };
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    // ------------------------------
 
-    
-    // 1. Get the quiz key from URL, default to '1' if none provided
     const urlParams = new URLSearchParams(window.location.search);
     let quizKey = urlParams.get('quiz_key') || '1';
 
-    // 2. Fetch the config file to lookup the title and file path
-    fetch('index_config.json')
+    // Fetch config from data/ directory
+    fetch('data/index_config.json')
         .then(response => {
             if (!response.ok) throw new Error("Config file not found");
             return response.json();
         })
         .then(config => {
-            // Check if the key exists in the config
             if (!config[quizKey]) {
                 document.getElementById('quiz-title').innerText = "Quiz Not Found";
                 document.getElementById('status-msg').innerText = "Quiz Key does not exist.";
-                return; // Stop execution here
+                return;
             }
 
             const quizInfo = config[quizKey];
             
-            // Set the title from the config
             document.getElementById('quiz-title').innerText = quizInfo.title;
             document.getElementById('status-msg').innerText = "Fetching quiz data...";
 
-            // --- 2. TRACK UNIQUE VISITOR ---
             const countRef = db.ref('quiz_views/quiz_' + quizKey);
             const localKey = 'visited_quiz_' + quizKey;
 
-            // Check if user has visited this specific quiz before
             if (!localStorage.getItem(localKey)) {
-                // If new, increment the database count by 1
                 countRef.set(firebase.database.ServerValue.increment(1));
-                // Save token in browser so they aren't counted again
                 localStorage.setItem(localKey, 'true');
             }
 
-            // Continuously listen for the updated count and display it
             countRef.on('value', (snapshot) => {
-                const currentCount = snapshot.val() || 0;
-                document.getElementById('visitor-count').innerText = currentCount;
+                document.getElementById('visitor-count').innerText = snapshot.val() || 0;
             });
-            // -------------------------------
 
-            // 3. Fetch the actual quiz JSON file
-            return fetch(quizInfo.input_file);
+            // Fetch quiz file from data/ directory
+            return fetch('data/' + quizInfo.input_file);
         })
         .then(response => {
-            if (!response) return; // Happens if the key was invalid and we returned early
+            if (!response) return; 
             if (!response.ok) throw new Error("Quiz file not found");
             return response.json();
         })
         .then(data => {
-            if (!data) return; // Happens if the key was invalid
+            if (!data) return; 
             currentQuizData = data;
             document.getElementById('status-msg').style.display = 'none';
             document.getElementById('total-qs').innerText = data.length;
@@ -142,7 +125,6 @@
             console.error(error);
         });
 
-    // 4. Dynamically build the HTML for the questions
     function buildQuiz(data) {
         const container = document.getElementById('questions-container');
         
@@ -179,11 +161,9 @@
             container.appendChild(card);
         });
 
-        // Show the submit button now that data is loaded
         document.getElementById('submitBtn').style.display = 'block';
     }
 
-    // 5. Handle grading
     function submitQuiz() {
         let score = 0;
 

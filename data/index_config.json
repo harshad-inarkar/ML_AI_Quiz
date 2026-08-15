@@ -1,17 +1,20 @@
 {
     "1": {
         "title": "Quiz 1: MLP, Act Funcs, GD",
-        "input_file": "input_mlp_quiz_1.json"
+        "input_file": "input_mlp_quiz_1.json",
+        "resources_keys": ["1", "2"]
     },
     "2": {
         "title": "Quiz 2: MLP, Act Funcs, GD",
-        "input_file": "input_mlp_quiz_2.json"
+        "input_file": "input_mlp_quiz_2.json",
+        "resources_keys": ["1"]
     },
-     "3": {
+    "3": {
         "title": "Quiz 3: MLP, Act Funcs, GD",
-        "input_file": "input_mlp_quiz_3.json"
+        "input_file": "input_mlp_quiz_3.json",
+        "resources_keys": ["2"]
     },
-     "4": {
+    "4": {
         "title": "Quiz 4: MLP, Act Funcs, GD",
         "input_file": "input_mlp_quiz_4.json"
     }

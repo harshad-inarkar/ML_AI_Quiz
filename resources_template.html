@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Resources</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f0ebf8; color: #202124; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .page-container { max-width: 640px; width: 100%; }
+        .header-card { background-color: #fff; border-top: 10px solid #673ab7; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
+        .header-card h1 { margin: 0 0 10px 0; font-size: 32px; font-weight: 400; }
+        .header-card p { margin: 0; color: #5f6368; font-size: 14px; }
+        .nav-link { display:inline-block; margin-bottom: 20px; color: #673ab7; text-decoration: none; font-weight: 500; }
+        
+        .resource-card { background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); border-left: 8px solid #673ab7; }
+        .resource-card h2 { margin: 0 0 16px 0; font-size: 20px; color: #202124; font-weight: 500; }
+        
+        .resource-list { list-style-type: none; padding: 0; margin: 0; }
+        .resource-list li { margin-bottom: 12px; font-size: 15px; }
+        .resource-list a { color: #1a73e8; text-decoration: none; font-weight: 500; }
+        .resource-list a:hover { text-decoration: underline; }
+        
+        #status-msg { text-align: center; color: #5f6368; padding: 40px; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+    <a href="index.html" class="nav-link">&larr; Back to Portal</a>
+    
+    <div class="header-card">
+        <h1>Study Resources</h1>
+        <p>Review the materials below to assist with your learning.</p>
+    </div>
+
+    <div id="status-msg">Fetching resources...</div>
+    <div id="resources-container"></div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const keysParam = urlParams.get('keys');
+    
+    // Convert '1,2' into an array, or keep it null if not provided
+    const requestedKeys = keysParam ? keysParam.split(',').map(k => k.trim()) : null;
+
+    fetch('data/resources_config.json')
+        .then(response => {
+            if (!response.ok) throw new Error("Resources config file not found");
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('status-msg').style.display = 'none';
+            const container = document.getElementById('resources-container');
+            
+            // If no keys provided, grab all keys available in the JSON file
+            const keysToRender = requestedKeys || Object.keys(data);
+            
+            if (keysToRender.length === 0) {
+                container.innerHTML = `<p style="text-align: center; color: #5f6368;">No resources found.</p>`;
+                return;
+            }
+
+            keysToRender.forEach(key => {
+                const group = data[key];
+                if (!group) return; // Skip if requested key does not exist
+
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                
+                let listHtml = '<ul class="resource-list">';
+                
+                group.resources.forEach(res => {
+                    if (res.desc && res.link) {
+                        listHtml += `<li><a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.desc}</a></li>`;
+                    } else if (res.link) {
+                        listHtml += `<li><a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.link}</a></li>`;
+                    } else if (res.desc) {
+                        listHtml += `<li>${res.desc}</li>`;
+                    }
+                });
+                
+                listHtml += '</ul>';
+
+                card.innerHTML = `
+                    <h2>${group.title}</h2>
+                    ${listHtml}
+                `;
+                container.appendChild(card);
+            });
+            
+            // Edge case if someone requests a specific key that doesn't exist
+            if (container.innerHTML.trim() === '') {
+                container.innerHTML = `<p style="text-align: center; color: #5f6368;">Requested resources could not be found.</p>`;
+            }
+        })
+        .catch(error => {
+            document.getElementById('status-msg').innerText = "Failed to load resources. Ensure data/resources_config.json exists.";
+            console.error(error);
+        });
+</script>
+
+</body>
+</html>
