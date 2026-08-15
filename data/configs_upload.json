@@ -1,59 +1,375 @@
 {
-  "index": {
-    "1": {
-        "title": "Quiz 1: MLP, Act Funcs, GD",
-        "input_file": "input_mlp_quiz_1.json",
-        "resources_keys": ["1", "2"]
+  "index": [
+    null,
+    {
+      "input_file": "input_mlp_quiz_1.json",
+      "resources_keys": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "title": "Quiz 1: MLP, Act Funcs, GD"
     },
-    "2": {
-        "title": "Quiz 2: MLP, Act Funcs, GD",
-        "input_file": "input_mlp_quiz_2.json",
-        "resources_keys": ["1"]
+    {
+      "input_file": "input_mlp_quiz_2.json",
+      "title": "Quiz 2: MLP, Act Funcs, GD"
     },
-    "3": {
-        "title": "Quiz 3: MLP, Act Funcs, GD",
-        "input_file": "input_mlp_quiz_3.json",
-        "resources_keys": ["2"]
+    {
+      "input_file": "input_mlp_quiz_3.json",
+      "title": "Quiz 3: MLP, Act Funcs, GD"
     },
-    "4": {
-        "title": "Quiz 4: MLP, Act Funcs, GD",
-        "input_file": "input_mlp_quiz_4.json"
+    {
+      "input_file": "input_mlp_quiz_4.json",
+      "title": "Quiz 4: MLP, Act Funcs, GD"
     }
-  },
-  "resources": {
-    "1": {
-        "title": "Olympus Resources Perceptron",
-        "resources": [ 
-            {   
-                "title" : "Title is GL Perceptron Slide",
-                "desc" : "GL Perceptron Slide", 
-                "link" : "https://olympus.mygreatlearning.com/courses/157286/modules/items/8957909"
-            },
-            { 
-                "desc" : "GL Perceptron Video Recording", 
-                "link" : "https://olympus.mygreatlearning.com/recordings/3084339"
-            },
-            { 
-                "title" : "GL Perceptron Video Recording", 
-                "link" : "https://olympus.mygreatlearning.com/recordings/3084339"
-            },
-            { 
-                "title" : "Follow path Courses->Deep Learning->Learning->Faculty Session Learning Resource - 25th July Session"
-            }
-        ]
+  ],
+  "resources": [
+    null,
+    {
+      "title": "GL Olympus Resources for Module1: Foundations of Gen AI",
+      "resources": [
+        {
+          "title": "Module1 Foundations of Gen AI: Machine Learning",
+          "desc": "Module1-ML",
+          "link": "https://olympus.mygreatlearning.com/courses/149817"
+        }
+      ]
     },
-    "2": {
-        "title": "Deeplearning Prof Bryce Youtube",
-        "resources": [ 
-            { 
-                "desc" : "Lecture Series", 
-                "link" : "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=1"
-            },
-            { 
-                "desc" : "MLP Feed Forward Networks", 
-                "link" : "https://www.youtube.com/watch?v=AsyPA69QBks&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=7"
-            }
-        ]
+    {
+      "title": "Compiled Colab Notebooks: Module-1 Foundations of Gen AI",
+      "resources": [
+        {
+          "title": "Python Foundations (python_foundations.ipynb)",
+          "desc": "Topics: Python Basics, NumPy, Matplotlib",
+          "link": "https://colab.research.google.com/drive/1k4yWgBjaO44-FOZ3-bza7qp4vfbwfmwN"
+        },
+        {
+          "title": "Pandas Tutorial (pandas_tutorial.ipynb)",
+          "desc": "Topics: Pandas Data Processing",
+          "link": "https://colab.research.google.com/drive/1BHvd1jZonwLKFYfDqP4fFQqOMb7E1gR3"
+        },
+        {
+          "title": "Classification Algorithms (Classification_Algorithms.ipynb)",
+          "desc": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost",
+          "link": "https://colab.research.google.com/drive/11hu2uqWByxyVR3UaW3_H1KMQIyhLEyFO"
+        },
+        {
+          "title": "Non-Linear Classification using Feature Lifting (Non-Linear Classification using Feature Lifting.ipynb)",
+          "desc": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation",
+          "link": "https://colab.research.google.com/drive/1PGODJYx3Y3psn76FsnMRZ4e9RjAO9_8-"
+        },
+        {
+          "title": "Real World Example (Real_World_Example.ipynb)",
+          "desc": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC",
+          "link": "https://colab.research.google.com/drive/1HtsmrO3dme3Uflc77I30kf--yXe5eVqK"
+        },
+        {
+          "title": "Unsupervised Algorithms (Unsupervised_Algorithms.ipynb)",
+          "desc": "Topics: PCA, k-Means Clustering",
+          "link": "https://colab.research.google.com/drive/1rRXmBigTsZ8wJfVwfjR1qBH7bNrEDQ50"
+        },
+        {
+          "title": "Isolation Forest (Isolation_Forest.ipynb)",
+          "desc": "Topics: Isolation Forest for Anomaly Detection",
+          "link": "https://colab.research.google.com/drive/1ZmudUsPz3dbvnzFOVeT6oyxVhmcmeNNh"
+        },
+        {
+          "title": "Assignment-1 (advanced_ml_quiz_notebook.ipynb)",
+          "desc": "Topics: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton",
+          "link": "https://colab.research.google.com/drive/15xgQ4nJSF2IUBqPE5aR_bCnsk6E_Tl2b"
+        }
+      ]
+    },
+    {
+      "title": "Books Resources",
+      "resources": [
+        {
+          "title": "Machine Learning Tom Mitchell",
+          "link": "https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf"
+        },
+        {
+          "title": "Introduction to Machine Learning with Python",
+          "link": "https://www.nrigroupindia.com/e-book/Introduction%20to%20Machine%20Learning%20with%20Python%20(%20PDFDrive.com%20)-min.pdf"
+        }
+      ]
+    },
+    {
+      "title": "Pre-processing Resources",
+      "resources": [
+        {
+          "title": "One-Hot Encoding: Everything you need to know",
+          "link": "https://www.kaggle.com/code/marcinrutecki/one-hot-encoding-everything-you-need-to-know/code"
+        },
+        {
+          "title": "Column Transformer with Mixed Types",
+          "link": "https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html"
+        },
+        {
+          "title": "One-Hot Encoding Python Tutorial",
+          "link": "https://www.datacamp.com/tutorial/one-hot-encoding-python-tutorial"
+        }
+      ]
+    },
+    {
+      "title": "GL Olympus Resources for Module2: DeepLearning",
+      "resources": [
+        {
+          "title": "Module2 Fundamentals of Deeplearning",
+          "desc": "Module2-Deeplearning",
+          "link": "https://olympus.mygreatlearning.com/courses/157286"
+        },
+        {
+          "title": "Deep Learning book: Ian Goodfellow and Yoshua Bengio and Aaron Courville",
+          "desc": "Deep Learning Book (Shared by Prof. Balamurugan)",
+          "link": "https://www.deeplearningbook.org/contents/mlp.html"
+        },
+        {
+          "title": "Perceptron Slide 18th July",
+          "desc": "Perceptron Deck1",
+          "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8957909"
+        },
+        {
+          "title": "Perceptron 18th July Recording",
+          "desc": "Module2-Session1",
+          "link": "https://olympus.mygreatlearning.com/recordings/3084339"
+        },
+        {
+          "title": "MLP Slide 25th July",
+          "desc": "MLP Deck2",
+          "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8973903"
+        },
+        {
+          "title": "MLP 25th July Recording",
+          "desc": "Module2-Session2",
+          "link": "https://olympus.mygreatlearning.com/recordings/3089921"
+        },
+        {
+          "title": "MLP Gradients Slide 1st Aug",
+          "desc": "MLP and Gradient Deck3",
+          "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8997795"
+        },
+        {
+          "title": "MLP Gradients 1st Aug Recording",
+          "desc": "Module2-Session3",
+          "link": "https://olympus.mygreatlearning.com/recordings/3095125"
+        }
+      ]
+    },
+    {
+      "title": "Compiled Colab Notebooks: Module2-Deeplearning",
+      "resources": [
+        {
+          "title": "PyTorch Fundamentals: Tensors with Images",
+          "desc": "GenAI-PyTorch_Fundamentals_Part1_Tensors_with_FashionMNIST.ipynb",
+          "link": "https://colab.research.google.com/drive/1Uk8ICZPJ3xt0z4sUPjwETZ-v8J1XZAsJ"
+        },
+        {
+          "title": "Perceptron Demo",
+          "desc": "GreatLearning_GenAI_Perceptron_demo_2026July25.ipynb",
+          "link": "https://colab.research.google.com/drive/1jf9UvMRYeCjmeQrB1G13bRD2aKUWfP-G"
+        },
+        {
+          "title": "Perceptron Practice Assignment",
+          "desc": "Basic Text Processing using Scikit-learn and Classifying Newsgroup Data",
+          "link": "https://colab.research.google.com/drive/1wB8ysHeOQZtW7e8cMmijygJZw6qXeQWa"
+        },
+        {
+          "title": "Gradient Method",
+          "desc": "GenAI_June-Nov_2026_Optimization_GradientMethod.ipynb",
+          "link": "https://colab.research.google.com/drive/1LYyZv4HyshIZSmTHkZzwDhHK7lCc9myb"
+        },
+        {
+          "title": "Multi-Layer Perceptron (MLP)",
+          "desc": "GreatLearning_GenAI_2026_MLP_PyTorch_01Aug2026.ipynb",
+          "link": "https://colab.research.google.com/drive/1IwRmF8TA0tu9KOQlGifEN_7ZW-2205SU"
+        }
+      ]
+    },
+    {
+      "title": "Youtube:Deeplearning by Prof Bryce",
+      "resources": [
+        {
+          "title": "Deeplearning lecture series by Prof. Bryce",
+          "desc": "Lecture Series",
+          "link": "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=1"
+        },
+        {
+          "title": "Feed Forward Network lecture by Prof. Bryce",
+          "desc": "MLP Feed Forward Networks",
+          "link": "https://www.youtube.com/watch?v=AsyPA69QBks&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=7"
+        }
+      ]
+    },
+    {
+      "title": "Medium: Deeplearning Resources Gradients",
+      "resources": [
+        {
+          "title": "Vanishing Gradient in Neural Networks",
+          "desc": "Medium_link1",
+          "link": "https://medium.com/@ilyurek/understanding-the-vanishing-gradient-problem-and-the-role-of-activation-functions-f7cf33507925"
+        },
+        {
+          "title": "Vanishing Gradient in Neural Networks",
+          "desc": "Medium_link2",
+          "link": "https://medium.com/@piyushkashyap045/understanding-the-vanishing-gradient-problem-in-deep-learning-840a9da6567f"
+        },
+        {
+          "title": "Gradient Descent Optimisers",
+          "desc": "Medium_link3",
+          "link": "https://medium.com/@ilyurek/optimizers-a-deep-dive-into-gradient-descent-adam-and-beyond-e6a1d00bc9b0"
+        }
+      ]
+    },
+    {
+      "title": "GL Olympus Resources for Module3: NLP",
+      "resources": [
+        {
+          "title": "Module3 NLP",
+          "desc": "Module3-NLP",
+          "link": "https://olympus.mygreatlearning.com/courses/149818"
+        }
+      ]
+    },
+    {
+      "title": "Stanford: Building LLM by Prof. Yann Dubois",
+      "resources": [
+        {
+          "title": "LLMs by Prof. Yann",
+          "desc": "Stanford: ML and Building LLMs",
+          "link": "https://www.youtube.com/watch?si=meC12mscwMAorfjs&v=9vM4p9NN0Ts"
+        }
+      ]
+    },
+    {
+      "title": "Appendix:Python Libraries",
+      "resources": [
+        {
+          "title": "NumPy",
+          "desc": "Numerical computing and array operations",
+          "link": "https://numpy.org/"
+        },
+        {
+          "title": "Pandas",
+          "desc": "Data manipulation and analysis",
+          "link": "https://pandas.pydata.org/"
+        },
+        {
+          "title": "Matplotlib",
+          "desc": "Data visualization",
+          "link": "https://matplotlib.org/"
+        },
+        {
+          "title": "Scikit-learn (sklearn)",
+          "desc": "Machine learning algorithms, preprocessing, model evaluation, etc.",
+          "link": "https://scikit-learn.org/"
+        },
+        {
+          "title": "Seaborn",
+          "desc": "Statistical data visualization",
+          "link": "https://seaborn.pydata.org/"
+        },
+        {
+          "title": "PyTorch",
+          "desc": "Deep learning framework",
+          "link": "https://pytorch.org/"
+        },
+        {
+          "title": "TorchVision",
+          "desc": "Computer vision datasets, models, and utilities built on PyTorch",
+          "link": "https://pytorch.org/vision/"
+        },
+        {
+          "title": "GeeksforGeeks",
+          "desc": "Deep Learning Frameworks",
+          "link": "https://www.geeksforgeeks.org/deep-learning/deep-learning-frameworks/"
+        }
+      ]
+    },
+    {
+      "title": "Prerequisites:Statistics",
+      "resources": [
+        {
+          "title": "Pre-Program Statistics",
+          "desc": "Olympus GenAI Prep Work",
+          "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390329"
+        },
+        {
+          "title": "Understanding the basics of statistics for data science",
+          "desc": "Medium Article",
+          "link": "https://medium.com/@abhishekshaw020/understanding-the-basics-of-statistics-for-data-science-db779331e5c4"
+        },
+        {
+          "title": "Data Science Statistics Introduction",
+          "desc": "W3Schools",
+          "link": "https://www.w3schools.com/datascience/ds_stat_intro.asp"
+        },
+        {
+          "title": "Probability",
+          "desc": "Deep Learning Book (Shared by Prof. Balamurugan)",
+          "link": "https://www.deeplearningbook.org/contents/prob.html"
+        }
+      ]
+    },
+    {
+      "title": "Prerequisites:Linear Algebra",
+      "resources": [
+        {
+          "title": "Linear Algebra",
+          "desc": "Olympus GenAI Prep Work",
+          "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390330"
+        },
+        {
+          "title": "Linear Algebra required for Data Science",
+          "desc": "GeeksforGeeks",
+          "link": "https://www.geeksforgeeks.org/data-science/linear-algebra-required-for-data-science/"
+        },
+        {
+          "title": "Linear Algebra",
+          "desc": "Deep Learning Book (Shared by Prof. Balamurugan)",
+          "link": "https://www.deeplearningbook.org/contents/linear_algebra.html"
+        }
+      ]
+    },
+    {
+      "title": "Prerequisites:Dimensionality Reduction",
+      "resources": [
+        {
+          "title": "PCA",
+          "desc": "Scikit-learn PCA documentation",
+          "link": "https://scikit-learn.org/stable/modules/decomposition.html"
+        },
+        {
+          "title": "LDA vs PCA",
+          "desc": "Scikit-learn LDA vs PCA auto examples",
+          "link": "https://scikit-learn.org/stable/auto_examples/decomposition/plot_pca_vs_lda.html#sphx-glr-auto-examples-decomposition-plot-pca-vs-lda-py"
+        }
+      ]
+    },
+    {
+      "title": "Resources:ML and Deep Learning",
+      "resources": [
+        {
+          "title": "Machine Learning",
+          "desc": "GeeksforGeeks",
+          "link": "https://www.geeksforgeeks.org/machine-learning/machine-learning/"
+        },
+        {
+          "title": "Deep Learning Prep Work",
+          "desc": "Olympus GenAI Prep Work",
+          "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390333"
+        },
+        {
+          "title": "Introduction to Deep Learning",
+          "desc": "GeeksforGeeks",
+          "link": "https://www.geeksforgeeks.org/deep-learning/introduction-deep-learning/"
+        },
+        {
+          "title": "Deep Learning Series 1: Intro to Deep Learning",
+          "desc": "Medium Article",
+          "link": "https://medium.com/intro-to-artificial-intelligence/deep-learning-series-1-intro-to-deep-learning-abb1780ee20"
+        }
+      ]
     }
-  }
+  ]
 }
