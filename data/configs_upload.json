@@ -50,43 +50,43 @@
       "title": "Colab Notebooks: Module-1 Foundations of Gen AI",
       "resources": [
         {
-          "title": "Python Foundations (python_foundations.ipynb)",
-          "desc": "Topics: Python Basics, NumPy, Matplotlib",
+          "desc": "python_foundations.ipynb",
+          "title": "Topics: Python Basics, NumPy, Matplotlib",
           "link": "https://colab.research.google.com/drive/1k4yWgBjaO44-FOZ3-bza7qp4vfbwfmwN"
         },
         {
-          "title": "Pandas Tutorial (pandas_tutorial.ipynb)",
-          "desc": "Topics: Pandas Data Processing",
+          "desc": "pandas_tutorial.ipynb",
+          "title": "Topics: Pandas Data Processing",
           "link": "https://colab.research.google.com/drive/1BHvd1jZonwLKFYfDqP4fFQqOMb7E1gR3"
         },
         {
-          "title": "Classification Algorithms (Classification_Algorithms.ipynb)",
-          "desc": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost",
+          "desc": "Classification_Algorithms.ipynb",
+          "title": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost",
           "link": "https://colab.research.google.com/drive/11hu2uqWByxyVR3UaW3_H1KMQIyhLEyFO"
         },
         {
-          "title": "Non-Linear Classification using Feature Lifting (Non-Linear Classification using Feature Lifting.ipynb)",
-          "desc": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation",
+          "desc": "Non-Linear Classification using Feature Lifting.ipynb",
+          "title": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation",
           "link": "https://colab.research.google.com/drive/1PGODJYx3Y3psn76FsnMRZ4e9RjAO9_8-"
         },
         {
-          "title": "Real World Example (Real_World_Example.ipynb)",
-          "desc": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC",
+          "desc": "Real_World_Example.ipynb",
+          "title": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC",
           "link": "https://colab.research.google.com/drive/1HtsmrO3dme3Uflc77I30kf--yXe5eVqK"
         },
         {
-          "title": "Unsupervised Algorithms (Unsupervised_Algorithms.ipynb)",
-          "desc": "Topics: PCA, k-Means Clustering",
+          "desc": "Unsupervised_Algorithms.ipynb",
+          "title": "Topics: PCA, k-Means Clustering",
           "link": "https://colab.research.google.com/drive/1rRXmBigTsZ8wJfVwfjR1qBH7bNrEDQ50"
         },
         {
-          "title": "Isolation Forest (Isolation_Forest.ipynb)",
-          "desc": "Topics: Isolation Forest for Anomaly Detection",
+          "desc": "Isolation_Forest.ipynb",
+          "title": "Topics: Isolation Forest for Anomaly Detection",
           "link": "https://colab.research.google.com/drive/1ZmudUsPz3dbvnzFOVeT6oyxVhmcmeNNh"
         },
         {
-          "title": "Assignment-1 (advanced_ml_quiz_notebook.ipynb)",
-          "desc": "Topics: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton",
+          "desc": "advanced_ml_quiz_notebook.ipynb",
+          "title": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton",
           "link": "https://colab.research.google.com/drive/15xgQ4nJSF2IUBqPE5aR_bCnsk6E_Tl2b"
         }
       ]
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "title": "Compiled Colab Notebooks: Module-2-Deeplearning",
+      "title": "Colab Notebooks: Module-2-Deeplearning",
       "resources": [
         {
           "title": "PyTorch Fundamentals: Tensors with Images",
@@ -184,7 +184,7 @@
       ]
     },
     {
-      "title": "Youtube:Deeplearning by Prof Bryce",
+      "title": "Youtube: Deeplearning by Prof. Bryce",
       "resources": [
         {
           "title": "Deeplearning lecture series by Prof. Bryce",
@@ -229,7 +229,17 @@
       ]
     },
     {
-      "title": "Stanford: Building LLM by Prof. Yann Dubois",
+      "title": "Colab Notebooks: Module-3-NLP",
+      "resources": [
+        {
+          "title": "Attention Visualisation",
+          "desc": "Great_Learning_Attention_Visualisation.ipynb",
+          "link": "https://colab.research.google.com/drive/1pyQrSDigS-HYKE95UmDfb_U7cwJjvoBZ"
+        }
+      ]
+    },
+    {
+      "title": "Youtube: Stanford Building LLM by Prof. Yann Dubois",
       "resources": [
         {
           "title": "LLMs by Prof. Yann",
@@ -284,7 +294,7 @@
       ]
     },
     {
-      "title": "Prerequisites:Statistics",
+      "title": "Pre-requisites: Statistics",
       "resources": [
         {
           "title": "Pre-Program Statistics",
@@ -309,7 +319,7 @@
       ]
     },
     {
-      "title": "Prerequisites:Linear Algebra",
+      "title": "Pre-requisites: Linear Algebra",
       "resources": [
         {
           "title": "Linear Algebra",
@@ -329,7 +339,7 @@
       ]
     },
     {
-      "title": "Prerequisites:Dimensionality Reduction",
+      "title": "Pre-requisites: Dimensionality Reduction",
       "resources": [
         {
           "title": "PCA",
@@ -344,7 +354,7 @@
       ]
     },
     {
-      "title": "Resources:ML and Deep Learning",
+      "title": "Resources: ML and Deep Learning",
       "resources": [
         {
           "title": "Machine Learning",
