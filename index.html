@@ -8,25 +8,23 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
         :root {
-            --teal-50: #f0fdfa;
-            --teal-100: #ccfbf1;
-            --teal-200: #99f6e4;
-            --teal-500: #14b8a6;
-            --teal-600: #0d9488;
-            --teal-700: #0f766e;
-            --teal-900: #134e4a;
+            --bg-900: #03181a;
+            --surface: #0a3033;
+            --surface-border: #144e50;
             --turquoise: #2dd4bf;
-            --sky: #38bdf8;
-            --slate-500: #64748b;
-            --ink: #16302d;
+            --turquoise-soft: #5eead4;
+            --peacock: #0ea5b7;
+            --teal-mid: #0d9488;
+            --text-primary: #eafffb;
+            --text-secondary: #8fb8b4;
         }
 
         * { box-sizing: border-box; }
 
         body {
             font-family: 'Inter', Arial, sans-serif;
-            background: radial-gradient(circle at top left, #e6fffb 0%, var(--teal-50) 45%, #eafcf7 100%);
-            color: var(--ink);
+            background: radial-gradient(circle at 15% 0%, #0b3d3f 0%, var(--bg-900) 55%, #010e0f 100%);
+            color: var(--text-primary);
             margin: 0;
             padding: 48px 20px;
             display: flex;
@@ -38,11 +36,12 @@
 
         .header-card {
             position: relative;
-            background-color: #fff;
+            background-color: var(--surface);
+            border: 1px solid var(--surface-border);
             padding: 36px 32px 32px;
             border-radius: 20px;
             margin-bottom: 32px;
-            box-shadow: 0 1px 3px rgba(15, 118, 110, 0.08), 0 10px 30px -12px rgba(15, 118, 110, 0.25);
+            box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.04), 0 20px 45px -20px rgba(0, 0, 0, 0.6);
             text-align: center;
             overflow: hidden;
         }
@@ -51,8 +50,8 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--teal-700), var(--turquoise), var(--sky));
+            height: 5px;
+            background: linear-gradient(90deg, var(--teal-mid), var(--turquoise), var(--peacock));
         }
 
         .header-card h1 {
@@ -60,13 +59,13 @@
             font-family: 'Poppins', sans-serif;
             font-size: 30px;
             font-weight: 700;
-            color: var(--teal-900);
+            color: var(--text-primary);
             letter-spacing: -0.02em;
         }
 
         .header-card p {
             margin: 0 0 20px 0;
-            color: var(--slate-500);
+            color: var(--text-secondary);
             font-size: 15px;
             line-height: 1.55;
         }
@@ -76,41 +75,42 @@
             top: 16px;
             right: 16px;
             font-size: 12px;
-            color: var(--teal-700);
+            color: var(--turquoise-soft);
             font-weight: 600;
-            background: var(--teal-50);
-            border: 1px solid var(--teal-100);
+            background: rgba(45, 212, 191, 0.08);
+            border: 1px solid var(--surface-border);
             padding: 4px 12px;
             border-radius: 999px;
         }
 
         .quiz-card {
-            background: #fff;
+            background: var(--surface);
             padding: 24px;
             border-radius: 16px;
             margin-bottom: 18px;
-            box-shadow: 0 1px 2px rgba(15, 118, 110, 0.06), 0 6px 18px -10px rgba(15, 118, 110, 0.2);
-            border: 1px solid var(--teal-100);
-            border-left: 5px solid var(--teal-600);
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            border: 1px solid var(--surface-border);
+            border-left: 4px solid var(--turquoise);
+            box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.7);
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
         .quiz-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(15, 118, 110, 0.06), 0 12px 24px -10px rgba(15, 118, 110, 0.3);
+            border-color: var(--turquoise);
+            box-shadow: 0 16px 34px -16px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(45, 212, 191, 0.15);
         }
 
         .quiz-card h2 {
             margin: 0 0 8px 0;
             font-family: 'Poppins', sans-serif;
             font-size: 19px;
-            color: var(--teal-900);
+            color: var(--text-primary);
             font-weight: 600;
         }
 
         .quiz-card p {
             margin: 0 0 18px 0;
-            color: var(--slate-500);
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
@@ -126,20 +126,20 @@
         }
 
         .btn-primary {
-            background-color: var(--teal-600);
-            color: white;
-            border: 1px solid var(--teal-600);
+            background: linear-gradient(120deg, var(--teal-mid), var(--peacock));
+            color: #04191a;
+            border: 1px solid transparent;
         }
-        .btn-primary:hover { background-color: var(--teal-700); border-color: var(--teal-700); }
+        .btn-primary:hover { background: linear-gradient(120deg, var(--turquoise), var(--peacock)); }
 
         .btn-secondary {
-            background-color: var(--teal-50);
-            color: var(--teal-700);
-            border: 1px solid var(--teal-200);
+            background-color: transparent;
+            color: var(--turquoise-soft);
+            border: 1px solid var(--surface-border);
         }
-        .btn-secondary:hover { background-color: var(--teal-100); }
+        .btn-secondary:hover { background-color: rgba(45, 212, 191, 0.08); border-color: var(--turquoise); }
 
-        #loading { text-align: center; color: var(--slate-500); }
+        #loading { text-align: center; color: var(--text-secondary); }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
