@@ -8,9 +8,15 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
         body { font-family: 'Roboto', Arial, sans-serif; background-color: #f0ebf8; color: #202124; margin: 0; padding: 20px; display: flex; justify-content: center; }
         .page-container { max-width: 640px; width: 100%; }
-        .header-card { background-color: #fff; border-top: 10px solid #673ab7; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
-        .header-card h1 { margin: 0 0 10px 0; font-size: 32px; font-weight: 400; }
+        
+        /* Added position: relative to allow absolute positioning of the view count */
+        .header-card { position: relative; background-color: #fff; border-top: 10px solid #673ab7; padding: 24px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
+        .header-card h1 { margin: 0 0 10px 0; font-size: 32px; font-weight: 400; padding-right: 60px; }
         .header-card p { margin: 0; color: #5f6368; font-size: 14px; }
+        
+        /* View count styling */
+        .view-count { position: absolute; top: 12px; right: 16px; font-size: 12px; color: #5f6368; font-weight: 500; }
+        
         .nav-link { display:inline-block; margin-bottom: 20px; color: #673ab7; text-decoration: none; font-weight: 500; }
         
         .resource-card { background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); border-left: 8px solid #673ab7; }
@@ -25,6 +31,10 @@
         
         .error-box { background-color: #fce8e6; color: #c5221f; padding: 16px; border-radius: 8px; border-left: 4px solid #c5221f; margin-bottom: 24px; font-size: 14px; display: none; }
     </style>
+
+    <!-- Added Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -32,6 +42,9 @@
     <a href="index.html" class="nav-link">&larr; Back to Portal</a>
     
     <div class="header-card">
+        <!-- View Counter Display -->
+        <div class="view-count">Views: <span id="visitor-count">...</span></div>
+        
         <h1>Study Resources</h1>
         <p>Review the materials below to assist with your learning.</p>
     </div>
@@ -42,6 +55,33 @@
 </div>
 
 <script>
+    // --- 1. INITIALIZE FIREBASE FOR VIEW TRACKING ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBugi9hxa8hsMZ_MZHUrEguA_k-tMtPtaQ",
+      authDomain: "quizportal-d0eff.firebaseapp.com",
+      databaseURL: "https://quizportal-d0eff-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "quizportal-d0eff",
+      storageBucket: "quizportal-d0eff.firebasestorage.app",
+      messagingSenderId: "545650564737",
+      appId: "1:545650564737:web:feb792a331ce365976f780"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const resCountRef = db.ref('portal_views/resources');
+    const localResKey = 'visited_resources_page';
+
+    if (!localStorage.getItem(localResKey)) {
+        resCountRef.set(firebase.database.ServerValue.increment(1));
+        localStorage.setItem(localResKey, 'true');
+    }
+
+    resCountRef.on('value', (snapshot) => {
+        document.getElementById('visitor-count').innerText = snapshot.val() || 0;
+    });
+    // ------------------------------------------------
+
+    // --- 2. FETCH AND RENDER RESOURCES ---
     const urlParams = new URLSearchParams(window.location.search);
     const keysParam = urlParams.get('keys');
     
@@ -78,27 +118,26 @@
                 
                 group.resources.forEach(res => {
                     let itemHtml = '';
+                    let linkArea = '';
                     
-                    // 1. Process Title if present
-                    if (res.title) {
-                        itemHtml += `<strong>${res.title}</strong>`;
-                    }
-                    
-                    // 2. Process Desc and Link
-                    let secondaryHtml = '';
+                    // Determine how to format the link/desc part
                     if (res.desc && res.link) {
-                        secondaryHtml = `<a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.desc}</a>`;
+                        linkArea = `<a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.desc}</a>`;
                     } else if (res.link) {
-                        secondaryHtml = `<a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.link}</a>`;
+                        linkArea = `<a href="${res.link}" target="_blank" rel="noopener noreferrer">${res.link}</a>`;
                     } else if (res.desc) {
-                        secondaryHtml = `<span>${res.desc}</span>`;
+                        linkArea = `<span>${res.desc}</span>`;
                     }
                     
-                    // 3. Combine them appropriately
-                    if (itemHtml && secondaryHtml) {
-                        itemHtml += `<br>${secondaryHtml}`;
-                    } else if (secondaryHtml) {
-                        itemHtml = secondaryHtml;
+                    // Combine Title and the Link Area
+                    if (res.title && linkArea) {
+                        itemHtml = `<strong>${res.title}</strong> : ${linkArea}`;
+                    } else if (res.title) {
+                        // Only title is present
+                        itemHtml = `<strong>${res.title}</strong>`;
+                    } else if (linkArea) {
+                        // No title, just link area
+                        itemHtml = linkArea;
                     }
                     
                     if (itemHtml) {
