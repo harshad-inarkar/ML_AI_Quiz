@@ -22,6 +22,8 @@
         .resource-list a:hover { text-decoration: underline; }
         
         #status-msg { text-align: center; color: #5f6368; padding: 40px; font-size: 18px; }
+        
+        .error-box { background-color: #fce8e6; color: #c5221f; padding: 16px; border-radius: 8px; border-left: 4px solid #c5221f; margin-bottom: 24px; font-size: 14px; display: none; }
     </style>
 </head>
 <body>
@@ -35,6 +37,7 @@
     </div>
 
     <div id="status-msg">Fetching resources...</div>
+    <div id="error-container" class="error-box"></div>
     <div id="resources-container"></div>
 </div>
 
@@ -46,9 +49,13 @@
     const requestedKeys = keysParam ? keysParam.split(',').map(k => k.trim()) : null;
 
     fetch('data/resources_config.json')
-        .then(response => {
-            if (!response.ok) throw new Error("Resources config file not found");
-            return response.json();
+        .then(async response => {
+            if (!response.ok) throw new Error(`HTTP Error ${response.status}: The file data/resources_config.json could not be found.`);
+            try {
+                return await response.json();
+            } catch (e) {
+                throw new Error("JSON Syntax Error: Please check data/resources_config.json for missing quotes or trailing commas.");
+            }
         })
         .then(data => {
             document.getElementById('status-msg').style.display = 'none';
@@ -96,7 +103,10 @@
             }
         })
         .catch(error => {
-            document.getElementById('status-msg').innerText = "Failed to load resources. Ensure data/resources_config.json exists.";
+            document.getElementById('status-msg').style.display = 'none';
+            const errorBox = document.getElementById('error-container');
+            errorBox.style.display = 'block';
+            errorBox.innerHTML = `<strong>Error Loading Resources:</strong><br>${error.message}`;
             console.error(error);
         });
 </script>
