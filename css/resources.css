@@ -51,7 +51,8 @@
     text-decoration-color: rgba(109, 164, 163, 0.3);
     font-weight: 500;
     word-break: break-all;
-    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    will-change: color;
     transition:
         color 0.2s ease,
         text-decoration-color 0.2s ease;

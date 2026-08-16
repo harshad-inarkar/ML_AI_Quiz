@@ -29,6 +29,8 @@ body {
     color: var(--text-primary);
     margin: 0;
     padding: 24px 20px 48px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Header card, shared by every page (portal / quiz / resources) */
