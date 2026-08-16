@@ -50,43 +50,43 @@
       "title": "Colab Notebooks: Module-1 Foundations of Gen AI",
       "resources": [
         {
-          "title": "python_foundations.ipynb",
-          "desc": "Topics: Python Basics, NumPy, Matplotlib",
+          "desc": "python_foundations.ipynb",
+          "title": "Topics: Python Basics, NumPy, Matplotlib",
           "link": "https://colab.research.google.com/drive/1k4yWgBjaO44-FOZ3-bza7qp4vfbwfmwN"
         },
         {
-          "title": "pandas_tutorial.ipynb",
-          "desc": "Topics: Pandas Data Processing",
+          "desc": "pandas_tutorial.ipynb",
+          "title": "Topics: Pandas Data Processing",
           "link": "https://colab.research.google.com/drive/1BHvd1jZonwLKFYfDqP4fFQqOMb7E1gR3"
         },
         {
-          "title": "Classification_Algorithms.ipynb",
-          "desc": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost",
+          "desc": "Classification_Algorithms.ipynb",
+          "title": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost",
           "link": "https://colab.research.google.com/drive/11hu2uqWByxyVR3UaW3_H1KMQIyhLEyFO"
         },
         {
-          "title": "Non-Linear Classification using Feature Lifting.ipynb",
-          "desc": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation",
+          "desc": "Non-Linear Classification using Feature Lifting.ipynb",
+          "title": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation",
           "link": "https://colab.research.google.com/drive/1PGODJYx3Y3psn76FsnMRZ4e9RjAO9_8-"
         },
         {
-          "title": "Real_World_Example.ipynb",
-          "desc": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC",
+          "desc": "Real_World_Example.ipynb",
+          "title": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC",
           "link": "https://colab.research.google.com/drive/1HtsmrO3dme3Uflc77I30kf--yXe5eVqK"
         },
         {
-          "title": "Unsupervised_Algorithms.ipynb",
-          "desc": "Topics: PCA, k-Means Clustering",
+          "desc": "Unsupervised_Algorithms.ipynb",
+          "title": "Topics: PCA, k-Means Clustering",
           "link": "https://colab.research.google.com/drive/1rRXmBigTsZ8wJfVwfjR1qBH7bNrEDQ50"
         },
         {
-          "title": "Isolation_Forest.ipynb",
-          "desc": "Topics: Isolation Forest for Anomaly Detection",
+          "desc": "Isolation_Forest.ipynb",
+          "title": "Topics: Isolation Forest for Anomaly Detection",
           "link": "https://colab.research.google.com/drive/1ZmudUsPz3dbvnzFOVeT6oyxVhmcmeNNh"
         },
         {
-          "title": "advanced_ml_quiz_notebook.ipynb",
-          "desc": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton",
+          "desc": "advanced_ml_quiz_notebook.ipynb",
+          "title": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton",
           "link": "https://colab.research.google.com/drive/15xgQ4nJSF2IUBqPE5aR_bCnsk6E_Tl2b"
         }
       ]
@@ -96,7 +96,7 @@
       "resources": [
         {
           "title": "One-Hot Encoding: Everything you need to know",
-          "desc": "Kaggle Guide",
+          "desc": "Kaggle Guide: OHE",
           "link": "https://www.kaggle.com/code/marcinrutecki/one-hot-encoding-everything-you-need-to-know/code"
         },
         {
@@ -340,43 +340,43 @@
       "title": "Appendix: Python Libraries in shared Colab notebooks",
       "resources": [
         {
-          "title": "NumPy",
-          "desc": "Numerical computing and array operations",
+          "desc": "NumPy",
+          "title": "Numerical computing and array operations",
           "link": "https://numpy.org/"
         },
         {
-          "title": "Pandas",
-          "desc": "Data manipulation and analysis",
+          "desc": "Pandas",
+          "title": "Data manipulation and analysis",
           "link": "https://pandas.pydata.org/"
         },
         {
-          "title": "Matplotlib",
-          "desc": "Matplotlib: Data visualization",
+          "desc": "Matplotlib",
+          "title": "Matplotlib: Data visualization",
           "link": "https://matplotlib.org/"
         },
         {
-          "title": "Scikit-learn (sklearn)",
-          "desc": "Machine learning algorithms, preprocessing, model evaluation, etc.",
+          "desc": "Scikit-learn (sklearn)",
+          "title": "Machine learning algorithms, preprocessing, model evaluation, etc.",
           "link": "https://scikit-learn.org/"
         },
         {
-          "title": "Seaborn",
-          "desc": "Statistical data visualization",
+          "desc": "Seaborn",
+          "title": "Statistical data visualization",
           "link": "https://seaborn.pydata.org/"
         },
         {
-          "title": "PyTorch",
-          "desc": "PyTorch: Deep learning framework",
+          "desc": "PyTorch",
+          "title": "PyTorch: Deep learning framework",
           "link": "https://pytorch.org/"
         },
         {
-          "title": "TorchVision",
-          "desc": "Computer vision datasets, models, and utilities built on PyTorch",
+          "desc": "TorchVision",
+          "title": "Computer vision datasets, models, and utilities built on PyTorch",
           "link": "https://pytorch.org/vision/"
         },
         {
-          "title": "GeeksforGeeks: DL Frameworks",
-          "desc": "Deep Learning Frameworks",
+          "desc": "GeeksforGeeks: DL Frameworks",
+          "title": "Deep Learning Frameworks",
           "link": "https://www.geeksforgeeks.org/deep-learning/deep-learning-frameworks/"
         }
       ]
