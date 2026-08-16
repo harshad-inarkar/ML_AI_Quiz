@@ -51,12 +51,15 @@
     text-decoration-color: rgba(109, 164, 163, 0.3);
     font-weight: 500;
     word-break: break-all;
-    transition: all 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+    transition:
+        color 0.2s ease,
+        text-decoration-color 0.2s ease;
 }
 
 .resource-list a:hover {
+    color: var(--text-heading);
     text-decoration-color: var(--secondary-accent);
-    opacity: 0.9;
 }
 
 .resource-empty-message {
