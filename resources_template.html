@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Resources</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap');
 
         :root {
             --bg-main: #000000;
-            --surface: #0a272a;
-            --surface-alt: #0e373b;
-            --surface-border: #185559;
-            --primary-accent: #4fd1c5;
-            --secondary-accent: #0ea5b7;
-            --text-primary: #f0fdfa;
-            --text-secondary: #94c3c0;
-            --red-bg: rgba(244, 63, 94, 0.12);
-            --red-text: #fda4af;
-            --red-border: #e11d48;
+            --surface: #0b1517;
+            --surface-alt: #132225;
+            --surface-border: #1a2f33;
+            --primary-accent: #4a7c7b;
+            --secondary-accent: #6da4a3;
+            --text-primary: #cbd5e1; 
+            --text-heading: #e2e8f0; 
+            --text-secondary: #94a3b8; 
+            
+            /* Red elements slightly muted for dark mode */
+            --red-bg: rgba(153, 56, 73, 0.15);
+            --red-text: #e28591;
+            --red-border: #993849;
         }
 
         * { box-sizing: border-box; }
@@ -43,7 +46,7 @@
             padding: 30px 28px 26px;
             border-radius: 20px;
             margin-bottom: 26px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(14, 165, 183, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(109, 164, 163, 0.03);
             overflow: hidden;
         }
 
@@ -58,23 +61,23 @@
         .header-card h1 {
             margin: 8px 0 10px 0;
             font-family: 'Poppins', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-primary);
+            font-size: 26px;
+            font-weight: 500;
+            color: var(--text-heading);
             padding-right: 70px;
             letter-spacing: -0.02em;
         }
 
-        .header-card p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+        .header-card p { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight: 400; line-height: 1.5; }
 
         .view-count {
             position: absolute;
             top: 16px;
             right: 16px;
-            font-size: 12px;
-            color: var(--primary-accent);
-            font-weight: 600;
-            background: rgba(79, 209, 197, 0.1);
+            font-size: 11px;
+            color: var(--secondary-accent);
+            font-weight: 500;
+            background: rgba(109, 164, 163, 0.1);
             border: 1px solid var(--surface-border);
             padding: 4px 12px;
             border-radius: 999px;
@@ -83,12 +86,13 @@
         .nav-link {
             display: inline-block;
             margin-bottom: 20px;
-            color: var(--primary-accent);
+            color: var(--secondary-accent);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 500;
+            font-size: 13px;
+            transition: color 0.2s;
         }
-        .nav-link:hover { color: #fff; }
+        .nav-link:hover { color: var(--text-heading); }
 
         .resource-card {
             background: var(--surface);
@@ -97,28 +101,29 @@
             margin-bottom: 18px;
             border: 1px solid var(--surface-border);
             border-left: 4px solid var(--primary-accent);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         .resource-card h2 {
             margin: 0 0 16px 0;
             font-family: 'Poppins', sans-serif;
-            font-size: 19px;
-            color: var(--text-primary);
-            font-weight: 600;
+            font-size: 17px;
+            color: var(--text-heading);
+            font-weight: 500;
         }
 
         .resource-list { margin: 0; padding-left: 22px; }
-        .resource-list li { margin-bottom: 14px; font-size: 15px; line-height: 1.5; color: var(--text-primary); }
+        .resource-list li { margin-bottom: 14px; font-size: 14px; line-height: 1.6; color: var(--text-primary); }
         .resource-list a {
-            color: var(--primary-accent);
+            color: var(--secondary-accent);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             word-break: break-all;
+            transition: opacity 0.2s;
         }
-        .resource-list a:hover { text-decoration: underline; opacity: 0.9; }
+        .resource-list a:hover { text-decoration: underline; opacity: 0.8; }
 
-        #status-msg { text-align: center; color: var(--text-secondary); padding: 40px; font-size: 17px; }
+        #status-msg { text-align: center; color: var(--text-secondary); padding: 40px; font-size: 15px; }
 
         .error-box {
             background-color: var(--red-bg);
