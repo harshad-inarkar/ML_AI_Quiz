@@ -18,7 +18,6 @@
             --text-heading: #e2e8f0; 
             --text-secondary: #94a3b8; 
             
-            /* Red elements slightly muted for dark mode */
             --red-bg: rgba(153, 56, 73, 0.15);
             --red-text: #e28591;
             --red-border: #993849;
@@ -114,14 +113,22 @@
 
         .resource-list { margin: 0; padding-left: 22px; }
         .resource-list li { margin-bottom: 14px; font-size: 14px; line-height: 1.6; color: var(--text-primary); }
+        
+        /* Subtle Link Indicators */
         .resource-list a {
             color: var(--secondary-accent);
-            text-decoration: none;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+            text-decoration-color: rgba(109, 164, 163, 0.3); /* Subtle semi-transparent underline */
             font-weight: 500;
             word-break: break-all;
-            transition: opacity 0.2s;
+            transition: all 0.2s ease;
         }
-        .resource-list a:hover { text-decoration: underline; opacity: 0.8; }
+        .resource-list a:hover { 
+            text-decoration-color: var(--secondary-accent); /* Solid underline on hover */
+            opacity: 0.9; 
+        }
 
         #status-msg { text-align: center; color: var(--text-secondary); padding: 40px; font-size: 15px; }
 
