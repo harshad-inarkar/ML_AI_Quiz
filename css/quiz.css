@@ -1,0 +1,128 @@
+.form-container {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.form-container .header-card h1 {
+    font-size: 24px;
+    padding-right: 70px;
+}
+
+.question-card {
+    background: var(--surface);
+    padding: 24px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 1px solid var(--surface-border);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.question-text {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: var(--text-heading);
+    line-height: 1.5;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition:
+        background-color 0.15s,
+        border-color 0.15s;
+}
+
+.option-label:hover {
+    background-color: var(--surface-alt);
+    border-color: var(--surface-border);
+}
+
+.option-label input {
+    margin-right: 14px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--secondary-accent);
+}
+
+.submit-btn {
+    background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
+    color: #000000;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 40px;
+    transition: opacity 0.2s;
+    display: none;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+}
+
+.retake-btn {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+.result-section {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    padding: 28px;
+    border-radius: 20px;
+    margin-bottom: 26px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.result-section h2 {
+    margin: 0 0 10px 0;
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-heading);
+}
+
+.result-section p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.explanation-box {
+    display: none;
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 10px;
+    background-color: var(--red-bg);
+    color: var(--red-text);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    border-left: 4px solid var(--red-border);
+}
+
+.explanation-box.correct {
+    background-color: var(--green-bg);
+    color: var(--green-text);
+    border-left: 4px solid var(--green-border);
+}
+
+.disabled-form {
+    pointer-events: none;
+    opacity: 0.7;
+}

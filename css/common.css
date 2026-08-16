@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap");
+
+:root {
+    --bg-main: #000000;
+    --surface: #0b1517;
+    --surface-alt: #132225;
+    --surface-border: #1a2f33;
+    --primary-accent: #4a7c7b;
+    --secondary-accent: #6da4a3;
+    --text-primary: #cbd5e1;
+    --text-heading: #e2e8f0;
+    --text-secondary: #94a3b8;
+
+    --green-bg: rgba(74, 124, 123, 0.15);
+    --green-text: #6da4a3;
+    --green-border: #4a7c7b;
+    --red-bg: rgba(153, 56, 73, 0.15);
+    --red-text: #e28591;
+    --red-border: #993849;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 24px 20px 48px;
+}
+
+/* Header card, shared by every page (portal / quiz / resources) */
+.header-card {
+    position: relative;
+    background-color: var(--surface);
+    border: 1px solid var(--surface-border);
+    padding: 30px 28px 26px;
+    border-radius: 20px;
+    margin-bottom: 26px;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(109, 164, 163, 0.03);
+    overflow: hidden;
+}
+
+.header-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
+}
+
+.header-card h1 {
+    margin: 8px 0 10px 0;
+    font-family: "Poppins", sans-serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+}
+
+.header-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.view-count {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 11px;
+    color: var(--secondary-accent);
+    font-weight: 500;
+    background: rgba(109, 164, 163, 0.1);
+    border: 1px solid var(--surface-border);
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.nav-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--secondary-accent);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--text-heading);
+}
+
+/* Buttons, shared by every page */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s,
+        color 0.2s,
+        opacity 0.2s;
+}
+
+.btn-primary {
+    background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
+    color: #000000;
+    border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background-color: rgba(109, 164, 163, 0.05);
+    color: var(--secondary-accent);
+    border: 1px solid rgba(109, 164, 163, 0.3);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(109, 164, 163, 0.15);
+    border-color: var(--secondary-accent);
+    color: var(--text-heading);
+}
+
+/* Loading / status messaging, shared by every page */
+#status-msg {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 40px;
+    font-size: 15px;
+}
+
+/* Error banner, shared by resources and (potentially) other pages */
+.error-box {
+    display: none;
+    background-color: var(--red-bg);
+    color: var(--red-text);
+    padding: 16px;
+    border-radius: 12px;
+    border-left: 4px solid var(--red-border);
+    margin-bottom: 24px;
+    font-size: 14px;
+}

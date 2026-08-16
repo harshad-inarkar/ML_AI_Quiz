@@ -1,225 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Portal</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap');
-
-        :root {
-            --bg-main: #000000;
-            --surface: #0b1517;
-            --surface-alt: #132225;
-            --surface-border: #1a2f33;
-            --primary-accent: #4a7c7b;
-            --secondary-accent: #6da4a3;
-            --text-primary: #cbd5e1; 
-            --text-heading: #e2e8f0; 
-            --text-secondary: #94a3b8; 
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', Arial, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 48px 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .portal-container { max-width: 640px; width: 100%; }
-
-        .header-card {
-            position: relative;
-            background-color: var(--surface);
-            border: 1px solid var(--surface-border);
-            padding: 36px 32px 32px;
-            border-radius: 20px;
-            margin-bottom: 32px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(109, 164, 163, 0.03);
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .header-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
-        }
-
-        .header-card h1 {
-            margin: 8px 0 10px 0;
-            font-family: 'Poppins', sans-serif;
-            font-size: 26px; 
-            font-weight: 500; 
-            color: var(--text-heading);
-            letter-spacing: -0.02em;
-        }
-
-        .header-card p {
-            margin: 0 0 20px 0;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        .view-count {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 11px;
-            color: var(--secondary-accent);
-            font-weight: 500;
-            background: rgba(109, 164, 163, 0.1);
-            border: 1px solid var(--surface-border);
-            padding: 4px 12px;
-            border-radius: 999px;
-        }
-
-        .quiz-card {
-            background: var(--surface);
-            padding: 24px;
-            border-radius: 16px;
-            margin-bottom: 16px;
-            border: 1px solid var(--surface-border);
-            border-left: 4px solid var(--primary-accent);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-            transition: transform 0.15s ease, border-color 0.15s ease;
-        }
-
-        .quiz-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--secondary-accent);
-        }
-
-        .quiz-card h2 {
-            margin: 0 0 16px 0; 
-            font-family: 'Poppins', sans-serif;
-            font-size: 18px;
-            color: var(--text-heading);
-            font-weight: 500;
-        }
-
-        .action-links { display: flex; gap: 10px; flex-wrap: wrap; }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
-            color: #000000;
-            border: 1px solid transparent;
-        }
-        .btn-primary:hover { opacity: 0.9; }
-
-        /* Updated secondary button styles for better visibility */
-        .btn-secondary {
-            background-color: rgba(109, 164, 163, 0.05); /* Slight tint to make it visible */
-            color: var(--secondary-accent);
-            border: 1px solid rgba(109, 164, 163, 0.3); /* Distinct, subtle border */
-        }
-        .btn-secondary:hover { 
-            background-color: rgba(109, 164, 163, 0.15); 
-            border-color: var(--secondary-accent); 
-            color: var(--text-heading); 
-        }
-
-        #loading { text-align: center; color: var(--text-secondary); font-size: 14px; }
-    </style>
-
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-</head>
-<body>
-
-<div class="portal-container">
-    <div class="header-card">
-        <div class="view-count">Views: <span id="portal-visitor-count">...</span></div>
-        <h1>Quiz Portal</h1>
-        <p>Select a quiz below to test your knowledge.</p>
-        <a href="resources_template.html" class="btn btn-secondary">View All Study Resources</a>
-    </div>
-
-    <div id="quiz-list">
-        <p id="loading">Loading quizzes...</p>
-    </div>
-</div>
-
-<script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBugi9hxa8hsMZ_MZHUrEguA_k-tMtPtaQ",
-      authDomain: "quizportal-d0eff.firebaseapp.com",
-      databaseURL: "https://quizportal-d0eff-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "quizportal-d0eff",
-      storageBucket: "quizportal-d0eff.firebasestorage.app",
-      messagingSenderId: "545650564737",
-      appId: "1:545650564737:web:feb792a331ce365976f780"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    const portalCountRef = db.ref('portal_views/main');
-    const localPortalKey = 'visited_portal_main';
-
-    if (!localStorage.getItem(localPortalKey)) {
-        portalCountRef.set(firebase.database.ServerValue.increment(1));
-        localStorage.setItem(localPortalKey, 'true');
-    }
-
-    portalCountRef.on('value', (snapshot) => {
-        document.getElementById('portal-visitor-count').innerText = snapshot.val() || 0;
-    });
-
-    db.ref('configs/index').once('value')
-        .then((snapshot) => {
-            if (!snapshot.exists()) throw new Error("Config not found in Firebase");
-            const data = snapshot.val();
-            
-            const listContainer = document.getElementById('quiz-list');
-            listContainer.innerHTML = ''; 
-
-            const sortedKeys = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
-
-            sortedKeys.forEach(key => {
-                const quizData = data[key];
-                const card = document.createElement('div');
-                card.className = 'quiz-card';
-                
-                let resourceBtnHtml = '';
-                if (quizData.resources_keys && quizData.resources_keys.length > 0) {
-                    const keysQuery = quizData.resources_keys.join(',');
-                    resourceBtnHtml = `<a href="resources_template.html?keys=${encodeURIComponent(keysQuery)}" class="btn btn-secondary">Study Resources</a>`;
-                }
-                
-                card.innerHTML = `
-                    <h2>${quizData.title}</h2>
-                    <div class="action-links">
-                        <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">Attempt Quiz</a>
-                        ${resourceBtnHtml}
-                    </div>
-                `;
-                listContainer.appendChild(card);
-            });
-        })
-        .catch(error => {
-            document.getElementById('loading').innerText = "Error loading quizzes from database.";
-            console.error("Error:", error);
-        });
-</script>
-
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quiz Portal</title>
+        <meta name="description" content="Browse and attempt available quizzes." />
+        <link rel="stylesheet" href="css/common.css" />
+        <link rel="stylesheet" href="css/portal.css" />
+    </head>
+    <body class="portal-page">
+        <div class="portal-container">
+            <div class="header-card">
+                <div class="view-count">Views: <span id="portal-visitor-count">...</span></div>
+                <h1>Quiz Portal</h1>
+                <p>Select a quiz below to test your knowledge.</p>
+                <a href="resources_template.html" class="btn btn-secondary">View All Study Resources</a>
+            </div>
+            <div id="quiz-list">
+                <p id="loading">Loading quizzes...</p>
+            </div>
+        </div>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+        <script src="js/firebase-config.js"></script>
+        <script src="js/view-counter.js"></script>
+        <script src="js/portal.js"></script>
+    </body>
 </html>

@@ -5,8 +5,10 @@ on:
     branches:
       - main
     paths:
-      - '*.html'
-      # Or you could just use '*.html' to include all HTML files
+      - '**/*.html'
+      - '**/*.css'
+      - '**/*.js'
+      - '.github/workflows/pages.yml'
 
 # Set permissions to allow deployment to GitHub Pages
 permissions:
