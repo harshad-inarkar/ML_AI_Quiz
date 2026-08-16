@@ -50,43 +50,43 @@
       "title": "Colab Notebooks: Module-1 Foundations of Gen AI",
       "resources": [
         {
-          "desc": "python_foundations.ipynb",
-          "title": "Topics: Python Basics, NumPy, Matplotlib",
+          "title": "python_foundations.ipynb",
+          "desc": "Topics: Python Basics, NumPy, Matplotlib",
           "link": "https://colab.research.google.com/drive/1k4yWgBjaO44-FOZ3-bza7qp4vfbwfmwN"
         },
         {
-          "desc": "pandas_tutorial.ipynb",
-          "title": "Topics: Pandas Data Processing",
+          "title": "pandas_tutorial.ipynb",
+          "desc": "Topics: Pandas Data Processing",
           "link": "https://colab.research.google.com/drive/1BHvd1jZonwLKFYfDqP4fFQqOMb7E1gR3"
         },
         {
-          "desc": "Classification_Algorithms.ipynb",
-          "title": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost",
+          "title": "Classification_Algorithms.ipynb",
+          "desc": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost",
           "link": "https://colab.research.google.com/drive/11hu2uqWByxyVR3UaW3_H1KMQIyhLEyFO"
         },
         {
-          "desc": "Non-Linear Classification using Feature Lifting.ipynb",
-          "title": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation",
+          "title": "Non-Linear Classification using Feature Lifting.ipynb",
+          "desc": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation",
           "link": "https://colab.research.google.com/drive/1PGODJYx3Y3psn76FsnMRZ4e9RjAO9_8-"
         },
         {
-          "desc": "Real_World_Example.ipynb",
-          "title": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC",
+          "title": "Real_World_Example.ipynb",
+          "desc": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC",
           "link": "https://colab.research.google.com/drive/1HtsmrO3dme3Uflc77I30kf--yXe5eVqK"
         },
         {
-          "desc": "Unsupervised_Algorithms.ipynb",
-          "title": "Topics: PCA, k-Means Clustering",
+          "title": "Unsupervised_Algorithms.ipynb",
+          "desc": "Topics: PCA, k-Means Clustering",
           "link": "https://colab.research.google.com/drive/1rRXmBigTsZ8wJfVwfjR1qBH7bNrEDQ50"
         },
         {
-          "desc": "Isolation_Forest.ipynb",
-          "title": "Topics: Isolation Forest for Anomaly Detection",
+          "title": "Isolation_Forest.ipynb",
+          "desc": "Topics: Isolation Forest for Anomaly Detection",
           "link": "https://colab.research.google.com/drive/1ZmudUsPz3dbvnzFOVeT6oyxVhmcmeNNh"
         },
         {
-          "desc": "advanced_ml_quiz_notebook.ipynb",
-          "title": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton",
+          "title": "advanced_ml_quiz_notebook.ipynb",
+          "desc": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton",
           "link": "https://colab.research.google.com/drive/15xgQ4nJSF2IUBqPE5aR_bCnsk6E_Tl2b"
         }
       ]
@@ -96,14 +96,17 @@
       "resources": [
         {
           "title": "One-Hot Encoding: Everything you need to know",
+          "desc": "Kaggle Guide",
           "link": "https://www.kaggle.com/code/marcinrutecki/one-hot-encoding-everything-you-need-to-know/code"
         },
         {
           "title": "Column Transformer with Mixed Types",
+          "desc": "Scikit-learn Documentation",
           "link": "https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html"
         },
         {
           "title": "One-Hot Encoding Python Tutorial",
+          "desc": "DataCamp Tutorial",
           "link": "https://www.datacamp.com/tutorial/one-hot-encoding-python-tutorial"
         }
       ]
@@ -249,51 +252,6 @@
       ]
     },
     {
-      "title": "Appendix: Python Libraries",
-      "resources": [
-        {
-          "desc": "NumPy",
-          "title": "Numerical computing and array operations",
-          "link": "https://numpy.org/"
-        },
-        {
-          "desc": "Pandas",
-          "title": "Data manipulation and analysis",
-          "link": "https://pandas.pydata.org/"
-        },
-        {
-          "desc": "Matplotlib",
-          "title": "Matplotlib: Data visualization",
-          "link": "https://matplotlib.org/"
-        },
-        {
-          "desc": "Scikit-learn (sklearn)",
-          "title": "Machine learning algorithms, preprocessing, model evaluation, etc.",
-          "link": "https://scikit-learn.org/"
-        },
-        {
-          "desc": "Seaborn",
-          "title": "Statistical data visualization",
-          "link": "https://seaborn.pydata.org/"
-        },
-        {
-          "desc": "PyTorch",
-          "title": "PyTorch: Deep learning framework",
-          "link": "https://pytorch.org/"
-        },
-        {
-          "desc": "TorchVision",
-          "title": "Computer vision datasets, models, and utilities built on PyTorch",
-          "link": "https://pytorch.org/vision/"
-        },
-        {
-          "desc": "GeeksforGeeks: DL Frameworks",
-          "title": "Deep Learning Frameworks",
-          "link": "https://www.geeksforgeeks.org/deep-learning/deep-learning-frameworks/"
-        }
-      ]
-    },
-    {
       "title": "Pre-requisites: Statistics",
       "resources": [
         {
@@ -312,8 +270,8 @@
           "link": "https://www.w3schools.com/datascience/ds_stat_intro.asp"
         },
         {
-          "desc": "DLBook: Probability",
           "title": "Deep Learning Book",
+          "desc": "DLBook: Probability",
           "link": "https://www.deeplearningbook.org/contents/prob.html"
         }
       ]
@@ -327,13 +285,13 @@
           "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390330"
         },
         {
-          "desc" : "geeksforgeeks: Linear Algebra",
           "title": "Linear Algebra required for Data Science",
+          "desc": "geeksforgeeks: Linear Algebra",
           "link": "https://www.geeksforgeeks.org/data-science/linear-algebra-required-for-data-science/"
         },
         {
-          "desc": "DLBoook: Linear Algebra",
           "title": "Deep Learning Book",
+          "desc": "DLBoook: Linear Algebra",
           "link": "https://www.deeplearningbook.org/contents/linear_algebra.html"
         }
       ]
@@ -342,13 +300,13 @@
       "title": "Pre-requisites: Dimensionality Reduction",
       "resources": [
         {
-          "desc": "Scikit: PCA",
           "title": "Scikit-learn PCA documentation",
+          "desc": "Scikit: PCA",
           "link": "https://scikit-learn.org/stable/modules/decomposition.html"
         },
         {
-          "desc": "LDA vs PCA",
           "title": "Scikit-learn LDA vs PCA auto examples",
+          "desc": "LDA vs PCA",
           "link": "https://scikit-learn.org/stable/auto_examples/decomposition/plot_pca_vs_lda.html#sphx-glr-auto-examples-decomposition-plot-pca-vs-lda-py"
         }
       ]
@@ -375,6 +333,516 @@
           "title": "Deep Learning Series 1: Intro to Deep Learning",
           "desc": "Medium Article: DL",
           "link": "https://medium.com/intro-to-artificial-intelligence/deep-learning-series-1-intro-to-deep-learning-abb1780ee20"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Python Libraries in shared Colab notebooks",
+      "resources": [
+        {
+          "title": "NumPy",
+          "desc": "Numerical computing and array operations",
+          "link": "https://numpy.org/"
+        },
+        {
+          "title": "Pandas",
+          "desc": "Data manipulation and analysis",
+          "link": "https://pandas.pydata.org/"
+        },
+        {
+          "title": "Matplotlib",
+          "desc": "Matplotlib: Data visualization",
+          "link": "https://matplotlib.org/"
+        },
+        {
+          "title": "Scikit-learn (sklearn)",
+          "desc": "Machine learning algorithms, preprocessing, model evaluation, etc.",
+          "link": "https://scikit-learn.org/"
+        },
+        {
+          "title": "Seaborn",
+          "desc": "Statistical data visualization",
+          "link": "https://seaborn.pydata.org/"
+        },
+        {
+          "title": "PyTorch",
+          "desc": "PyTorch: Deep learning framework",
+          "link": "https://pytorch.org/"
+        },
+        {
+          "title": "TorchVision",
+          "desc": "Computer vision datasets, models, and utilities built on PyTorch",
+          "link": "https://pytorch.org/vision/"
+        },
+        {
+          "title": "GeeksforGeeks: DL Frameworks",
+          "desc": "Deep Learning Frameworks",
+          "link": "https://www.geeksforgeeks.org/deep-learning/deep-learning-frameworks/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Classical Machine Learning",
+      "resources": [
+        {
+          "title": "Classification, regression, clustering, pipelines",
+          "desc": "scikit-learn",
+          "link": "https://scikit-learn.org/stable/"
+        },
+        {
+          "title": "Gradient boosting",
+          "desc": "XGBoost",
+          "link": "https://xgboost.readthedocs.io/"
+        },
+        {
+          "title": "Fast gradient boosting",
+          "desc": "LightGBM",
+          "link": "https://lightgbm.readthedocs.io/"
+        },
+        {
+          "title": "Boosting with categorical support",
+          "desc": "CatBoost",
+          "link": "https://catboost.ai/"
+        },
+        {
+          "title": "Statistical modeling, time series",
+          "desc": "statsmodels",
+          "link": "https://www.statsmodels.org/"
+        },
+        {
+          "title": "SMOTE, imbalanced datasets",
+          "desc": "imbalanced-learn",
+          "link": "https://imbalanced-learn.org/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Deep Learning",
+      "resources": [
+        {
+          "title": "Research, NLP, CV — most popular",
+          "desc": "PyTorch (Meta)",
+          "link": "https://pytorch.org/"
+        },
+        {
+          "title": "Production, mobile, TPU",
+          "desc": "TensorFlow (Google)",
+          "link": "https://www.tensorflow.org/"
+        },
+        {
+          "title": "High-level TF API",
+          "desc": "Keras (Google)",
+          "link": "https://keras.io/"
+        },
+        {
+          "title": "High-performance autodiff, TPU/GPU",
+          "desc": "JAX (Google)",
+          "link": "https://jax.readthedocs.io/"
+        },
+        {
+          "title": "Distributed deep learning",
+          "desc": "MXNet (Apache)",
+          "link": "https://mxnet.apache.org/"
+        },
+        {
+          "title": "Neural nets on JAX",
+          "desc": "Flax (Google)",
+          "link": "https://flax.readthedocs.io/"
+        },
+        {
+          "title": "Neural nets on JAX",
+          "desc": "Haiku (DeepMind)",
+          "link": "https://dm-haiku.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: NLP & Text Processing",
+      "resources": [
+        {
+          "title": "Tokenization, stemming, corpora",
+          "desc": "NLTK",
+          "link": "https://www.nltk.org/"
+        },
+        {
+          "title": "NLP pipeline, NER, POS tagging",
+          "desc": "spaCy",
+          "link": "https://spacy.io/"
+        },
+        {
+          "title": "Word2Vec, FastText, LDA topic modeling",
+          "desc": "Gensim",
+          "link": "https://radimrehurek.com/gensim/"
+        },
+        {
+          "title": "Simple NLP, sentiment analysis",
+          "desc": "TextBlob",
+          "link": "https://textblob.readthedocs.io/"
+        },
+        {
+          "title": "BERT, GPT, T5, all major LLMs",
+          "desc": "transformers (HuggingFace)",
+          "link": "https://huggingface.co/docs/transformers/"
+        },
+        {
+          "title": "Sentence embeddings, semantic similarity",
+          "desc": "sentence-transformers",
+          "link": "https://www.sbert.net/"
+        },
+        {
+          "title": "Fast BPE/WordPiece tokenization",
+          "desc": "tokenizers",
+          "link": "https://huggingface.co/docs/tokenizers/"
+        },
+        {
+          "title": "10,000+ NLP datasets",
+          "desc": "datasets (HuggingFace)",
+          "link": "https://huggingface.co/docs/datasets/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Generative AI",
+      "resources": [
+        {
+          "title": "Load/fine-tune GPT, BERT, T5, LLaMA, Mistral",
+          "desc": "transformers",
+          "link": "https://huggingface.co/docs/transformers/"
+        },
+        {
+          "title": "Stable Diffusion, image/video generation",
+          "desc": "diffusers",
+          "link": "https://huggingface.co/docs/diffusers/"
+        },
+        {
+          "title": "Multi-GPU/TPU training",
+          "desc": "accelerate",
+          "link": "https://huggingface.co/docs/accelerate/"
+        },
+        {
+          "title": "LoRA, QLoRA — parameter efficient fine-tuning",
+          "desc": "peft",
+          "link": "https://huggingface.co/docs/peft/"
+        },
+        {
+          "title": "RLHF, PPO, DPO — LLM alignment training",
+          "desc": "trl",
+          "link": "https://huggingface.co/docs/trl/"
+        },
+        {
+          "title": "4-bit / 8-bit quantization",
+          "desc": "bitsandbytes",
+          "link": "https://huggingface.co/docs/bitsandbytes/"
+        },
+        {
+          "title": "HuggingFace model optimization",
+          "desc": "optimum",
+          "link": "https://huggingface.co/docs/optimum/"
+        },
+        {
+          "title": "OpenAI API (GPT-4, DALL·E, Whisper)",
+          "desc": "openai",
+          "link": "https://platform.openai.com/docs/"
+        },
+        {
+          "title": "Claude API",
+          "desc": "anthropic",
+          "link": "https://docs.anthropic.com/"
+        },
+        {
+          "title": "Gemini API",
+          "desc": "google-generativeai",
+          "link": "https://ai.google.dev/"
+        },
+        {
+          "title": "Cohere LLM API",
+          "desc": "cohere",
+          "link": "https://docs.cohere.com/"
+        },
+        {
+          "title": "Run LLMs locally (LLaMA, Mistral etc.)",
+          "desc": "ollama",
+          "link": "https://ollama.com/"
+        },
+        {
+          "title": "C++ LLM inference in Python",
+          "desc": "ctransformers",
+          "link": "https://github.com/marella/ctransformers"
+        },
+        {
+          "title": "LLaMA models via llama.cpp",
+          "desc": "llama-cpp-python",
+          "link": "https://github.com/abetlen/llama-cpp-python"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Agentic AI & Orchestration",
+      "resources": [
+        {
+          "title": "Chains, agents, tools, RAG pipelines",
+          "desc": "LangChain",
+          "link": "https://python.langchain.com/"
+        },
+        {
+          "title": "Graph-based multi-agent workflows",
+          "desc": "LangGraph",
+          "link": "https://langchain-ai.github.io/langgraph/"
+        },
+        {
+          "title": "Data indexing, RAG, document QA",
+          "desc": "LlamaIndex",
+          "link": "https://www.llamaindex.ai/"
+        },
+        {
+          "title": "Multi-agent conversation framework",
+          "desc": "AutoGen (Microsoft)",
+          "link": "https://microsoft.github.io/autogen/"
+        },
+        {
+          "title": "Role-based multi-agent teams",
+          "desc": "CrewAI",
+          "link": "https://www.crewai.com/"
+        },
+        {
+          "title": "NLP pipelines, RAG, agents",
+          "desc": "Haystack",
+          "link": "https://haystack.deepset.ai/"
+        },
+        {
+          "title": "LLM orchestration, plugins",
+          "desc": "Semantic Kernel (Microsoft)",
+          "link": "https://learn.microsoft.com/en-us/semantic-kernel/"
+        },
+        {
+          "title": "Agent framework with memory/tools",
+          "desc": "Agno (prev. PhiData)",
+          "link": "https://github.com/phidatahq/phidata"
+        },
+        {
+          "title": "Lightweight code-first agents",
+          "desc": "smolagents (HuggingFace)",
+          "link": "https://huggingface.co/docs/smolagents/"
+        },
+        {
+          "title": "Type-safe agent/tool framework",
+          "desc": "Pydantic AI",
+          "link": "https://ai.pydantic.dev/"
+        },
+        {
+          "title": "Agentic task orchestration",
+          "desc": "ControlFlow",
+          "link": "https://controlflow.ai/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Vector Databases & RAG",
+      "resources": [
+        {
+          "title": "Facebook's fast similarity search",
+          "desc": "FAISS",
+          "link": "https://faiss.ai/"
+        },
+        {
+          "title": "Embedded vector database",
+          "desc": "chromadb",
+          "link": "https://docs.trychroma.com/"
+        },
+        {
+          "title": "Managed vector DB",
+          "desc": "pinecone-client",
+          "link": "https://www.pinecone.io/"
+        },
+        {
+          "title": "Vector DB with filtering",
+          "desc": "weaviate-client",
+          "link": "https://weaviate.io/"
+        },
+        {
+          "title": "High-performance vector DB",
+          "desc": "qdrant-client",
+          "link": "https://qdrant.tech/"
+        },
+        {
+          "title": "PostgreSQL vector extension",
+          "desc": "pgvector",
+          "link": "https://github.com/pgvector/pgvector"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Computer Vision",
+      "resources": [
+        {
+          "title": "Classical CV, image/video processing",
+          "desc": "OpenCV",
+          "link": "https://opencv.org/"
+        },
+        {
+          "title": "PyTorch vision datasets + models",
+          "desc": "torchvision",
+          "link": "https://pytorch.org/vision/"
+        },
+        {
+          "title": "700+ pretrained vision models",
+          "desc": "timm",
+          "link": "https://huggingface.co/docs/timm/"
+        },
+        {
+          "title": "Image augmentation",
+          "desc": "Albumentations",
+          "link": "https://albumentations.ai/"
+        },
+        {
+          "title": "Image loading/manipulation",
+          "desc": "Pillow",
+          "link": "https://python-pillow.org/"
+        },
+        {
+          "title": "Object detection, segmentation",
+          "desc": "Detectron2",
+          "link": "https://github.com/facebookresearch/detectron2"
+        },
+        {
+          "title": "Real-time object detection",
+          "desc": "ultralytics (YOLO)",
+          "link": "https://ultralytics.com/"
+        },
+        {
+          "title": "OpenAI image-text embeddings",
+          "desc": "clip",
+          "link": "https://github.com/openai/CLIP"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Audio & Speech",
+      "resources": [
+        {
+          "title": "Speech-to-text transcription",
+          "desc": "openai-whisper",
+          "link": "https://github.com/openai/whisper"
+        },
+        {
+          "title": "Text-to-speech",
+          "desc": "TTS (Coqui)",
+          "link": "https://github.com/coqui-ai/TTS"
+        },
+        {
+          "title": "Audio analysis, feature extraction",
+          "desc": "librosa",
+          "link": "https://librosa.org/"
+        },
+        {
+          "title": "Speech recognition, speaker ID",
+          "desc": "speechbrain",
+          "link": "https://speechbrain.github.io/"
+        },
+        {
+          "title": "Real-time audio I/O",
+          "desc": "pyaudio",
+          "link": "https://people.csail.mit.edu/hubert/pyaudio/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Hyperparameter Tuning & AutoML",
+      "resources": [
+        {
+          "title": "Hyperparameter optimization",
+          "desc": "Optuna",
+          "link": "https://optuna.org/"
+        },
+        {
+          "title": "Distributed HPO",
+          "desc": "Ray Tune",
+          "link": "https://docs.ray.io/en/latest/tune/"
+        },
+        {
+          "title": "Low-code end-to-end AutoML",
+          "desc": "PyCaret",
+          "link": "https://pycaret.org/"
+        },
+        {
+          "title": "AutoML platform",
+          "desc": "H2O.ai",
+          "link": "https://h2o.ai/"
+        },
+        {
+          "title": "Genetic algorithm pipeline search",
+          "desc": "TPOT",
+          "link": "http://epistasislab.github.io/tpot/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: MLOps & Deployment",
+      "resources": [
+        {
+          "title": "Experiment tracking, model registry",
+          "desc": "MLflow",
+          "link": "https://mlflow.org/"
+        },
+        {
+          "title": "Visualization, tracking",
+          "desc": "Weights & Biases",
+          "link": "https://wandb.ai/"
+        },
+        {
+          "title": "Data/model versioning",
+          "desc": "DVC",
+          "link": "https://dvc.org/"
+        },
+        {
+          "title": "Model serving",
+          "desc": "BentoML",
+          "link": "https://www.bentoml.com/"
+        },
+        {
+          "title": "REST API for model serving",
+          "desc": "FastAPI",
+          "link": "https://fastapi.tiangolo.com/"
+        },
+        {
+          "title": "Quick ML demo UIs",
+          "desc": "Gradio",
+          "link": "https://www.gradio.app/"
+        },
+        {
+          "title": "Data app UIs",
+          "desc": "Streamlit",
+          "link": "https://streamlit.io/"
+        },
+        {
+          "title": "Model format interoperability",
+          "desc": "ONNX",
+          "link": "https://onnx.ai/"
+        }
+      ]
+    },
+    {
+      "title": "Appendix: Explainability",
+      "resources": [
+        {
+          "title": "Feature importance (model-agnostic)",
+          "desc": "SHAP",
+          "link": "https://shap.readthedocs.io/"
+        },
+        {
+          "title": "Local interpretability",
+          "desc": "LIME",
+          "link": "https://github.com/marcotcr/lime"
+        },
+        {
+          "title": "PyTorch model interpretability",
+          "desc": "Captum",
+          "link": "https://captum.ai/"
+        },
+        {
+          "title": "Explain predictions",
+          "desc": "ELI5",
+          "link": "https://eli5.readthedocs.io/"
         }
       ]
     }
