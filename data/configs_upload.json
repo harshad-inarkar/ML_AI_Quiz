@@ -27,7 +27,7 @@
   "resources": [
     null,
     {
-      "title": "GL/Olympus: Module-1: Foundations of Gen AI",
+      "title": "Olympus: Module-1: Foundations of Gen AI",
       "resources": [
         {
           "title": "Module-1 Foundations of Gen AI: Machine Learning",
@@ -109,7 +109,7 @@
       ]
     },
     {
-      "title": "GL/Olympus: Module-2: DeepLearning",
+      "title": "Olympus: Module-2: DeepLearning",
       "resources": [
         {
           "title": "Module-2 Fundamentals of Deeplearning",
@@ -118,7 +118,7 @@
         },
         {
           "title": "Deep Learning book: Ian Goodfellow and Yoshua Bengio and Aaron Courville",
-          "desc": "Deep Learning Book (Shared by Prof. Balamurugan)",
+          "desc": "Deep Learning Book",
           "link": "https://www.deeplearningbook.org/contents/mlp.html"
         },
         {
@@ -219,7 +219,7 @@
       ]
     },
     {
-      "title": "GL/Olympus: Module-3: NLP",
+      "title": "Olympus: Module-3: NLP",
       "resources": [
         {
           "title": "Module-3 NLP",
@@ -249,46 +249,46 @@
       ]
     },
     {
-      "title": "Appendix:Python Libraries",
+      "title": "Appendix: Python Libraries",
       "resources": [
         {
-          "title": "NumPy",
-          "desc": "Numerical computing and array operations",
+          "desc": "NumPy",
+          "title": "Numerical computing and array operations",
           "link": "https://numpy.org/"
         },
         {
-          "title": "Pandas",
-          "desc": "Data manipulation and analysis",
+          "desc": "Pandas",
+          "title": "Data manipulation and analysis",
           "link": "https://pandas.pydata.org/"
         },
         {
-          "title": "Matplotlib",
-          "desc": "Data visualization",
+          "desc": "Matplotlib",
+          "title": "Matplotlib: Data visualization",
           "link": "https://matplotlib.org/"
         },
         {
-          "title": "Scikit-learn (sklearn)",
-          "desc": "Machine learning algorithms, preprocessing, model evaluation, etc.",
+          "desc": "Scikit-learn (sklearn)",
+          "title": "Machine learning algorithms, preprocessing, model evaluation, etc.",
           "link": "https://scikit-learn.org/"
         },
         {
-          "title": "Seaborn",
-          "desc": "Statistical data visualization",
+          "desc": "Seaborn",
+          "title": "Statistical data visualization",
           "link": "https://seaborn.pydata.org/"
         },
         {
-          "title": "PyTorch",
-          "desc": "Deep learning framework",
+          "desc": "PyTorch",
+          "title": "PyTorch: Deep learning framework",
           "link": "https://pytorch.org/"
         },
         {
-          "title": "TorchVision",
-          "desc": "Computer vision datasets, models, and utilities built on PyTorch",
+          "desc": "TorchVision",
+          "title": "Computer vision datasets, models, and utilities built on PyTorch",
           "link": "https://pytorch.org/vision/"
         },
         {
-          "title": "GeeksforGeeks",
-          "desc": "Deep Learning Frameworks",
+          "desc": "GeeksforGeeks: DL Frameworks",
+          "title": "Deep Learning Frameworks",
           "link": "https://www.geeksforgeeks.org/deep-learning/deep-learning-frameworks/"
         }
       ]
@@ -298,22 +298,22 @@
       "resources": [
         {
           "title": "Pre-Program Statistics",
-          "desc": "Olympus GenAI Prep Work",
+          "desc": "Olympus: GenAI Prep Work",
           "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390329"
         },
         {
           "title": "Understanding the basics of statistics for data science",
-          "desc": "Medium Article",
+          "desc": "Medium Article: Stats",
           "link": "https://medium.com/@abhishekshaw020/understanding-the-basics-of-statistics-for-data-science-db779331e5c4"
         },
         {
           "title": "Data Science Statistics Introduction",
-          "desc": "W3Schools",
+          "desc": "W3Schools: Statistics",
           "link": "https://www.w3schools.com/datascience/ds_stat_intro.asp"
         },
         {
-          "title": "Probability",
-          "desc": "Deep Learning Book (Shared by Prof. Balamurugan)",
+          "desc": "DLBook: Probability",
+          "title": "Deep Learning Book",
           "link": "https://www.deeplearningbook.org/contents/prob.html"
         }
       ]
@@ -323,17 +323,17 @@
       "resources": [
         {
           "title": "Linear Algebra",
-          "desc": "Olympus GenAI Prep Work",
+          "desc": "Olympus: GenAI Prep Work",
           "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390330"
         },
         {
+          "desc" : "geeksforgeeks: Linear Algebra",
           "title": "Linear Algebra required for Data Science",
-          "desc": "GeeksforGeeks",
           "link": "https://www.geeksforgeeks.org/data-science/linear-algebra-required-for-data-science/"
         },
         {
-          "title": "Linear Algebra",
-          "desc": "Deep Learning Book (Shared by Prof. Balamurugan)",
+          "desc": "DLBoook: Linear Algebra",
+          "title": "Deep Learning Book",
           "link": "https://www.deeplearningbook.org/contents/linear_algebra.html"
         }
       ]
@@ -342,13 +342,13 @@
       "title": "Pre-requisites: Dimensionality Reduction",
       "resources": [
         {
-          "title": "PCA",
-          "desc": "Scikit-learn PCA documentation",
+          "desc": "Scikit: PCA",
+          "title": "Scikit-learn PCA documentation",
           "link": "https://scikit-learn.org/stable/modules/decomposition.html"
         },
         {
-          "title": "LDA vs PCA",
-          "desc": "Scikit-learn LDA vs PCA auto examples",
+          "desc": "LDA vs PCA",
+          "title": "Scikit-learn LDA vs PCA auto examples",
           "link": "https://scikit-learn.org/stable/auto_examples/decomposition/plot_pca_vs_lda.html#sphx-glr-auto-examples-decomposition-plot-pca-vs-lda-py"
         }
       ]
@@ -358,7 +358,7 @@
       "resources": [
         {
           "title": "Machine Learning",
-          "desc": "GeeksforGeeks",
+          "desc": "GeeksforGeeks: ML",
           "link": "https://www.geeksforgeeks.org/machine-learning/machine-learning/"
         },
         {
@@ -368,12 +368,12 @@
         },
         {
           "title": "Introduction to Deep Learning",
-          "desc": "GeeksforGeeks",
+          "desc": "GeeksforGeeks: DL",
           "link": "https://www.geeksforgeeks.org/deep-learning/introduction-deep-learning/"
         },
         {
           "title": "Deep Learning Series 1: Intro to Deep Learning",
-          "desc": "Medium Article",
+          "desc": "Medium Article: DL",
           "link": "https://medium.com/intro-to-artificial-intelligence/deep-learning-series-1-intro-to-deep-learning-abb1780ee20"
         }
       ]
