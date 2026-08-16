@@ -14,9 +14,9 @@
             --surface-border: #1a2f33;
             --primary-accent: #4a7c7b;
             --secondary-accent: #6da4a3;
-            --text-primary: #cbd5e1; /* Soft Slate */
-            --text-heading: #e2e8f0; /* Brighter Slate */
-            --text-secondary: #94a3b8; /* Muted Slate */
+            --text-primary: #cbd5e1; 
+            --text-heading: #e2e8f0; 
+            --text-secondary: #94a3b8; 
         }
 
         * { box-sizing: border-box; }
@@ -57,8 +57,8 @@
         .header-card h1 {
             margin: 8px 0 10px 0;
             font-family: 'Poppins', sans-serif;
-            font-size: 26px; /* Scaled down slightly */
-            font-weight: 500; /* Softened weight */
+            font-size: 26px; 
+            font-weight: 500; 
             color: var(--text-heading);
             letter-spacing: -0.02em;
         }
@@ -101,19 +101,11 @@
         }
 
         .quiz-card h2 {
-            margin: 0 0 8px 0;
+            margin: 0 0 16px 0; 
             font-family: 'Poppins', sans-serif;
             font-size: 18px;
             color: var(--text-heading);
             font-weight: 500;
-        }
-
-        .quiz-card p {
-            margin: 0 0 16px 0;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.5;
         }
 
         .action-links { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -134,12 +126,17 @@
         }
         .btn-primary:hover { opacity: 0.9; }
 
+        /* Updated secondary button styles for better visibility */
         .btn-secondary {
-            background-color: transparent;
+            background-color: rgba(109, 164, 163, 0.05); /* Slight tint to make it visible */
             color: var(--secondary-accent);
-            border: 1px solid var(--surface-border);
+            border: 1px solid rgba(109, 164, 163, 0.3); /* Distinct, subtle border */
         }
-        .btn-secondary:hover { background-color: rgba(109, 164, 163, 0.08); border-color: var(--secondary-accent); }
+        .btn-secondary:hover { 
+            background-color: rgba(109, 164, 163, 0.15); 
+            border-color: var(--secondary-accent); 
+            color: var(--text-heading); 
+        }
 
         #loading { text-align: center; color: var(--text-secondary); font-size: 14px; }
     </style>
@@ -210,7 +207,6 @@
                 
                 card.innerHTML = `
                     <h2>${quizData.title}</h2>
-                    <p>Click below to attempt the quiz or view associated resources.</p>
                     <div class="action-links">
                         <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">Attempt Quiz</a>
                         ${resourceBtnHtml}
