@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500;700&display=swap");
 
 :root {
     --bg-main: #000000;
@@ -31,6 +31,7 @@ body {
     padding: 24px 20px 48px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
 }
 
 /* Header card, shared by every page (portal / quiz / resources) */
