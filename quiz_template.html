@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="css/quiz.css" />
     </head>
     <body>
-        <div class="form-container">
+        <div class="page-content form-container">
             <a href="index.html" class="nav-link">← Back to Portal</a>
             <div class="header-card">
                 <div class="view-count">Views: <span id="visitor-count">...</span></div>
@@ -20,20 +20,24 @@
             <div id="results" class="result-section">
                 <h2>Your Score: <span id="score">0</span> / <span id="total-qs">0</span></h2>
                 <p>Scroll down to review the explanations for the questions.</p>
-                <button class="submit-btn retake-btn" onclick="location.reload()">Retake Quiz</button>
+                <button class="btn btn-primary submit-btn retake-btn"
+                        onclick="location.reload()">Retake Quiz</button>
             </div>
             <form id="quizForm">
                 <div id="questions-container"></div>
                 <button type="button"
-                        class="submit-btn"
+                        class="btn btn-primary submit-btn"
                         id="submitBtn"
                         onclick="submitQuiz()">Submit</button>
             </form>
         </div>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-check-compat.js"></script>
         <script src="js/firebase-config.js"></script>
+        <script src="js/app-check.js"></script>
         <script src="js/view-counter.js"></script>
+        <script src="js/app-bootstrap.js"></script>
         <script src="js/quiz.js"></script>
     </body>
 </html>

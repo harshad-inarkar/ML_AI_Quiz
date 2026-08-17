@@ -13,3 +13,7 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "545650564737",
   appId: "1:545650564737:web:feb792a331ce365976f780",
 };
+
+// Initialized here (not inside a page controller) so App Check can activate
+// immediately after, before any page-specific script runs.
+firebase.initializeApp(FIREBASE_CONFIG);
