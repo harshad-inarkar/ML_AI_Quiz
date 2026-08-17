@@ -1,10 +1,20 @@
+.form-container {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
 .form-container .header-card h1 {
     font-size: 24px;
     padding-right: 70px;
 }
 
 .question-card {
+    background: var(--surface);
+    padding: 24px;
+    border-radius: 16px;
     margin-bottom: 20px;
+    border: 1px solid var(--surface-border);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 .question-text {
@@ -45,10 +55,21 @@
 }
 
 .submit-btn {
+    background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
+    color: #000000;
+    border: none;
     padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
     margin-bottom: 40px;
+    transition: opacity 0.2s;
     display: none;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
 }
 
 .retake-btn {
