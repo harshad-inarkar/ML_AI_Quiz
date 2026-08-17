@@ -138,7 +138,4 @@ class ResourcesApp {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  firebase.initializeApp(FIREBASE_CONFIG);
-  new ResourcesApp(firebase.database()).init();
-});
+bootstrapApp(ResourcesApp);

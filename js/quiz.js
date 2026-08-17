@@ -183,15 +183,15 @@ class QuizApp {
   }
 }
 
+
 let quizApp;
 
-/** Global bridge for the inline `onclick="submitQuiz()"` handler in the HTML. */
+/** Global bridge for the inline onclick="submitQuiz()" handler in the HTML. */
 function submitQuiz() {
-  quizApp.submit();
+  if (quizApp) quizApp.submit();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  firebase.initializeApp(FIREBASE_CONFIG);
-  quizApp = new QuizApp(firebase.database());
-  quizApp.init();
+// Utilize the bootstrapApp helper and assign the instance to our global variable
+bootstrapApp(QuizApp, (app) => {
+  quizApp = app;
 });

@@ -84,7 +84,4 @@ class PortalApp {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  firebase.initializeApp(FIREBASE_CONFIG);
-  new PortalApp(firebase.database()).init();
-});
+bootstrapApp(PortalApp);
