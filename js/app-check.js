@@ -10,7 +10,7 @@
 // App Check > Apps > Manage debug tokens, then uncomment the next line.
 // self.FIREBASE_APPCHECK_DEBUG_TOKEN = "PASTE_YOUR_DEBUG_TOKEN_HERE";
 
-const RECAPTCHA_V3_SITE_KEY = "new_quiz_portal_recaptcha_key";
+const RECAPTCHA_V3_SITE_KEY = "6Lc_YIotAAAAAGDI4fiQS5RxpYxiiJQa_HcohfMM";
 
 firebase
   .appCheck()
