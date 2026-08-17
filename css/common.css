@@ -34,7 +34,7 @@ body {
     font-synthesis: none;
 }
 
-/* Header card, shared by every page (portal / quiz / resources) */
+/* Header card, shared by every page */
 .header-card {
     position: relative;
     background-color: var(--surface);
@@ -141,7 +141,7 @@ body {
     color: var(--text-heading);
 }
 
-/* Loading / status messaging, shared by every page */
+/* Loading / status messaging */
 #status-msg {
     text-align: center;
     color: var(--text-secondary);
@@ -149,7 +149,7 @@ body {
     font-size: 15px;
 }
 
-/* Error banner, shared by resources and (potentially) other pages */
+/* Error banner */
 .error-box {
     display: none;
     background-color: var(--red-bg);
@@ -161,22 +161,24 @@ body {
     font-size: 14px;
 }
 
-/* Shared max-width inner wrapper, used by every page's top-level container */
+/* Shared max-width inner wrapper */
 .page-content {
     max-width: 640px;
     width: 100%;
     margin: 0 auto;
 }
 
-/* Full-viewport, horizontally centered shell for pages without natural flow */
+/* Full-viewport shell */
 .page-shell {
     display: flex;
     justify-content: center;
     min-height: 100vh;
 }
 
-/* Base surface card, extended by .quiz-card, .question-card, .resource-card */
-.card {
+/* Base surface card - Applied directly to dynamic elements */
+.quiz-card,
+.question-card,
+.resource-card {
     background: var(--surface);
     border: 1px solid var(--surface-border);
     border-radius: 16px;

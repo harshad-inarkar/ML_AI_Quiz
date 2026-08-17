@@ -11,10 +11,17 @@
     margin-bottom: 20px;
 }
 
+/* Loading text styling */
+#loading {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 40px 0;
+}
+
 .quiz-card {
     border-left: 4px solid var(--primary-accent);
     margin-bottom: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
     transition:
         transform 0.15s ease,
         border-color 0.15s ease;
