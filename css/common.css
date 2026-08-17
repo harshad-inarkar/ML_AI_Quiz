@@ -160,3 +160,26 @@ body {
     margin-bottom: 24px;
     font-size: 14px;
 }
+
+/* Shared max-width inner wrapper, used by every page's top-level container */
+.page-content {
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Full-viewport, horizontally centered shell for pages without natural flow */
+.page-shell {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Base surface card, extended by .quiz-card, .question-card, .resource-card */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
