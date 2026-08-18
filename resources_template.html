@@ -12,9 +12,15 @@
         <div class="page-content page-container">
             <a href="index.html" class="nav-link">← Back to Portal</a>
             <div class="header-card">
-                <div class="view-count">Views: <span id="visitor-count">...</span></div>
-                <h1>Study Resources</h1>
-                <p>Review the materials below to assist with your learning.</p>
+                <div class="view-count" style="white-space: nowrap;">Views: <span id="visitor-count">...</span> &nbsp;|&nbsp; Downloads: <span id="download-count">0</span></div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
+                    <div>
+                        <h1 style="margin: 0 0 5px 0; padding: 0;">Study Resources</h1>
+                        <p style="margin: 0;">Review the materials below to assist with your learning.</p>
+                    </div>
+                    <button id="download-btn" class="btn btn-secondary">Download Offline Copy</button>
+                </div>
             </div>
             <div id="status-msg">Fetching resources...</div>
             <div id="error-container" class="error-box"></div>

@@ -9,6 +9,7 @@ class ResourcesApp {
     this.database = database;
     this.requestedKeys = this.parseRequestedKeys();
     this.container = document.getElementById("resources-container");
+    this.resourceDataRaw = null;
   }
 
   /** @returns {string[] | null} */
@@ -25,6 +26,17 @@ class ResourcesApp {
       "visited_resources_page",
       "visitor-count"
     ).track();
+
+    // Listen to real-time download counts
+    this.database.ref("portal_downloads/resources/total").on("value", (snap) => {
+      const el = document.getElementById("download-count");
+      if (el) el.innerText = snap.val() || 0;
+    });
+
+    const dlBtn = document.getElementById("download-btn");
+    if (dlBtn) {
+      dlBtn.addEventListener("click", () => this.downloadResources());
+    }
 
     this.loadResources();
   }
@@ -50,6 +62,7 @@ class ResourcesApp {
 
   /** @param {Object<string, {title: string, resources: Array<Object>}>} data */
   renderResources(data) {
+    this.resourceDataRaw = data;
     const keysToRender = this.requestedKeys || Object.keys(data);
 
     if (keysToRender.length === 0) {
@@ -135,6 +148,83 @@ class ResourcesApp {
     const errorBox = document.getElementById("error-container");
     errorBox.style.display = "block";
     errorBox.innerHTML = `<strong>Error Loading Resources:</strong><br>${message}`;
+  }
+
+  /**
+   * Generates a self-contained HTML page of the resources and triggers a download.
+   */
+  downloadResources() {
+    if (!this.resourceDataRaw) return;
+    
+    const btn = document.getElementById("download-btn");
+    const originalText = btn.innerText;
+    btn.innerText = "Generating...";
+    btn.disabled = true;
+
+    try {
+      const htmlString = this.generateOfflineResourcesHtml(this.resourceDataRaw);
+      const blob = new Blob([htmlString], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `study_resources_offline.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      this.database.ref("portal_downloads/resources/total").set(firebase.database.ServerValue.increment(1));
+    } catch (e) {
+      console.error("Failed to generate download", e);
+      alert("Failed to download resources.");
+    } finally {
+      btn.innerText = originalText;
+      btn.disabled = false;
+    }
+  }
+
+  generateOfflineResourcesHtml(data) {
+    const keysToRender = this.requestedKeys || Object.keys(data);
+    
+    const contentHtml = keysToRender.map(key => {
+      const group = data[key];
+      if (!group) return "";
+      const listItems = group.resources.map(res => this.buildListItem(res)).filter(Boolean).join("");
+      return `<div class="card">
+          <h2>${key}. ${group.title}</h2>
+          <ul>${listItems}</ul>
+      </div>`;
+    }).join("");
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Resources - Offline</title>
+<style>
+  body { font-family: 'Arial', sans-serif; background-color: #000; color: #cbd5e1; margin: 0; padding: 40px 20px; display: flex; justify-content: center; line-height: 1.6; }
+  .container { max-width: 640px; width: 100%; }
+  .header { background: #0b1517; padding: 30px; border-radius: 16px; border: 1px solid #1a2f33; margin-bottom: 24px; text-align: center; border-top: 5px solid #4a7c7b; }
+  h1 { margin: 0 0 10px 0; font-size: 24px; color: #e2e8f0; }
+  .card { background: #0b1517; padding: 24px; border-radius: 16px; border: 1px solid #1a2f33; border-left: 4px solid #4a7c7b; margin-bottom: 20px; }
+  h2 { margin: 0 0 16px 0; font-size: 18px; color: #e2e8f0; }
+  ul { margin: 0; padding-left: 22px; }
+  li { margin-bottom: 12px; }
+  a { color: #6da4a3; text-decoration: underline; text-underline-offset: 3px; }
+  a:hover { color: #e2e8f0; text-decoration-color: #6da4a3; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Study Resources</h1>
+    <p style="margin: 0; color: #94a3b8;">Offline Reference Copy</p>
+  </div>
+  ${contentHtml}
+</div>
+</body>
+</html>`;
   }
 }
 
