@@ -1,14 +1,14 @@
 /**
  * Global configuration flag.
- * Set to true to display Total Views.
- * Set to false to display Unique Views.
+ * Set to true to display Total Views in the HTML.
+ * Set to false to display Unique Views in the HTML.
+ * Both metrics will always be tracked in the database regardless of this setting.
  */
 const SHOW_TOTAL_VIEWS = true;
 
 /**
  * Tracks and displays a view counter backed by Firebase Realtime Database,
  * guarding against duplicate counts from the same browser via localStorage.
- * Now supports tracking both total (every load) and unique (first load) visits.
  */
 class ViewCounter {
   /**
@@ -20,7 +20,7 @@ class ViewCounter {
   constructor(database, refPath, storageKey, displayElementId) {
     this.baseRef = database.ref(refPath);
     
-    // Create sub-nodes for total and unique tracking under the main path
+    // Sub-nodes for total and unique tracking
     this.totalRef = this.baseRef.child("total");
     this.uniqueRef = this.baseRef.child("unique");
     
@@ -46,17 +46,6 @@ class ViewCounter {
       const el = document.getElementById(this.displayElementId);
       if (el) {
         el.innerText = snapshot.val() || 0;
-        
-        // Dynamically update the text label to reflect what is being shown
-        const parent = el.parentElement;
-        if (parent) {
-          const textNode = Array.from(parent.childNodes).find(
-            n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().toLowerCase().includes("views")
-          );
-          if (textNode) {
-            textNode.textContent = SHOW_TOTAL_VIEWS ? "Total Views: " : "Unique Views: ";
-          }
-        }
       }
     });
   }
