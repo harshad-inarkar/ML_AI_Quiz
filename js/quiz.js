@@ -14,7 +14,8 @@ class QuizApp {
 
   /** Kicks off loading of the quiz config and its questions. */
   init() {
-    this.loadQuiz();
+    // Wait for auth to resolve (whether logged in or as a guest) before loading
+    document.addEventListener('auth-resolved', () => this.loadQuiz());
   }
 
   /** Fetches quiz metadata, then its questions, and renders the form. */

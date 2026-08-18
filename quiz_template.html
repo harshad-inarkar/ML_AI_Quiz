@@ -9,34 +9,57 @@
         <link rel="stylesheet" href="css/quiz.css" />
     </head>
     <body>
+        <!-- Auth Modal -->
+        <div id="auth-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Login / Register</h2>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Enter your details. A passwordless login link will be sent to your email.</p>
+                <div class="form-group"><label>Desired Username (New Users Only)</label><input type="text" id="auth-username" placeholder="e.g. JohnDoe"></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" id="auth-email" placeholder="you@email.com"></div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').style.display='none'">Cancel</button>
+                    <button class="btn btn-primary" onclick="window.authManager.sendLoginLink(document.getElementById('auth-email').value, document.getElementById('auth-username').value)">Send Link</button>
+                </div>
+            </div>
+        </div>
+
         <div class="page-content form-container">
+            <!-- Auth Bar -->
+            <div class="auth-bar">
+                <div class="auth-info" id="auth-status">Checking session...</div>
+                <div id="auth-actions"></div>
+            </div>
+
             <a href="index.html" class="nav-link">← Back to Portal</a>
             <div class="header-card">
                 <div class="view-count">Views: <span id="visitor-count">...</span></div>
                 <h1 id="quiz-title">Loading Quiz...</h1>
                 <p>Attempt as many questions as you'd like and hit submit to view your score and explanations.</p>
             </div>
+            
             <div id="status-msg">Fetching configuration...</div>
+            
             <div id="results" class="result-section">
                 <h2>Your Score: <span id="score">0</span> / <span id="total-qs">0</span></h2>
                 <p>Scroll down to review the explanations for the questions.</p>
-                <button class="btn btn-primary submit-btn retake-btn"
-                        onclick="location.reload()">Retake Quiz</button>
+                <button class="btn btn-primary submit-btn retake-btn" onclick="location.reload()">Retake Quiz</button>
             </div>
+            
             <form id="quizForm">
                 <div id="questions-container"></div>
-                <button type="button"
-                        class="btn btn-primary submit-btn"
-                        id="submitBtn"
-                        onclick="submitQuiz()">Submit</button>
+                <button type="button" class="btn btn-primary submit-btn" id="submitBtn" onclick="submitQuiz()">Submit</button>
             </form>
         </div>
+
+        <!-- Scripts -->
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-check-compat.js"></script>
         <script src="js/firebase-config.js"></script>
         <script src="js/app-check.js"></script>
         <script src="js/view-counter.js"></script>
+        <script src="js/auth.js"></script>
         <script src="js/app-bootstrap.js"></script>
         <script src="js/quiz.js"></script>
     </body>
