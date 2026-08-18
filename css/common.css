@@ -188,25 +188,40 @@ body {
 
 
 /* --- Authentication & CMS Styles --- */
-./* --- Authentication & CMS Styles --- */
-.auth-bar {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+/* --- Authentication & CMS Styles --- */
+.top-nav-bar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between; /* Pushes items to the absolute edges */
     align-items: center;
-    gap: 12px;
-    background: var(--surface);
-    padding: 8px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--surface-border);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    font-size: 13px;
+    margin-bottom: 16px;
+    width: 100%;
 }
-.auth-info { font-weight: 500; color: var(--text-primary); }
-.admin-badge { background: var(--primary-accent); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px; font-weight: 700; text-transform: uppercase; }
+.top-nav-bar .nav-link { 
+    margin-bottom: 0; /* Prevents the back link from pushing down */
+}
+.auth-area { 
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-end; 
+    flex-grow: 1; 
+}
+.auth-info { 
+    font-weight: 500; 
+    color: var(--text-secondary); 
+    margin-right: 15px; 
+    font-size: 14px; 
+}
+.admin-badge { 
+    background: var(--primary-accent); 
+    color: #000; 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+    font-size: 11px; 
+    margin-left: 6px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    vertical-align: middle; 
+}
 
 /* Admin Visibility Toggles */
 .admin-only { display: none !important; }

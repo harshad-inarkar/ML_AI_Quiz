@@ -81,11 +81,10 @@ class AuthManager {
       
       let badge = this.userProfile.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
       
-      // Update text to "Hi Username"
-      authStatus.innerHTML = `Hi, <strong>${this.userProfile.username}</strong> ${badge}`;
+      authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile.username}</strong> ${badge}`;
       
-      // Add Logout button next to it
-      authActions.innerHTML = `<button class="btn btn-secondary" onclick="window.authManager.logout()" style="padding: 6px 12px; font-size: 12px;">Logout</button>`;
+      // Changed from Button to standard nav-link styling
+      authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="window.authManager.logout()">Logout</a>`;
       
       if (this.userProfile.role === 'admin') {
         document.body.classList.add('admin-mode');
@@ -96,9 +95,10 @@ class AuthManager {
       this.userProfile = null;
       document.body.classList.remove('admin-mode');
       
-      // Clear the text entirely and just show the Login button
       authStatus.innerHTML = ``;
-      authActions.innerHTML = `<button class="btn btn-primary" onclick="document.getElementById('auth-modal').style.display='flex'">Login / Register</button>`;
+      
+      // Changed from Button to standard nav-link styling
+      authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="document.getElementById('auth-modal').style.display='flex'">Login / Register</a>`;
       
       document.dispatchEvent(new CustomEvent('auth-resolved'));
     }
