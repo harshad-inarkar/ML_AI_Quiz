@@ -71,7 +71,7 @@ class AuthManager {
     await this.database.ref(`usernames/${finalName}`).set(user.uid);
   }
 
-  async handleAuthStateChange(user) {
+ async handleAuthStateChange(user) {
     const authStatus = document.getElementById('auth-status');
     const authActions = document.getElementById('auth-actions');
 
@@ -80,20 +80,26 @@ class AuthManager {
       this.userProfile = profileSnap.val();
       
       let badge = this.userProfile.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
-      authStatus.innerHTML = `Welcome, <strong>${this.userProfile.username}</strong> ${badge}`;
-      authActions.innerHTML = `<button class="btn btn-secondary" onclick="window.authManager.logout()">Logout</button>`;
+      
+      // Update text to "Hi Username"
+      authStatus.innerHTML = `Hi, <strong>${this.userProfile.username}</strong> ${badge}`;
+      
+      // Add Logout button next to it
+      authActions.innerHTML = `<button class="btn btn-secondary" onclick="window.authManager.logout()" style="padding: 6px 12px; font-size: 12px;">Logout</button>`;
       
       if (this.userProfile.role === 'admin') {
         document.body.classList.add('admin-mode');
       }
       
-      // Dispatch event to tell other scripts (like portal.js) that auth is ready
       document.dispatchEvent(new CustomEvent('auth-resolved'));
     } else {
       this.userProfile = null;
       document.body.classList.remove('admin-mode');
-      authStatus.innerHTML = `You are not logged in.`;
+      
+      // Clear the text entirely and just show the Login button
+      authStatus.innerHTML = ``;
       authActions.innerHTML = `<button class="btn btn-primary" onclick="document.getElementById('auth-modal').style.display='flex'">Login / Register</button>`;
+      
       document.dispatchEvent(new CustomEvent('auth-resolved'));
     }
   }

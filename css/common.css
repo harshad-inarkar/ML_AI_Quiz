@@ -188,18 +188,24 @@ body {
 
 
 /* --- Authentication & CMS Styles --- */
+./* --- Authentication & CMS Styles --- */
 .auth-bar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    background: var(--surface-alt);
-    padding: 12px 20px;
+    gap: 12px;
+    background: var(--surface);
+    padding: 8px 16px;
     border-radius: 12px;
     border: 1px solid var(--surface-border);
-    margin-bottom: 24px;
-    font-size: 14px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    font-size: 13px;
 }
-.auth-info { font-weight: 500; color: var(--secondary-accent); }
+.auth-info { font-weight: 500; color: var(--text-primary); }
 .admin-badge { background: var(--primary-accent); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px; font-weight: 700; text-transform: uppercase; }
 
 /* Admin Visibility Toggles */
