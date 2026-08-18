@@ -20,7 +20,7 @@ class AuthManager {
 
     // --- ADMIN ONLY RESTRICTION ---
     // Add your exact email address here. (Keep it lowercase)
-    const allowedEmails = ["your_actual_email@gmail.com"]; 
+    const allowedEmails = ["harshad.inarkar@gmail.com"]; 
     
     if (!allowedEmails.includes(email.trim().toLowerCase())) {
       alert("Access Denied: Registration and login are currently restricted to administrators only.");
