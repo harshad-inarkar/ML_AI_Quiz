@@ -12,11 +12,21 @@ class AuthManager {
     this.checkPendingEmailLink();
   }
 
-  async sendLoginLink(email, requestedUsername) {
+ async sendLoginLink(email, requestedUsername) {
     if (!email) {
       alert("Please enter a valid email address.");
       return;
     }
+
+    // --- ADMIN ONLY RESTRICTION ---
+    // Add your exact email address here. (Keep it lowercase)
+    const allowedEmails = ["your_actual_email@gmail.com"]; 
+    
+    if (!allowedEmails.includes(email.trim().toLowerCase())) {
+      alert("Access Denied: Registration and login are currently restricted to administrators only.");
+      return;
+    }
+    // ------------------------------
 
     const actionCodeSettings = {
       url: window.location.href,
