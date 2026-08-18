@@ -10,6 +10,9 @@
  */
 function bootstrapApp(AppClass, onReady) {
   document.addEventListener("DOMContentLoaded", () => {
+    // Initialize Auth globally
+    window.authManager = new AuthManager(firebase.database());
+    
     const app = new AppClass(firebase.database());
     app.init();
     if (onReady) {

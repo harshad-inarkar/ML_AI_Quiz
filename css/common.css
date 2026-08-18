@@ -185,3 +185,46 @@ body {
     padding: 24px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
+
+
+/* --- Authentication & CMS Styles --- */
+.auth-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface-alt);
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--surface-border);
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+.auth-info { font-weight: 500; color: var(--secondary-accent); }
+.admin-badge { background: var(--primary-accent); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px; font-weight: 700; text-transform: uppercase; }
+
+/* Admin Visibility Toggles */
+.admin-only { display: none !important; }
+body.admin-mode .admin-only { display: inline-flex !important; }
+body.admin-mode .admin-only-block { display: block !important; }
+
+/* Modals */
+.modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85); z-index: 1000;
+    justify-content: center; align-items: center; padding: 20px;
+}
+.modal-content {
+    background: var(--surface); border: 1px solid var(--surface-border);
+    border-radius: 16px; padding: 30px; width: 100%; max-width: 500px;
+    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+}
+.modal-content h2 { margin-top: 0; color: var(--text-heading); font-family: "Poppins", sans-serif; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); }
+.form-group input, .form-group textarea {
+    width: 100%; padding: 10px 12px; border-radius: 8px;
+    background: var(--surface-alt); border: 1px solid var(--surface-border);
+    color: var(--text-primary); font-family: "Inter", sans-serif;
+}
+.form-group input:focus { outline: none; border-color: var(--secondary-accent); }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }

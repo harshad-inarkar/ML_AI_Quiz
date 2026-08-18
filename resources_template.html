@@ -9,36 +9,71 @@
         <link rel="stylesheet" href="css/resources.css" />
     </head>
     <body class="page-shell">
+        <!-- Auth & Admin Modals -->
+        <div id="auth-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Login / Register</h2>
+                <div class="form-group"><label>Desired Username</label><input type="text" id="auth-username" placeholder="e.g. JohnDoe"></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" id="auth-email" placeholder="you@email.com"></div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').style.display='none'">Cancel</button>
+                    <button class="btn btn-primary" onclick="window.authManager.sendLoginLink(document.getElementById('auth-email').value, document.getElementById('auth-username').value)">Send Link</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resource-modal" class="modal-overlay">
+            <div class="modal-content" style="max-width: 700px;">
+                <h2 id="res-modal-title">Add Resource Group</h2>
+                <input type="hidden" id="res-edit-key">
+                <div class="form-group"><label>Group Title</label><input type="text" id="cms-res-title" placeholder="e.g. 1. Classical Machine Learning"></div>
+                
+                <h3 style="font-size: 14px; margin-bottom: 5px; color: var(--text-heading);">Links / Sub-resources</h3>
+                <div id="sub-resources-container"></div>
+                <button class="btn btn-secondary" style="margin-top:10px; width:100%;" onclick="window.resourcesApp.addSubResourceRow()">+ Add Link</button>
+
+                <div class="form-actions">
+                    <button class="btn btn-secondary" onclick="document.getElementById('resource-modal').style.display='none'">Cancel</button>
+                    <button class="btn btn-primary" id="save-res-btn">Save Resource Group</button>
+                </div>
+            </div>
+        </div>
+
         <div class="page-content page-container">
+            <!-- Auth Bar -->
+            <div class="auth-bar">
+                <div class="auth-info" id="auth-status">Checking session...</div>
+                <div id="auth-actions"></div>
+            </div>
+
             <a href="index.html" class="nav-link">← Back to Portal</a>
             <div class="header-card">
                 <div class="view-count" style="white-space: nowrap;">Views: <span id="visitor-count">...</span> &nbsp;|&nbsp; Downloads: <span id="download-count">0</span></div>
-                
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
                     <div>
                         <h1 style="margin: 0 0 5px 0; padding: 0;">Study Resources</h1>
                         <p style="margin: 0;">Review the materials below to assist with your learning.</p>
                     </div>
-                    <button id="download-btn" class="btn btn-secondary" style="display: flex; align-items: center; gap: 6px;">
-                        Save
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                    </button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-primary admin-only" onclick="window.resourcesApp.openResourceModal()">+ Add Resource Group</button>
+                        <button id="download-btn" class="btn btn-secondary" style="display: flex; align-items: center; gap: 6px;">Save <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                    </div>
                 </div>
             </div>
             <div id="status-msg">Fetching resources...</div>
             <div id="error-container" class="error-box"></div>
             <div id="resources-container"></div>
         </div>
+
+        <!-- Scripts -->
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-check-compat.js"></script>
         <script src="js/firebase-config.js"></script>
         <script src="js/app-check.js"></script>
         <script src="js/view-counter.js"></script>
+        <script src="js/auth.js"></script>
         <script src="js/app-bootstrap.js"></script>
         <script src="js/resources.js"></script>
     </body>
