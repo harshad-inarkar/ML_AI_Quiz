@@ -874,15 +874,41 @@
       "title": "Quiz 4: MLP, Act Funcs, GD"
     }
   ],
+  "portal_downloads": {
+    "main": {
+      "total": 4
+    },
+    "resources": {
+      "total": 9
+    }
+  },
   "portal_views": {
-    "main": 27,
-    "resources": 31
+    "main": {
+      "total": 173,
+      "unique": 71
+    },
+    "resources": {
+      "total": 164,
+      "unique": 71
+    }
   },
   "quiz_views": {
-    "quiz_1": 22,
-    "quiz_2": 9,
-    "quiz_3": 4,
-    "quiz_4": 2
+    "quiz_1": {
+      "total": 105,
+      "unique": 50
+    },
+    "quiz_2": {
+      "total": 60,
+      "unique": 30
+    },
+    "quiz_3": {
+      "total": 40,
+      "unique": 20
+    },
+    "quiz_4": {
+      "total": 32,
+      "unique": 16
+    }
   },
   "quizzes": {
     "input_mlp_quiz_1": [
