@@ -62,7 +62,8 @@ class PortalApp {
     const downloadBtns = this.listContainer.querySelectorAll('.download-quiz-btn');
     downloadBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const key = e.target.getAttribute('data-key');
+        // e.currentTarget ensures we get the button even if they click the SVG inside it
+        const key = e.currentTarget.getAttribute('data-key');
         this.downloadQuiz(key);
       });
     });
@@ -82,9 +83,16 @@ class PortalApp {
       <div class="action-links" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
         <div style="display: flex; gap: 10px;">
           <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">Attempt Quiz</a>
-          ${this.buildResourceButtonHtml(quizData)}
+          ${this.buildResourceButtonHtml(quizData, key)}
         </div>
-        <button class="btn btn-secondary download-quiz-btn" data-key="${key}">Download Offline</button>
+        <button class="btn btn-secondary download-quiz-btn" data-key="${key}" style="display: flex; align-items: center; gap: 6px;">
+          Save 
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
       </div>
     `;
     return card;
@@ -92,14 +100,15 @@ class PortalApp {
 
   /**
    * @param {{resources_keys?: string[]}} quizData
+   * @param {string} key
    * @returns {string}
    */
-  buildResourceButtonHtml(quizData) {
+  buildResourceButtonHtml(quizData, key) {
     if (!quizData.resources_keys || quizData.resources_keys.length === 0) {
       return "";
     }
-    const keysQuery = quizData.resources_keys.join(",");
-    return `<a href="resources_template.html?keys=${encodeURIComponent(keysQuery)}" class="btn btn-secondary">Study Resources</a>`;
+    // Updated to pass quiz_key instead of explicit resource keys array
+    return `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>`;
   }
 
   /**
@@ -108,8 +117,8 @@ class PortalApp {
    */
   async downloadQuiz(quizKey) {
     const btn = document.querySelector(`.download-quiz-btn[data-key="${quizKey}"]`);
-    const originalText = btn.innerText;
-    btn.innerText = "Generating...";
+    const originalHtml = btn.innerHTML;
+    btn.innerText = "Saving...";
     btn.disabled = true;
 
     try {
@@ -126,7 +135,9 @@ class PortalApp {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${quizInfo.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_offline.html`;
+      // Cleanest regex approach as requested
+      a.download = `${quizInfo.title.replace(/[^a-z0-9]+/gi, ' ').trim().replace(/\s+/g, '_').toLowerCase()}_offline.html`;
+      
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -137,7 +148,7 @@ class PortalApp {
       console.error("Download failed:", e);
       alert("Failed to generate offline quiz. Please try again.");
     } finally {
-      btn.innerText = originalText;
+      btn.innerHTML = originalHtml;
       btn.disabled = false;
     }
   }

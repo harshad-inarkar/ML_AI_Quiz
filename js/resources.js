@@ -1,21 +1,16 @@
 /**
  * Controller for the study-resources page. Loads the resources config from
- * Firebase and renders either all resource groups or, when a `keys` query
- * parameter is present, only the requested groups.
+ * Firebase and renders either all resource groups or, when a `quiz_key` query
+ * parameter is present, only the requested groups associated with that quiz.
  */
 class ResourcesApp {
   /** @param {firebase.database.Database} database Initialized Firebase database instance. */
   constructor(database) {
     this.database = database;
-    this.requestedKeys = this.parseRequestedKeys();
+    this.quizKey = new URLSearchParams(window.location.search).get("quiz_key");
+    this.requestedKeys = null; // Will dynamically resolve if quizKey is present
     this.container = document.getElementById("resources-container");
     this.resourceDataRaw = null;
-  }
-
-  /** @returns {string[] | null} */
-  parseRequestedKeys() {
-    const keysParam = new URLSearchParams(window.location.search).get("keys");
-    return keysParam ? keysParam.split(",").map((k) => k.trim()) : null;
   }
 
   /** Boots the view counter and kicks off the resources load. */
@@ -44,10 +39,18 @@ class ResourcesApp {
   /** Fetches the resources config and renders it, or shows an error. */
   async loadResources() {
     try {
-      const snapshot = await this.database
-        .ref("configs/resources")
-        .once("value");
+      // 1. If we arrived via a specific quiz, find out which resources it utilizes
+      if (this.quizKey) {
+        const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
+        if (quizSnap.exists() && quizSnap.val().resources_keys) {
+          this.requestedKeys = quizSnap.val().resources_keys.map(String);
+        } else {
+          this.requestedKeys = []; // Quiz exists but has no mapped resources
+        }
+      }
 
+      // 2. Fetch the entire resource configuration map
+      const snapshot = await this.database.ref("configs/resources").once("value");
       if (!snapshot.exists()) {
         throw new Error("Resources config not found in Firebase.");
       }
@@ -67,7 +70,7 @@ class ResourcesApp {
 
     if (keysToRender.length === 0) {
       this.container.innerHTML =
-        '<p class="resource-empty-message">No resources found.</p>';
+        '<p class="resource-empty-message">No resources currently available for this quiz.</p>';
       return;
     }
 
@@ -157,8 +160,8 @@ class ResourcesApp {
     if (!this.resourceDataRaw) return;
     
     const btn = document.getElementById("download-btn");
-    const originalText = btn.innerText;
-    btn.innerText = "Generating...";
+    const originalHtml = btn.innerHTML;
+    btn.innerText = "Saving...";
     btn.disabled = true;
 
     try {
@@ -166,8 +169,15 @@ class ResourcesApp {
       const blob = new Blob([htmlString], { type: "text/html" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
+      
       a.href = url;
-      a.download = `study_resources_offline.html`;
+      // Assign contextual file name
+      if (this.quizKey) {
+        a.download = `resources_quiz_${this.quizKey}_offline.html`;
+      } else {
+        a.download = `study_resources_full_offline.html`;
+      }
+
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -178,7 +188,7 @@ class ResourcesApp {
       console.error("Failed to generate download", e);
       alert("Failed to download resources.");
     } finally {
-      btn.innerText = originalText;
+      btn.innerHTML = originalHtml;
       btn.disabled = false;
     }
   }
