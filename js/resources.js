@@ -9,6 +9,7 @@ class ResourcesApp {
     this.database = database;
     this.quizKey = new URLSearchParams(window.location.search).get("quiz_key");
     this.requestedKeys = null; // Will dynamically resolve if quizKey is present
+    this.quizTitle = null;     // Will store the quiz title for offline file naming
     this.container = document.getElementById("resources-container");
     this.resourceDataRaw = null;
   }
@@ -42,10 +43,13 @@ class ResourcesApp {
       // 1. If we arrived via a specific quiz, find out which resources it utilizes
       if (this.quizKey) {
         const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
-        if (quizSnap.exists() && quizSnap.val().resources_keys) {
-          this.requestedKeys = quizSnap.val().resources_keys.map(String);
-        } else {
-          this.requestedKeys = []; // Quiz exists but has no mapped resources
+        if (quizSnap.exists()) {
+          this.quizTitle = quizSnap.val().title; // Capture title for filename
+          if (quizSnap.val().resources_keys) {
+            this.requestedKeys = quizSnap.val().resources_keys.map(String);
+          } else {
+            this.requestedKeys = []; // Quiz exists but has no mapped resources
+          }
         }
       }
 
@@ -171,9 +175,10 @@ class ResourcesApp {
       const a = document.createElement("a");
       
       a.href = url;
-      // Assign contextual file name
-      if (this.quizKey) {
-        a.download = `resources_quiz_${this.quizKey}_offline.html`;
+      // Assign contextual file name based on the quiz title (if available)
+      if (this.quizTitle) {
+        const safeTitle = this.quizTitle.replace(/[^a-z0-9]+/gi, ' ').trim().replace(/\s+/g, '_').toLowerCase();
+        a.download = `resources_${safeTitle}_offline.html`;
       } else {
         a.download = `study_resources_full_offline.html`;
       }
