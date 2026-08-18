@@ -1,4 +1,7 @@
 {
+  "allowed_admins": [
+    "harshad.inarkar@gmail.com"
+  ],
   "configs": {
     "index": [
       null,
@@ -14,6 +17,12 @@
       },
       {
         "input_file": "input_mlp_quiz_2.json",
+        "resources_keys": [
+          "4",
+          "5",
+          "6",
+          "7"
+        ],
         "title": "Quiz 2: MLP, Act Funcs, GD"
       },
       {
@@ -876,37 +885,37 @@
   ],
   "portal_downloads": {
     "main": {
-      "total": 4
+      "total": 6
     },
     "resources": {
-      "total": 9
+      "total": 13
     }
   },
   "portal_views": {
     "main": {
-      "total": 173,
-      "unique": 71
+      "total": 296,
+      "unique": 77
     },
     "resources": {
-      "total": 164,
-      "unique": 71
+      "total": 211,
+      "unique": 75
     }
   },
   "quiz_views": {
     "quiz_1": {
-      "total": 105,
-      "unique": 50
+      "total": 114,
+      "unique": 54
     },
     "quiz_2": {
-      "total": 60,
+      "total": 65,
       "unique": 30
     },
     "quiz_3": {
-      "total": 40,
+      "total": 41,
       "unique": 20
     },
     "quiz_4": {
-      "total": 32,
+      "total": 33,
       "unique": 16
     }
   },
@@ -3474,5 +3483,15 @@
       ],
       "title": "Resources: ML and Deep Learning"
     }
-  ]
+  ],
+  "usernames": {
+    "Harshad": "XXcxX0mGGtZVLfcIVQ3J1jwbkiQ2"
+  },
+  "users": {
+    "XXcxX0mGGtZVLfcIVQ3J1jwbkiQ2": {
+      "email": "harshad.inarkar@gmail.com",
+      "role": "admin",
+      "username": "Harshad"
+    }
+  }
 }
