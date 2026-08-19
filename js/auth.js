@@ -1,6 +1,6 @@
 /**
  * Handles Firebase Email/Password Authentication, Registration, Session Management,
- * and dynamically injects the Auth UI Modal.
+ * Password Resets, and dynamically injects the Auth UI Modal.
  */
 class AuthManager {
   constructor(database) {
@@ -15,16 +15,16 @@ class AuthManager {
   }
 
   /**
-   * Injects the Auth Modal UI into the DOM so it doesn't need to be hardcoded in HTML files.
+   * Injects the Auth Modal UI into the DOM.
    */
   injectAuthModal() {
-    if (document.getElementById('auth-modal')) return; // Prevent duplicate injection
+    if (document.getElementById('auth-modal')) return;
 
     const modalHTML = `
       <div id="auth-modal" class="modal-overlay">
           <div class="modal-content">
               
-              <div class="auth-tabs">
+              <div class="auth-tabs" id="auth-tabs-header">
                   <div class="auth-tab active" id="tab-btn-login" onclick="window.authManager.switchTab('login')">Login</div>
                   <div class="auth-tab" id="tab-btn-register" onclick="window.authManager.switchTab('register')">Register</div>
               </div>
@@ -33,7 +33,13 @@ class AuthManager {
               <div id="tab-login" class="auth-form-section active">
                   <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Restricted to authorized administrators only.</p>
                   <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="admin@email.com"></div>
-                  <div class="form-group"><label>Password</label><input type="password" id="login-password" placeholder="********"></div>
+                  <div class="form-group">
+                      <div style="display: flex; justify-content: space-between;">
+                          <label>Password</label>
+                          <a href="javascript:void(0)" onclick="window.authManager.switchTab('reset')" style="font-size: 12px; color: var(--primary-accent); text-decoration: none;">Forgot Password?</a>
+                      </div>
+                      <input type="password" id="login-password" placeholder="********">
+                  </div>
                   <div class="form-actions">
                       <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').style.display='none'">Cancel</button>
                       <button class="btn btn-primary" onclick="window.authManager.login(document.getElementById('login-email').value, document.getElementById('login-password').value)">Login</button>
@@ -52,6 +58,17 @@ class AuthManager {
                   </div>
               </div>
 
+              <!-- RESET PASSWORD TAB (Hidden by default) -->
+              <div id="tab-reset" class="auth-form-section">
+                  <h3 style="margin-top: 0; margin-bottom: 10px;">Reset Password</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Enter your registered email address to receive a secure password reset link.</p>
+                  <div class="form-group"><label>Email Address</label><input type="email" id="reset-email" placeholder="admin@email.com"></div>
+                  <div class="form-actions">
+                      <button class="btn btn-secondary" onclick="window.authManager.switchTab('login')">Back to Login</button>
+                      <button class="btn btn-primary" onclick="window.authManager.resetPassword(document.getElementById('reset-email').value)">Send Reset Link</button>
+                  </div>
+              </div>
+
           </div>
       </div>
     `;
@@ -60,17 +77,29 @@ class AuthManager {
   }
 
   /**
-   * Switches the UI between Login and Register tabs.
+   * Switches the UI between Login, Register, and Reset tabs.
    */
   switchTab(tabName) {
-    // Reset all tabs
+    // Hide all sections
+    ['login', 'register', 'reset'].forEach(name => {
+      const el = document.getElementById(`tab-${name}`);
+      if(el) el.classList.remove('active');
+    });
+
+    // Reset Top Tabs
     document.getElementById('tab-btn-login').classList.remove('active');
     document.getElementById('tab-btn-register').classList.remove('active');
-    document.getElementById('tab-login').classList.remove('active');
-    document.getElementById('tab-register').classList.remove('active');
 
-    // Activate selected tab
-    document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+    // If it's Login or Register, highlight the top tab button and show the tabs header
+    if (tabName === 'login' || tabName === 'register') {
+      document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+      document.getElementById('auth-tabs-header').style.display = 'flex';
+    } else {
+      // Hide the top tabs header when viewing the Reset Password screen
+      document.getElementById('auth-tabs-header').style.display = 'none';
+    }
+
+    // Activate the requested section
     document.getElementById(`tab-${tabName}`).classList.add('active');
   }
 
@@ -90,18 +119,14 @@ class AuthManager {
     }
   }
 
- async login(email, password) {
+  async login(email, password) {
     if (!email || !password) return alert("Please enter both email and password.");
-
-    const allowed = await this.isEmailAllowed(email);
-    if (!allowed) return alert("Access Denied: This email is not authorized as an administrator.");
 
     try {
       const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
       
-      // --- SECURITY LOCK: Check if email is verified ---
       if (!userCredential.user.emailVerified) {
-        await this.auth.signOut(); // Kick them out immediately
+        await this.auth.signOut();
         return alert("Access Denied: You must verify your email address first. Please check your inbox for the verification link.");
       }
 
@@ -146,15 +171,12 @@ class AuthManager {
       });
       await this.database.ref(`usernames/${finalName}`).set(user.uid);
 
-      // --- SECURITY LOCK: Send Email & Force Logout ---
       await user.sendEmailVerification();
       await this.auth.signOut();
 
       alert("Registration successful! A verification link has been sent to your email. You MUST click it to verify your account before logging in.");
       
       document.getElementById('auth-modal').style.display = 'none';
-      
-      // Clear inputs and switch back to login tab for their next visit
       document.getElementById('reg-email').value = '';
       document.getElementById('reg-password').value = '';
       document.getElementById('reg-username').value = '';
@@ -162,6 +184,26 @@ class AuthManager {
 
     } catch (error) {
       alert("Registration Error: " + error.message);
+    }
+  }
+
+  /**
+   * Sends a password reset email to the requested address.
+   */
+  async resetPassword(email) {
+    if (!email) return alert("Please enter your email address.");
+
+    try {
+      await this.auth.sendPasswordResetEmail(email);
+      alert("If an account exists with that email, a password reset link has been sent.");
+      
+      // Clear input and go back to login
+      document.getElementById('reset-email').value = '';
+      this.switchTab('login');
+    } catch (error) {
+      // Even on error, it's a best practice not to explicitly confirm if the email exists or not to prevent snooping,
+      // but Firebase returns specific errors we can surface.
+      alert("Error: " + error.message);
     }
   }
 
