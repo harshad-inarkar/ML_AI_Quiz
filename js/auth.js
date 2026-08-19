@@ -80,26 +80,21 @@ class AuthManager {
    * Switches the UI between Login, Register, and Reset tabs.
    */
   switchTab(tabName) {
-    // Hide all sections
     ['login', 'register', 'reset'].forEach(name => {
       const el = document.getElementById(`tab-${name}`);
       if(el) el.classList.remove('active');
     });
 
-    // Reset Top Tabs
     document.getElementById('tab-btn-login').classList.remove('active');
     document.getElementById('tab-btn-register').classList.remove('active');
 
-    // If it's Login or Register, highlight the top tab button and show the tabs header
     if (tabName === 'login' || tabName === 'register') {
       document.getElementById(`tab-btn-${tabName}`).classList.add('active');
       document.getElementById('auth-tabs-header').style.display = 'flex';
     } else {
-      // Hide the top tabs header when viewing the Reset Password screen
       document.getElementById('auth-tabs-header').style.display = 'none';
     }
 
-    // Activate the requested section
     document.getElementById(`tab-${tabName}`).classList.add('active');
   }
 
@@ -171,7 +166,12 @@ class AuthManager {
       });
       await this.database.ref(`usernames/${finalName}`).set(user.uid);
 
-      await user.sendEmailVerification();
+      // Tell Firebase exactly where to redirect the user after they click the verification link
+      const actionCodeSettings = {
+        url: window.location.href.split('?')[0] // Safely points back to your current page
+      };
+      
+      await user.sendEmailVerification(actionCodeSettings);
       await this.auth.signOut();
 
       alert("Registration successful! A verification link has been sent to your email. You MUST click it to verify your account before logging in.");
@@ -187,22 +187,21 @@ class AuthManager {
     }
   }
 
-  /**
-   * Sends a password reset email to the requested address.
-   */
   async resetPassword(email) {
     if (!email) return alert("Please enter your email address.");
 
     try {
-      await this.auth.sendPasswordResetEmail(email);
+      // Tell Firebase to redirect them back to the portal after changing their password
+      const actionCodeSettings = {
+        url: window.location.href.split('?')[0]
+      };
+      
+      await this.auth.sendPasswordResetEmail(email, actionCodeSettings);
       alert("If an account exists with that email, a password reset link has been sent.");
       
-      // Clear input and go back to login
       document.getElementById('reset-email').value = '';
       this.switchTab('login');
     } catch (error) {
-      // Even on error, it's a best practice not to explicitly confirm if the email exists or not to prevent snooping,
-      // but Firebase returns specific errors we can surface.
       alert("Error: " + error.message);
     }
   }
