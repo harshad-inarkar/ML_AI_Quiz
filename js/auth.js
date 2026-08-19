@@ -154,7 +154,7 @@ class AuthManager {
       await user.sendEmailVerification(actionCodeSettings);
       await this.auth.signOut();
 
-      alert("Registration successful! A verification link has been sent to your email. You MUST click it to verify your account before logging in.");
+      alert("Registration successful! A verification link has been sent to your email. Check your inbox/spam folder.\nYou MUST click it to verify your account before logging in.");
       document.getElementById('auth-modal').style.display = 'none';
       document.getElementById('reg-email').value = '';
       document.getElementById('reg-password').value = '';
