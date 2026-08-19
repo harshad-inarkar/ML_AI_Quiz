@@ -9,22 +9,6 @@
         <link rel="stylesheet" href="css/portal.css" />
     </head>
     <body class="page-shell portal-page">
-        <!-- Auth Modal -->
-        <div id="auth-modal" class="modal-overlay">
-            <div class="modal-content">
-                <h2>Admin Access</h2>
-                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Restricted to authorized administrators only.</p>
-                <div class="form-group"><label>Username (Required for Registration)</label><input type="text" id="auth-username" placeholder="e.g. JohnDoe"></div>
-                <div class="form-group"><label>Email Address</label><input type="email" id="auth-email" placeholder="admin@email.com"></div>
-                <div class="form-group"><label>Password</label><input type="password" id="auth-password" placeholder="********"></div>
-                <div class="form-actions">
-                    <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').style.display='none'">Cancel</button>
-                    <button class="btn btn-secondary" onclick="window.authManager.register(document.getElementById('auth-email').value, document.getElementById('auth-password').value, document.getElementById('auth-username').value)">Register</button>
-                    <button class="btn btn-primary" onclick="window.authManager.login(document.getElementById('auth-email').value, document.getElementById('auth-password').value)">Login</button>
-                </div>
-            </div>
-        </div>
-
         <div id="quiz-modal" class="modal-overlay">
             <div class="modal-content">
                 <h2 id="quiz-modal-title">Add New Quiz</h2>

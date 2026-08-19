@@ -1,5 +1,6 @@
 /**
- * Handles Firebase Email/Password Authentication, Registration, and Session Management.
+ * Handles Firebase Email/Password Authentication, Registration, Session Management,
+ * and dynamically injects the Auth UI Modal.
  */
 class AuthManager {
   constructor(database) {
@@ -7,26 +8,79 @@ class AuthManager {
     this.auth = firebase.auth();
     this.userProfile = null;
     
+    // Inject the Modal HTML directly into the page
+    this.injectAuthModal();
+    
     this.auth.onAuthStateChanged(this.handleAuthStateChange.bind(this));
   }
 
   /**
-   * Helper function to check if the email exists in the Firebase database whitelist.
+   * Injects the Auth Modal UI into the DOM so it doesn't need to be hardcoded in HTML files.
    */
+  injectAuthModal() {
+    if (document.getElementById('auth-modal')) return; // Prevent duplicate injection
+
+    const modalHTML = `
+      <div id="auth-modal" class="modal-overlay">
+          <div class="modal-content">
+              
+              <div class="auth-tabs">
+                  <div class="auth-tab active" id="tab-btn-login" onclick="window.authManager.switchTab('login')">Login</div>
+                  <div class="auth-tab" id="tab-btn-register" onclick="window.authManager.switchTab('register')">Register</div>
+              </div>
+
+              <!-- LOGIN TAB -->
+              <div id="tab-login" class="auth-form-section active">
+                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Restricted to authorized administrators only.</p>
+                  <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="admin@email.com"></div>
+                  <div class="form-group"><label>Password</label><input type="password" id="login-password" placeholder="********"></div>
+                  <div class="form-actions">
+                      <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').style.display='none'">Cancel</button>
+                      <button class="btn btn-primary" onclick="window.authManager.login(document.getElementById('login-email').value, document.getElementById('login-password').value)">Login</button>
+                  </div>
+              </div>
+
+              <!-- REGISTER TAB -->
+              <div id="tab-register" class="auth-form-section">
+                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Your email must be whitelisted in the database to register.</p>
+                  <div class="form-group"><label>Desired Username</label><input type="text" id="reg-username" placeholder="e.g. JohnDoe"></div>
+                  <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="admin@email.com"></div>
+                  <div class="form-group"><label>Password</label><input type="password" id="reg-password" placeholder="********"></div>
+                  <div class="form-actions">
+                      <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').style.display='none'">Cancel</button>
+                      <button class="btn btn-primary" onclick="window.authManager.register(document.getElementById('reg-email').value, document.getElementById('reg-password').value, document.getElementById('reg-username').value)">Register Admin</button>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+
+  /**
+   * Switches the UI between Login and Register tabs.
+   */
+  switchTab(tabName) {
+    // Reset all tabs
+    document.getElementById('tab-btn-login').classList.remove('active');
+    document.getElementById('tab-btn-register').classList.remove('active');
+    document.getElementById('tab-login').classList.remove('active');
+    document.getElementById('tab-register').classList.remove('active');
+
+    // Activate selected tab
+    document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+  }
+
   async isEmailAllowed(email) {
     try {
       const snap = await this.database.ref('allowed_admins').once('value');
       if (!snap.exists()) return false;
       
       const allowedData = snap.val();
-      let allowedList = [];
-      
-      // Handle Firebase returning an array or an object map
-      if (Array.isArray(allowedData)) {
-        allowedList = allowedData;
-      } else {
-        allowedList = Object.values(allowedData);
-      }
+      let allowedList = Array.isArray(allowedData) ? allowedData : Object.values(allowedData);
       
       const cleanEmail = email.trim().toLowerCase();
       return allowedList.some(e => e.toLowerCase().trim() === cleanEmail);
@@ -45,6 +99,10 @@ class AuthManager {
     try {
       await this.auth.signInWithEmailAndPassword(email, password);
       document.getElementById('auth-modal').style.display = 'none';
+      
+      // Clear inputs
+      document.getElementById('login-email').value = '';
+      document.getElementById('login-password').value = '';
     } catch (error) {
       alert("Login Error: " + error.message);
     }
@@ -52,17 +110,15 @@ class AuthManager {
 
   async register(email, password, rawName) {
     if (!email || !password) return alert("Please enter an email and password.");
-    if (!rawName || rawName.trim() === "") return alert("Please provide a desired username for registration.");
+    if (!rawName || rawName.trim() === "") return alert("Please provide a desired username.");
 
     const allowed = await this.isEmailAllowed(email);
     if (!allowed) return alert("Access Denied: This email is not authorized to register as an administrator.");
 
     try {
-      // 1. Create the user in Firebase Auth
       const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
 
-      // 2. Format and verify unique username
       let baseName = rawName.replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_") || "Admin";
       let finalName = baseName;
       let counter = 1;
@@ -78,7 +134,6 @@ class AuthManager {
         }
       }
 
-      // 3. Save profile data to the Realtime Database with forced 'admin' role
       await this.database.ref(`users/${user.uid}`).set({
         username: finalName,
         email: user.email,
@@ -103,8 +158,8 @@ class AuthManager {
       
       let badge = this.userProfile?.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
       
-      authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'Admin'}</strong> ${badge}`;
-      authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="window.authManager.logout()">Logout</a>`;
+      if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'Admin'}</strong> ${badge}`;
+      if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="window.authManager.logout()">Logout</a>`;
       
       if (this.userProfile?.role === 'admin') {
         document.body.classList.add('admin-mode');
@@ -115,8 +170,8 @@ class AuthManager {
       this.userProfile = null;
       document.body.classList.remove('admin-mode');
       
-      authStatus.innerHTML = ``;
-      authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="document.getElementById('auth-modal').style.display='flex'">Admin Login</a>`;
+      if (authStatus) authStatus.innerHTML = ``;
+      if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="document.getElementById('auth-modal').style.display='flex'">Admin Login</a>`;
       
       document.dispatchEvent(new CustomEvent('auth-resolved'));
     }

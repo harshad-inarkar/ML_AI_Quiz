@@ -249,3 +249,30 @@ body.admin-mode .admin-only-block { display: block !important; }
 }
 .form-group input:focus { outline: none; border-color: var(--secondary-accent); }
 .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+
+
+
+
+/* Auth Modal Tabs */
+.auth-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--surface-border);
+    margin-bottom: 20px;
+}
+.auth-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: 600;
+    transition: 0.3s;
+}
+.auth-tab:hover { color: var(--text-primary); }
+.auth-tab.active {
+    color: var(--primary-accent);
+    border-bottom: 2px solid var(--primary-accent);
+    margin-bottom: -2px;
+}
+.auth-form-section { display: none; }
+.auth-form-section.active { display: block; }
