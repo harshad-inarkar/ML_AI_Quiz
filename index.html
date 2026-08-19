@@ -37,7 +37,7 @@
                 <div class="view-count">Views: <span id="portal-visitor-count">...</span> &nbsp;|&nbsp; Downloads: <span id="portal-download-count">0</span></div>
                 <h1>Quiz Portal</h1>
                 <p>Select a quiz below to test your knowledge.<br>
-                Register and login using your email address to view your top score for each quiz.</p>
+                <span id="guest-promo-text">Register and login using your email address to view your top score for each quiz.</span></p>
 
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <a href="resources_template.html" class="btn btn-secondary">View All Study Resources</a>
@@ -59,5 +59,16 @@
         <script src="js/auth.js"></script>
         <script src="js/app-bootstrap.js"></script>
         <script src="js/portal.js"></script>
+
+        <!-- Toggle Guest Promo Text -->
+        <script>
+            document.addEventListener('auth-resolved', () => {
+                const promoText = document.getElementById('guest-promo-text');
+                if (promoText) {
+                    // Hide the text if a user is logged in, otherwise show it inline
+                    promoText.style.display = (window.authManager && window.authManager.userProfile) ? 'none' : 'inline';
+                }
+            });
+        </script>
     </body>
 </html>
