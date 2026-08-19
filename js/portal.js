@@ -50,17 +50,31 @@ class PortalApp {
 
     let resourcesStr = quizData.resources_keys ? quizData.resources_keys.join(", ") : "";
     
+    // Check if the user is logged in and fetch their score for this specific quiz
+    let scoreDisplayHTML = '';
+    if (window.authManager && window.authManager.userProfile) {
+        const topScore = window.authManager.userScores[key];
+        if (topScore !== undefined) {
+            scoreDisplayHTML = `<span style="margin-right: 15px; font-weight: bold; color: var(--primary-accent); font-size: 14px;">Top Score: ${topScore}</span>`;
+        } else {
+            scoreDisplayHTML = `<span style="margin-right: 15px; color: var(--text-secondary); font-size: 13px;">No score yet</span>`;
+        }
+    }
+    
     card.innerHTML = `
       <h2>${quizData.title}</h2>
-      <div class="action-links" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+      <div class="action-links" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; align-items: center;">
         <div style="display: flex; gap: 10px;">
           <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">Attempt Quiz</a>
           ${quizData.resources_keys && quizData.resources_keys.length > 0 ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` : ''}
           <button class="btn btn-secondary admin-only" onclick="window.portalApp.openQuizModal('${key}')">Edit Quiz</button>
         </div>
-        <button class="btn btn-secondary download-quiz-btn" data-key="${key}" style="display: flex; align-items: center; gap: 6px;">
-          Save <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        </button>
+        <div style="display: flex; align-items: center;">
+          ${scoreDisplayHTML}
+          <button class="btn btn-secondary download-quiz-btn" data-key="${key}" style="display: flex; align-items: center; gap: 6px;">
+            Save <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          </button>
+        </div>
       </div>
     `;
     return card;

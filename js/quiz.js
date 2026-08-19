@@ -160,6 +160,12 @@ class QuizApp {
     });
 
     document.getElementById("score").innerText = String(score);
+
+    // NEW LOGIC: Save the score to Firebase if the user is logged in
+    if (window.authManager) {
+        window.authManager.saveTopScore(this.quizKey, score);
+    }
+
     document.getElementById("results").style.display = "block";
     document
       .getElementById("questions-container")

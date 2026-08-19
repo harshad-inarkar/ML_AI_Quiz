@@ -1,22 +1,18 @@
 /**
  * Handles Firebase Email/Password Authentication, Registration, Session Management,
- * Password Resets, and dynamically injects the Auth UI Modal.
+ * Password Resets, Top Score Tracking, and dynamically injects the Auth UI Modal.
  */
 class AuthManager {
   constructor(database) {
     this.database = database;
     this.auth = firebase.auth();
     this.userProfile = null;
+    this.userScores = {}; // Holds the user's top scores
     
-    // Inject the Modal HTML directly into the page
     this.injectAuthModal();
-    
     this.auth.onAuthStateChanged(this.handleAuthStateChange.bind(this));
   }
 
-  /**
-   * Injects the Auth Modal UI into the DOM.
-   */
   injectAuthModal() {
     if (document.getElementById('auth-modal')) return;
 
@@ -31,8 +27,8 @@ class AuthManager {
 
               <!-- LOGIN TAB -->
               <div id="tab-login" class="auth-form-section active">
-                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Restricted to authorized administrators only.</p>
-                  <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="admin@email.com"></div>
+                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Log in to save your top scores and track your progress.</p>
+                  <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="user@email.com"></div>
                   <div class="form-group">
                       <div style="display: flex; justify-content: space-between;">
                           <label>Password</label>
@@ -48,21 +44,21 @@ class AuthManager {
 
               <!-- REGISTER TAB -->
               <div id="tab-register" class="auth-form-section">
-                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Your email must be whitelisted in the database to register.</p>
+                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Create an account to track your top quiz scores!</p>
                   <div class="form-group"><label>Desired Username</label><input type="text" id="reg-username" placeholder="e.g. JohnDoe"></div>
-                  <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="admin@email.com"></div>
+                  <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="user@email.com"></div>
                   <div class="form-group"><label>Password</label><input type="password" id="reg-password" placeholder="********"></div>
                   <div class="form-actions">
                       <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').style.display='none'">Cancel</button>
-                      <button class="btn btn-primary" onclick="window.authManager.register(document.getElementById('reg-email').value, document.getElementById('reg-password').value, document.getElementById('reg-username').value)">Register Admin</button>
+                      <button class="btn btn-primary" onclick="window.authManager.register(document.getElementById('reg-email').value, document.getElementById('reg-password').value, document.getElementById('reg-username').value)">Register</button>
                   </div>
               </div>
 
-              <!-- RESET PASSWORD TAB (Hidden by default) -->
+              <!-- RESET PASSWORD TAB -->
               <div id="tab-reset" class="auth-form-section">
                   <h3 style="margin-top: 0; margin-bottom: 10px;">Reset Password</h3>
                   <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Enter your registered email address to receive a secure password reset link.</p>
-                  <div class="form-group"><label>Email Address</label><input type="email" id="reset-email" placeholder="admin@email.com"></div>
+                  <div class="form-group"><label>Email Address</label><input type="email" id="reset-email" placeholder="user@email.com"></div>
                   <div class="form-actions">
                       <button class="btn btn-secondary" onclick="window.authManager.switchTab('login')">Back to Login</button>
                       <button class="btn btn-primary" onclick="window.authManager.resetPassword(document.getElementById('reset-email').value)">Send Reset Link</button>
@@ -72,19 +68,14 @@ class AuthManager {
           </div>
       </div>
     `;
-    
     document.body.insertAdjacentHTML('beforeend', modalHTML);
   }
 
-  /**
-   * Switches the UI between Login, Register, and Reset tabs.
-   */
   switchTab(tabName) {
     ['login', 'register', 'reset'].forEach(name => {
       const el = document.getElementById(`tab-${name}`);
       if(el) el.classList.remove('active');
     });
-
     document.getElementById('tab-btn-login').classList.remove('active');
     document.getElementById('tab-btn-register').classList.remove('active');
 
@@ -94,7 +85,6 @@ class AuthManager {
     } else {
       document.getElementById('auth-tabs-header').style.display = 'none';
     }
-
     document.getElementById(`tab-${tabName}`).classList.add('active');
   }
 
@@ -102,29 +92,22 @@ class AuthManager {
     try {
       const snap = await this.database.ref('allowed_admins').once('value');
       if (!snap.exists()) return false;
-      
       const allowedData = snap.val();
       let allowedList = Array.isArray(allowedData) ? allowedData : Object.values(allowedData);
-      
-      const cleanEmail = email.trim().toLowerCase();
-      return allowedList.some(e => e.toLowerCase().trim() === cleanEmail);
+      return allowedList.some(e => e.toLowerCase().trim() === email.trim().toLowerCase());
     } catch (error) {
-      console.error("Error checking whitelist:", error);
       return false;
     }
   }
 
   async login(email, password) {
     if (!email || !password) return alert("Please enter both email and password.");
-
     try {
       const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
-      
       if (!userCredential.user.emailVerified) {
         await this.auth.signOut();
-        return alert("Access Denied: You must verify your email address first. Please check your inbox for the verification link.");
+        return alert("Access Denied: You must verify your email address first. Please check your inbox.");
       }
-
       document.getElementById('auth-modal').style.display = 'none';
       document.getElementById('login-email').value = '';
       document.getElementById('login-password').value = '';
@@ -137,14 +120,11 @@ class AuthManager {
     if (!email || !password) return alert("Please enter an email and password.");
     if (!rawName || rawName.trim() === "") return alert("Please provide a desired username.");
 
-    const allowed = await this.isEmailAllowed(email);
-    if (!allowed) return alert("Access Denied: This email is not authorized to register as an administrator.");
-
     try {
       const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
 
-      let baseName = rawName.replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_") || "Admin";
+      let baseName = rawName.replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_") || "User";
       let finalName = baseName;
       let counter = 1;
       let isUnique = false;
@@ -159,29 +139,27 @@ class AuthManager {
         }
       }
 
+      // Automatically determine role based on whitelist
+      const isWhitelisted = await this.isEmailAllowed(email);
+      const assignedRole = isWhitelisted ? "admin" : "user";
+
       await this.database.ref(`users/${user.uid}`).set({
         username: finalName,
         email: user.email,
-        role: "admin"
+        role: assignedRole
       });
       await this.database.ref(`usernames/${finalName}`).set(user.uid);
 
-      // Tell Firebase exactly where to redirect the user after they click the verification link
-      const actionCodeSettings = {
-        url: window.location.href.split('?')[0] // Safely points back to your current page
-      };
-      
+      const actionCodeSettings = { url: window.location.href.split('?')[0] };
       await user.sendEmailVerification(actionCodeSettings);
       await this.auth.signOut();
 
       alert("Registration successful! A verification link has been sent to your email. You MUST click it to verify your account before logging in.");
-      
       document.getElementById('auth-modal').style.display = 'none';
       document.getElementById('reg-email').value = '';
       document.getElementById('reg-password').value = '';
       document.getElementById('reg-username').value = '';
       this.switchTab('login');
-
     } catch (error) {
       alert("Registration Error: " + error.message);
     }
@@ -189,20 +167,35 @@ class AuthManager {
 
   async resetPassword(email) {
     if (!email) return alert("Please enter your email address.");
-
     try {
-      // Tell Firebase to redirect them back to the portal after changing their password
-      const actionCodeSettings = {
-        url: window.location.href.split('?')[0]
-      };
-      
+      const actionCodeSettings = { url: window.location.href.split('?')[0] };
       await this.auth.sendPasswordResetEmail(email, actionCodeSettings);
       alert("If an account exists with that email, a password reset link has been sent.");
-      
       document.getElementById('reset-email').value = '';
       this.switchTab('login');
     } catch (error) {
       alert("Error: " + error.message);
+    }
+  }
+
+  // --- NEW: Global Method to Save Top Scores ---
+  async saveTopScore(quizId, newScore) {
+    const user = this.auth.currentUser;
+    if (!user) return; // Ignore if guest
+
+    // Get current top score from our local cache
+    const currentTop = this.userScores[quizId] || 0;
+
+    // Only update database if the new score is strictly higher
+    if (newScore > currentTop) {
+      try {
+        await this.database.ref(`scores/${user.uid}/${quizId}`).set(newScore);
+        this.userScores[quizId] = newScore; // Update local cache
+        // Dispatch event to redraw the quiz list with the new score
+        document.dispatchEvent(new CustomEvent('auth-resolved')); 
+      } catch (err) {
+        console.error("Failed to save score:", err);
+      }
     }
   }
 
@@ -211,25 +204,29 @@ class AuthManager {
     const authActions = document.getElementById('auth-actions');
 
     if (user) {
+      // 1. Fetch Profile
       const profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       this.userProfile = profileSnap.val();
       
+      // 2. Fetch User's Top Scores
+      const scoresSnap = await this.database.ref(`scores/${user.uid}`).once('value');
+      this.userScores = scoresSnap.val() || {};
+      
       let badge = this.userProfile?.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
       
-      if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'Admin'}</strong> ${badge}`;
+      if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'User'}</strong> ${badge}`;
       if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="window.authManager.logout()">Logout</a>`;
       
-      if (this.userProfile?.role === 'admin') {
-        document.body.classList.add('admin-mode');
-      }
+      if (this.userProfile?.role === 'admin') document.body.classList.add('admin-mode');
       
       document.dispatchEvent(new CustomEvent('auth-resolved'));
     } else {
       this.userProfile = null;
+      this.userScores = {};
       document.body.classList.remove('admin-mode');
       
       if (authStatus) authStatus.innerHTML = ``;
-      if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="document.getElementById('auth-modal').style.display='flex'">Admin Login</a>`;
+      if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="document.getElementById('auth-modal').style.display='flex'">Login / Register</a>`;
       
       document.dispatchEvent(new CustomEvent('auth-resolved'));
     }
