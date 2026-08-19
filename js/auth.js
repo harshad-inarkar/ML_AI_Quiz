@@ -90,17 +90,22 @@ class AuthManager {
     }
   }
 
-  async login(email, password) {
+ async login(email, password) {
     if (!email || !password) return alert("Please enter both email and password.");
 
     const allowed = await this.isEmailAllowed(email);
     if (!allowed) return alert("Access Denied: This email is not authorized as an administrator.");
 
     try {
-      await this.auth.signInWithEmailAndPassword(email, password);
-      document.getElementById('auth-modal').style.display = 'none';
+      const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
       
-      // Clear inputs
+      // --- SECURITY LOCK: Check if email is verified ---
+      if (!userCredential.user.emailVerified) {
+        await this.auth.signOut(); // Kick them out immediately
+        return alert("Access Denied: You must verify your email address first. Please check your inbox for the verification link.");
+      }
+
+      document.getElementById('auth-modal').style.display = 'none';
       document.getElementById('login-email').value = '';
       document.getElementById('login-password').value = '';
     } catch (error) {
@@ -141,8 +146,20 @@ class AuthManager {
       });
       await this.database.ref(`usernames/${finalName}`).set(user.uid);
 
-      alert("Registration successful! You are now logged in.");
+      // --- SECURITY LOCK: Send Email & Force Logout ---
+      await user.sendEmailVerification();
+      await this.auth.signOut();
+
+      alert("Registration successful! A verification link has been sent to your email. You MUST click it to verify your account before logging in.");
+      
       document.getElementById('auth-modal').style.display = 'none';
+      
+      // Clear inputs and switch back to login tab for their next visit
+      document.getElementById('reg-email').value = '';
+      document.getElementById('reg-password').value = '';
+      document.getElementById('reg-username').value = '';
+      this.switchTab('login');
+
     } catch (error) {
       alert("Registration Error: " + error.message);
     }
