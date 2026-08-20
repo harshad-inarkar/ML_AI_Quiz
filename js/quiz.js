@@ -161,9 +161,12 @@ class QuizApp {
 
     document.getElementById("score").innerText = String(score);
 
-    // NEW LOGIC: Pass both the score and the total number of questions
-    if (window.authManager) {
+    // NEW LOGIC: Save the score if logged in, otherwise show the registration promo
+    if (window.authManager && window.authManager.userProfile) {
         window.authManager.saveTopScore(this.quizKey, score, this.quizData.length);
+    } else {
+        const promo = document.getElementById("guest-score-promo");
+        if (promo) promo.style.display = "block";
     }
 
     document.getElementById("results").style.display = "block";
