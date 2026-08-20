@@ -221,7 +221,7 @@ class AuthManager {
     }
   }
 
- async saveTopScore(quizId, newScore, totalQs) {
+  async saveTopScore(quizId, newScore, totalQs) {
     const user = this.auth.currentUser;
     if (!user) return; 
 
@@ -234,7 +234,9 @@ class AuthManager {
         const scorePayload = { score: newScore, total: totalQs };
         await this.database.ref(`scores/${user.uid}/${quizId}`).set(scorePayload);
         this.userScores[quizId] = scorePayload; 
-        document.dispatchEvent(new CustomEvent('auth-resolved')); 
+        
+        // OPTIMIZATION: Dispatch a specific lightweight event, not the global auth event
+        document.dispatchEvent(new CustomEvent('scores-updated')); 
       } catch (err) {
         console.error("Failed to save score:", err);
       }
@@ -270,18 +272,13 @@ class AuthManager {
       this.userScores = scoresSnap.val() || {};
       
       let badge = this.userProfile?.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
-      
-      let verifyLink = '';
-      if (!user.emailVerified) {
-        verifyLink = ` <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="font-size:12px; color:var(--secondary-accent); margin-left: 10px; text-decoration: underline;">[Verify Email]</a>`;
-      }
+      let verifyLink = !user.emailVerified ? ` <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="font-size:12px; color:var(--secondary-accent); margin-left: 10px; text-decoration: underline;">[Verify Email]</a>` : '';
       
       if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'User'}</strong> ${badge}${verifyLink}`;
       if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="window.authManager.logout()">Logout</a>`;
       
       if (this.userProfile?.role === 'admin') document.body.classList.add('admin-mode');
       
-      document.dispatchEvent(new CustomEvent('auth-resolved'));
     } else {
       this.userProfile = null;
       this.userScores = {};
@@ -289,9 +286,10 @@ class AuthManager {
       
       if (authStatus) authStatus.innerHTML = ``;
       if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="document.getElementById('auth-modal').style.display='flex'">Login / Register</a>`;
-      
-      document.dispatchEvent(new CustomEvent('auth-resolved'));
     }
+    
+    // OPTIMIZATION: Dispatched only once at the very end of the state change
+    document.dispatchEvent(new CustomEvent('auth-resolved'));
   }
 
   logout() {

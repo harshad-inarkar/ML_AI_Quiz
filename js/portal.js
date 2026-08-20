@@ -15,8 +15,22 @@ class PortalApp {
       if (el) el.innerText = snap.val() || 0;
     });
 
-    // Wait for auth to resolve before rendering so Admin buttons show up correctly
-    document.addEventListener('auth-resolved', () => this.loadQuizzes());
+    this.dataLoaded = false; // Prevents double fetching
+
+    // When auth resolves (or user logs in/out), handle rendering efficiently
+    document.addEventListener('auth-resolved', () => {
+        if (!this.dataLoaded) {
+            this.loadQuizzes(); // First visit: Fetch from database
+            this.dataLoaded = true;
+        } else {
+            this.renderQuizzes(); // Subsequent auth changes: Re-render from memory instantly
+        }
+    });
+
+    // When a score updates, simply redraw the DOM to show the new badge
+    document.addEventListener('scores-updated', () => {
+        if (this.dataLoaded) this.renderQuizzes();
+    });
   }
 
   async loadQuizzes() {
@@ -44,7 +58,7 @@ class PortalApp {
     });
   }
 
-buildQuizCard(key, quizData) {
+  buildQuizCard(key, quizData) {
     const card = document.createElement("div");
     card.className = "quiz-card";
 
@@ -140,7 +154,6 @@ buildQuizCard(key, quizData) {
     let targetKey = key;
     let inputFile = key ? this.quizConfigData[key].input_file : "";
 
-    // If new quiz, generate a new ID
     if (!key) {
       const existingKeys = Object.keys(this.quizConfigData).filter(k => k !== 'null').map(Number);
       targetKey = existingKeys.length > 0 ? String(Math.max(...existingKeys) + 1) : "1";
@@ -149,15 +162,13 @@ buildQuizCard(key, quizData) {
     }
 
     try {
-      // If a file is provided, read it and upload to the `quizzes` database node
       if (fileInput.files.length > 0) {
         const fileContent = await fileInput.files[0].text();
-        const parsedJson = JSON.parse(fileContent); // Validates JSON format
+        const parsedJson = JSON.parse(fileContent); 
         const dbKey = inputFile.replace(".json", "");
         await this.database.ref(`quizzes/${dbKey}`).set(parsedJson);
       }
 
-      // Save index config
       const configPayload = { title: title, input_file: inputFile };
       if (resourcesKeys.length > 0) configPayload.resources_keys = resourcesKeys;
       
@@ -165,13 +176,12 @@ buildQuizCard(key, quizData) {
       
       alert("Quiz saved successfully!");
       document.getElementById('quiz-modal').style.display = 'none';
-      this.loadQuizzes(); // Refresh list
+      this.loadQuizzes(); 
     } catch (e) {
       alert("Error saving quiz. Ensure JSON file is valid. Error: " + e.message);
     }
   }
 
-  // --- Download logic (Kept identical to your previous approval) ---
   async downloadQuiz(quizKey) {
     const btn = document.querySelector(`.download-quiz-btn[data-key="${quizKey}"]`);
     const originalHtml = btn.innerHTML;

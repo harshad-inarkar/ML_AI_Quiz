@@ -955,26 +955,26 @@
       "total": 10
     },
     "resources": {
-      "total": 16
+      "total": 20
     }
   },
   "portal_views": {
     "main": {
-      "total": 505,
-      "unique": 83
+      "total": 541,
+      "unique": 84
     },
     "resources": {
-      "total": 295,
-      "unique": 79
+      "total": 316,
+      "unique": 80
     }
   },
   "quiz_views": {
     "quiz_1": {
-      "total": 138,
+      "total": 141,
       "unique": 57
     },
     "quiz_2": {
-      "total": 77,
+      "total": 79,
       "unique": 33
     },
     "quiz_3": {
@@ -982,20 +982,20 @@
       "unique": 25
     },
     "quiz_4": {
-      "total": 39,
+      "total": 40,
       "unique": 18
     },
     "quiz_5": {
-      "total": 8,
-      "unique": 3
+      "total": 10,
+      "unique": 4
     },
     "quiz_6": {
-      "total": 3,
-      "unique": 1
+      "total": 6,
+      "unique": 2
     },
     "quiz_7": {
-      "total": 4,
-      "unique": 2
+      "total": 6,
+      "unique": 3
     }
   },
   "quizzes": {

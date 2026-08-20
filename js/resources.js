@@ -20,7 +20,17 @@ class ResourcesApp {
     const dlBtn = document.getElementById("download-btn");
     if (dlBtn) dlBtn.addEventListener("click", () => this.downloadResources());
 
-    document.addEventListener('auth-resolved', () => this.loadResources());
+    this.dataLoaded = false;
+
+    document.addEventListener('auth-resolved', () => {
+        if (!this.dataLoaded) {
+            this.loadResources();
+            this.dataLoaded = true;
+        } else {
+            // Re-render from memory if auth state changes so Admin buttons toggle instantly
+            this.renderResources(this.resourceDataRaw);
+        }
+    });
   }
 
   async loadResources() {
@@ -155,7 +165,6 @@ class ResourcesApp {
     }
   }
 
-  // --- Download logic (Kept identical) ---
   downloadResources() {
     if (!this.resourceDataRaw) return;
     const btn = document.getElementById("download-btn");

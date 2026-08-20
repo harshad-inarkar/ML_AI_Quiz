@@ -8,22 +8,26 @@ class QuizApp {
   constructor(database) {
     this.database = database;
     this.quizData = [];
-    this.quizKey =
-      new URLSearchParams(window.location.search).get("quiz_key") || "1";
+    this.quizKey = new URLSearchParams(window.location.search).get("quiz_key") || "1";
   }
 
   /** Kicks off loading of the quiz config and its questions. */
   init() {
-    // Wait for auth to resolve (whether logged in or as a guest) before loading
-    document.addEventListener('auth-resolved', () => this.loadQuiz());
+    this.dataLoaded = false;
+    
+    document.addEventListener('auth-resolved', () => {
+        // Prevent the quiz from reloading if the user logs in/out while reading it
+        if (!this.dataLoaded) {
+            this.loadQuiz();
+            this.dataLoaded = true;
+        }
+    });
   }
 
   /** Fetches quiz metadata, then its questions, and renders the form. */
   async loadQuiz() {
     try {
-      const infoSnap = await this.database
-        .ref(`configs/index/${this.quizKey}`)
-        .once("value");
+      const infoSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
 
       if (!infoSnap.exists()) {
         this.showNotFound();
@@ -34,17 +38,10 @@ class QuizApp {
       document.getElementById("quiz-title").innerText = quizInfo.title;
       this.setStatus("Fetching quiz data...");
 
-      new ViewCounter(
-        this.database,
-        `quiz_views/quiz_${this.quizKey}`,
-        `visited_quiz_${this.quizKey}`,
-        "visitor-count"
-      ).track();
+      new ViewCounter(this.database, `quiz_views/quiz_${this.quizKey}`, `visited_quiz_${this.quizKey}`, "visitor-count").track();
 
       const databaseKey = quizInfo.input_file.replace(".json", "");
-      const dataSnap = await this.database
-        .ref(`quizzes/${databaseKey}`)
-        .once("value");
+      const dataSnap = await this.database.ref(`quizzes/${databaseKey}`).once("value");
 
       if (!dataSnap.exists()) {
         throw new Error("Quiz data not found in database");
@@ -60,21 +57,15 @@ class QuizApp {
     }
   }
 
-  /** Displays the "quiz not found" state for an invalid quiz key. */
   showNotFound() {
     document.getElementById("quiz-title").innerText = "Quiz Not Found";
     this.setStatus("Quiz Key does not exist.");
   }
 
-  /**
-   * Shows a status message, or hides the status element entirely.
-   * @param {string | null} message
-   */
   setStatus(message) {
     const statusEl = document.getElementById("status-msg");
-    if (!statusEl) {
-      return;
-    }
+    if (!statusEl) return;
+    
     if (message === null) {
       statusEl.style.display = "none";
     } else {
@@ -82,7 +73,6 @@ class QuizApp {
     }
   }
 
-  /** Renders one question card per item in `this.quizData`. */
   buildQuiz() {
     const container = document.getElementById("questions-container");
     this.quizData.forEach((question, index) => {
@@ -91,11 +81,6 @@ class QuizApp {
     document.getElementById("submitBtn").style.display = "block";
   }
 
-  /**
-   * @param {{q: string, options: string[], explanation: string}} question
-   * @param {number} index
-   * @returns {HTMLDivElement}
-   */
   buildQuestionCard(question, index) {
     const card = document.createElement("div");
     card.className = "question-card";
@@ -119,12 +104,6 @@ class QuizApp {
     return card;
   }
 
-  /**
-   * @param {string} optionText
-   * @param {number} optIndex
-   * @param {number} questionIndex
-   * @returns {HTMLLabelElement}
-   */
   buildOptionLabel(optionText, optIndex, questionIndex) {
     const label = document.createElement("label");
     label.className = "option-label";
@@ -161,7 +140,7 @@ class QuizApp {
 
     document.getElementById("score").innerText = String(score);
 
-    // NEW LOGIC: Save the score if logged in, otherwise show the registration promo
+    // Save the score if logged in, otherwise show the registration promo
     if (window.authManager && window.authManager.userProfile) {
         window.authManager.saveTopScore(this.quizKey, score, this.quizData.length);
     } else {
@@ -170,29 +149,22 @@ class QuizApp {
     }
 
     document.getElementById("results").style.display = "block";
-    document
-      .getElementById("questions-container")
-      .classList.add("disabled-form");
+    document.getElementById("questions-container").classList.add("disabled-form");
     document.getElementById("submitBtn").style.display = "none";
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   /**
+   * OPTIMIZATION: Replaced the slow for-loop with a native DOM query.
    * @param {number} index
    * @returns {number} The selected option index, or -1 if unanswered.
    */
   getSelectedValue(index) {
-    const radios = document.getElementsByName(`question_${index}`);
-    for (const radio of radios) {
-      if (radio.checked) {
-        return parseInt(radio.value, 10);
-      }
-    }
-    return -1;
+    const selectedOption = document.querySelector(`input[name="question_${index}"]:checked`);
+    return selectedOption ? parseInt(selectedOption.value, 10) : -1;
   }
 }
-
 
 let quizApp;
 
@@ -201,7 +173,6 @@ function submitQuiz() {
   if (quizApp) quizApp.submit();
 }
 
-// Utilize the bootstrapApp helper and assign the instance to our global variable
 bootstrapApp(QuizApp, (app) => {
   quizApp = app;
 });
