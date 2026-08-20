@@ -161,9 +161,9 @@ class QuizApp {
 
     document.getElementById("score").innerText = String(score);
 
-    // NEW LOGIC: Save the score to Firebase if the user is logged in
+    // NEW LOGIC: Pass both the score and the total number of questions
     if (window.authManager) {
-        window.authManager.saveTopScore(this.quizKey, score);
+        window.authManager.saveTopScore(this.quizKey, score, this.quizData.length);
     }
 
     document.getElementById("results").style.display = "block";

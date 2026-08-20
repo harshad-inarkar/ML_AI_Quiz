@@ -45,3 +45,22 @@
     gap: 10px;
     flex-wrap: wrap;
 }
+
+/* --- Elegant Quiz Card Adjustments --- */
+.quiz-score-badge {
+    background: rgba(74, 124, 123, 0.15); /* Uses a lightened version of your primary accent */
+    color: var(--primary-accent);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid rgba(74, 124, 123, 0.3);
+    white-space: nowrap; /* Prevents the score from wrapping to two lines */
+}
+
+.icon-only-btn {
+    padding: 8px 10px; /* Squares out the button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

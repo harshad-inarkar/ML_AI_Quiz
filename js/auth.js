@@ -221,16 +221,19 @@ class AuthManager {
     }
   }
 
-  async saveTopScore(quizId, newScore) {
+ async saveTopScore(quizId, newScore, totalQs) {
     const user = this.auth.currentUser;
     if (!user) return; 
 
-    const currentTop = this.userScores[quizId] || 0;
+    // Handle both legacy (number) and new (object) score formats safely
+    const currentData = this.userScores[quizId];
+    const currentTop = typeof currentData === 'object' ? currentData.score : (currentData || 0);
 
     if (newScore > currentTop) {
       try {
-        await this.database.ref(`scores/${user.uid}/${quizId}`).set(newScore);
-        this.userScores[quizId] = newScore; 
+        const scorePayload = { score: newScore, total: totalQs };
+        await this.database.ref(`scores/${user.uid}/${quizId}`).set(scorePayload);
+        this.userScores[quizId] = scorePayload; 
         document.dispatchEvent(new CustomEvent('auth-resolved')); 
       } catch (err) {
         console.error("Failed to save score:", err);
