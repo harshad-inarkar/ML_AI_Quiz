@@ -100,14 +100,29 @@ class AuthManager {
     }
   }
 
+  async fetchSettings() {
+    try {
+      const snap = await this.database.ref('settings').once('value');
+      if (snap.exists()) return snap.val();
+    } catch (e) {
+      console.error("Could not fetch settings:", e);
+    }
+    return { enforce_verify_email: false, SHOW_TOTAL_VIEWS: true };
+  }
+
   async login(email, password) {
     if (!email || !password) return alert("Please enter both email and password.");
     try {
       const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
-      if (!userCredential.user.emailVerified) {
+      
+      const settings = await this.fetchSettings();
+      
+      // Only block the login if the enforce flag is set to true
+      if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
         await this.auth.signOut();
         return alert("Access Denied: You must verify your email address first. Please check your inbox.");
       }
+      
       document.getElementById('auth-modal').style.display = 'none';
       document.getElementById('login-email').value = '';
       document.getElementById('login-password').value = '';
@@ -139,7 +154,6 @@ class AuthManager {
         }
       }
 
-      // Automatically determine role based on whitelist
       const isWhitelisted = await this.isEmailAllowed(email);
       const assignedRole = isWhitelisted ? "admin" : "user";
 
@@ -150,16 +164,25 @@ class AuthManager {
       });
       await this.database.ref(`usernames/${finalName}`).set(user.uid);
 
+      // Send the verification link
       const actionCodeSettings = { url: window.location.href.split('?')[0] };
       await user.sendEmailVerification(actionCodeSettings);
-      await this.auth.signOut();
 
-      alert("Registration successful! A verification link has been sent to your email. Check your inbox/spam folder.\nYou MUST click it to verify your account before logging in.");
+      const settings = await this.fetchSettings();
+      
+      // Determine if we should log them out based on the flag
+      if (settings.enforce_verify_email === true) {
+        await this.auth.signOut();
+        alert("Registration successful! A verification link has been sent to your email.\nYou MUST click it to verify your account before logging in.");
+        this.switchTab('login');
+      } else {
+        alert("Registration successful! You are now logged in. A verification link has been sent to your email (expires in 24 hours).");
+      }
+
       document.getElementById('auth-modal').style.display = 'none';
       document.getElementById('reg-email').value = '';
       document.getElementById('reg-password').value = '';
       document.getElementById('reg-username').value = '';
-      this.switchTab('login');
     } catch (error) {
       alert("Registration Error: " + error.message);
     }
@@ -178,20 +201,29 @@ class AuthManager {
     }
   }
 
-  // --- NEW: Global Method to Save Top Scores ---
+  async resendVerification() {
+    const user = this.auth.currentUser;
+    if (user && !user.emailVerified) {
+      try {
+        const actionCodeSettings = { url: window.location.href.split('?')[0] };
+        await user.sendEmailVerification(actionCodeSettings);
+        alert("A new verification link has been sent to your email address.");
+      } catch (error) {
+        alert("Error sending verification email: " + error.message);
+      }
+    }
+  }
+
   async saveTopScore(quizId, newScore) {
     const user = this.auth.currentUser;
-    if (!user) return; // Ignore if guest
+    if (!user) return; 
 
-    // Get current top score from our local cache
     const currentTop = this.userScores[quizId] || 0;
 
-    // Only update database if the new score is strictly higher
     if (newScore > currentTop) {
       try {
         await this.database.ref(`scores/${user.uid}/${quizId}`).set(newScore);
-        this.userScores[quizId] = newScore; // Update local cache
-        // Dispatch event to redraw the quiz list with the new score
+        this.userScores[quizId] = newScore; 
         document.dispatchEvent(new CustomEvent('auth-resolved')); 
       } catch (err) {
         console.error("Failed to save score:", err);
@@ -204,17 +236,21 @@ class AuthManager {
     const authActions = document.getElementById('auth-actions');
 
     if (user) {
-      // 1. Fetch Profile
       const profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       this.userProfile = profileSnap.val();
       
-      // 2. Fetch User's Top Scores
       const scoresSnap = await this.database.ref(`scores/${user.uid}`).once('value');
       this.userScores = scoresSnap.val() || {};
       
       let badge = this.userProfile?.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
       
-      if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'User'}</strong> ${badge}`;
+      // Add the Verification Link prompt if their email is not verified
+      let verifyLink = '';
+      if (!user.emailVerified) {
+        verifyLink = ` <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="font-size:12px; color:var(--secondary-accent); margin-left: 10px; text-decoration: underline;">[Verify Email]</a>`;
+      }
+      
+      if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'User'}</strong> ${badge}${verifyLink}`;
       if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="window.authManager.logout()">Logout</a>`;
       
       if (this.userProfile?.role === 'admin') document.body.classList.add('admin-mode');
