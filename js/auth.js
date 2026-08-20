@@ -117,7 +117,6 @@ class AuthManager {
       
       const settings = await this.fetchSettings();
       
-      // Only block the login if the enforce flag is set to true
       if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
         await this.auth.signOut();
         return alert("Access Denied: You must verify your email address first. Please check your inbox.");
@@ -164,13 +163,11 @@ class AuthManager {
       });
       await this.database.ref(`usernames/${finalName}`).set(user.uid);
 
-      // Send the verification link
       const actionCodeSettings = { url: window.location.href.split('?')[0] };
       await user.sendEmailVerification(actionCodeSettings);
 
       const settings = await this.fetchSettings();
       
-      // Determine if we should log them out based on the flag
       if (settings.enforce_verify_email === true) {
         await this.auth.signOut();
         alert("Registration successful! A verification link has been sent to your email.\nYou MUST click it to verify your account before logging in.");
@@ -236,15 +233,36 @@ class AuthManager {
     const authActions = document.getElementById('auth-actions');
 
     if (user) {
+      // --- NEW LOGIC: Dynamic Enforcement Check ---
+      if (!user.emailVerified) {
+        const settings = await this.fetchSettings();
+        if (settings.enforce_verify_email === true) {
+          // If the admin turned on enforcement while the user was logged in, kick them out
+          await this.auth.signOut();
+          alert("Security policy updated: You must verify your email address to continue using the portal.");
+          return; // This naturally triggers handleAuthStateChange again with user=null
+        }
+      }
+      // --------------------------------------------
+
+      // 2. Fetch Profile from Database
       const profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       this.userProfile = profileSnap.val();
+      
+      // --- NEW LOGIC: Deleted User Kill Switch ---
+      if (!this.userProfile) {
+        await this.auth.signOut();
+        alert("Your account profile has been deleted or deactivated by an administrator.");
+        return; 
+      }
+      // ------------------------------------------
+
       
       const scoresSnap = await this.database.ref(`scores/${user.uid}`).once('value');
       this.userScores = scoresSnap.val() || {};
       
       let badge = this.userProfile?.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
       
-      // Add the Verification Link prompt if their email is not verified
       let verifyLink = '';
       if (!user.emailVerified) {
         verifyLink = ` <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="font-size:12px; color:var(--secondary-accent); margin-left: 10px; text-decoration: underline;">[Verify Email]</a>`;
