@@ -114,12 +114,22 @@ class AuthManager {
     if (!email || !password) return alert("Please enter both email and password.");
     try {
       const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
-      
       const settings = await this.fetchSettings();
       
+      // --- HARD GATING LOGIC ---
       if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
+        // Intercept login and prompt user
+        const wantsLink = window.confirm("Access Denied: Your email address must be verified to log in.\n\nWould you like us to send a new verification link to your email right now?");
+        
+        if (wantsLink) {
+          const actionCodeSettings = { url: window.location.href.split('?')[0] };
+          await userCredential.user.sendEmailVerification(actionCodeSettings);
+          alert("Verification link sent! Please check your inbox and spam folder.");
+        }
+        
+        // Block entry regardless of their choice
         await this.auth.signOut();
-        return alert("Access Denied: You must verify your email address first. Please check your inbox.");
+        return; 
       }
       
       document.getElementById('auth-modal').style.display = 'none';
@@ -170,16 +180,16 @@ class AuthManager {
       
       if (settings.enforce_verify_email === true) {
         await this.auth.signOut();
-        alert("Registration successful! A verification link has been sent to your email.\nYou MUST click it to verify your account before logging in.");
+        alert("Registration successful! A verification link has been sent to your email (check your inbox/spam folder).\n\nYou MUST click it to verify your account before logging in.");
         this.switchTab('login');
       } else {
-        alert("Registration successful! You are now logged in. A verification link has been sent to your email (expires in 24 hours).");
+        alert("Registration successful! You are now logged in. A verification link has been sent to your email (check your inbox/spam folder).");
+        document.getElementById('auth-modal').style.display = 'none';
+        document.getElementById('reg-email').value = '';
+        document.getElementById('reg-password').value = '';
+        document.getElementById('reg-username').value = '';
       }
 
-      document.getElementById('auth-modal').style.display = 'none';
-      document.getElementById('reg-email').value = '';
-      document.getElementById('reg-password').value = '';
-      document.getElementById('reg-username').value = '';
     } catch (error) {
       alert("Registration Error: " + error.message);
     }
@@ -204,7 +214,7 @@ class AuthManager {
       try {
         const actionCodeSettings = { url: window.location.href.split('?')[0] };
         await user.sendEmailVerification(actionCodeSettings);
-        alert("A new verification link has been sent to your email address.");
+        alert("A new verification link has been sent. Please check your inbox and spam folder.");
       } catch (error) {
         alert("Error sending verification email: " + error.message);
       }
@@ -233,30 +243,25 @@ class AuthManager {
     const authActions = document.getElementById('auth-actions');
 
     if (user) {
-      // --- NEW LOGIC: Dynamic Enforcement Check ---
+      // --- KILL SWITCH FOR ACTIVE UNVERIFIED USERS ---
       if (!user.emailVerified) {
         const settings = await this.fetchSettings();
         if (settings.enforce_verify_email === true) {
-          // If the admin turned on enforcement while the user was logged in, kick them out
           await this.auth.signOut();
-          alert("Security policy updated: You must verify your email address to continue using the portal.");
-          return; // This naturally triggers handleAuthStateChange again with user=null
+          alert("Security policy updated: You must verify your email address to continue using the portal.\n\nPlease log in again to request a new verification link.");
+          return;
         }
       }
-      // --------------------------------------------
-
-      // 2. Fetch Profile from Database
+      
       const profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       this.userProfile = profileSnap.val();
       
-      // --- NEW LOGIC: Deleted User Kill Switch ---
+      // --- KILL SWITCH FOR DELETED DATABASE ACCOUNTS ---
       if (!this.userProfile) {
         await this.auth.signOut();
         alert("Your account profile has been deleted or deactivated by an administrator.");
         return; 
       }
-      // ------------------------------------------
-
       
       const scoresSnap = await this.database.ref(`scores/${user.uid}`).once('value');
       this.userScores = scoresSnap.val() || {};
