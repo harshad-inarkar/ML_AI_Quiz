@@ -47,15 +47,32 @@
 }
 
 /* --- Elegant Quiz Card Adjustments --- */
-.quiz-score-badge {
-    background: rgba(74, 124, 123, 0.15); /* Uses a lightened version of your primary accent */
-    color: var(--primary-accent);
+.smart-badge {
     padding: 4px 12px;
     border-radius: 12px;
     font-size: 13px;
     font-weight: 600;
-    border: 1px solid rgba(74, 124, 123, 0.3);
     white-space: nowrap; /* Prevents the score from wrapping to two lines */
+    
+    /* 
+       Dynamic CSS variables injected via JS in portal.js.
+       The linear gradient fills the left side with the score color, 
+       and leaves the right side a dark gray.
+    */
+    color: var(--badge-color, var(--primary-accent));
+    border: 1px solid var(--badge-color, var(--primary-accent));
+    background: linear-gradient(
+        to right, 
+        var(--badge-bg-fill, rgba(74, 124, 123, 0.25)) var(--fill-percent, 0%), 
+        rgba(26, 47, 51, 0.4) var(--fill-percent, 0%)
+    );
+}
+
+.fallback-badge {
+    /* Simple solid style for legacy scores saved before totals were tracked */
+    background: rgba(74, 124, 123, 0.15);
+    color: var(--primary-accent);
+    border: 1px solid rgba(74, 124, 123, 0.3);
 }
 
 .icon-only-btn {

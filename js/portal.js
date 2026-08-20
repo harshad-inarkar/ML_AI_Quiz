@@ -48,7 +48,7 @@ buildQuizCard(key, quizData) {
     const card = document.createElement("div");
     card.className = "quiz-card";
 
-    // Format the Score Badge
+    // Format the Smart Badge
     let scoreDisplayHTML = '';
     if (window.authManager && window.authManager.userProfile) {
         const topData = window.authManager.userScores[key];
@@ -59,10 +59,29 @@ buildQuizCard(key, quizData) {
             
             if (total) {
                 const percent = Math.round((score / total) * 100);
-                scoreDisplayHTML = `<span class="quiz-score-badge">Top: ${score}/${total} (${percent}%)</span>`;
+                
+                // Determine dynamic colors based on performance
+                let badgeColor = '#e28591'; // Red (0-39%)
+                let badgeBgFill = 'rgba(226, 133, 145, 0.25)';
+                let trophy = '';
+                
+                if (percent >= 100) {
+                    badgeColor = '#10b981'; // Emerald Green
+                    badgeBgFill = 'rgba(16, 185, 129, 0.25)';
+                    trophy = ' 🏆'; // Add a little celebration for perfect scores
+                } else if (percent >= 70) {
+                    badgeColor = '#4a7c7b'; // Primary Teal
+                    badgeBgFill = 'rgba(74, 124, 123, 0.25)';
+                } else if (percent >= 40) {
+                    badgeColor = '#fbbf24'; // Amber
+                    badgeBgFill = 'rgba(251, 191, 36, 0.25)';
+                }
+
+                // Inject the CSS variables directly into the inline style, showing only "Top: X/Y"
+                scoreDisplayHTML = `<div class="smart-badge" style="--fill-percent: ${percent}%; --badge-color: ${badgeColor}; --badge-bg-fill: ${badgeBgFill};">Top: ${score}/${total}${trophy}</div>`;
             } else {
                 // Fallback for older scores saved before we tracked the total
-                scoreDisplayHTML = `<span class="quiz-score-badge">Top: ${score}</span>`;
+                scoreDisplayHTML = `<div class="smart-badge fallback-badge">Top: ${score}</div>`;
             }
         }
     }
