@@ -37,7 +37,13 @@
                 <div class="view-count">Views: <span id="portal-visitor-count">...</span> &nbsp;|&nbsp; Downloads: <span id="portal-download-count">0</span></div>
                 <h1>Quiz Portal</h1>
                 <p>Select a quiz below to test your knowledge.<br>
-                <span id="guest-promo-text">Register and Log in to save your top scores and track your progress.</span></p>
+
+                <!-- NEW: Cleaned up shared promo class -->
+                <span id="guest-promo-text" class="guest-promo-msg">
+                    <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Register or Log in</a> to save your top score and track progress!
+                </span>
+                
+                </p>
 
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <a href="resources_template.html" class="btn btn-secondary">View All Study Resources</a>

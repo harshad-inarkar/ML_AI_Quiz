@@ -276,3 +276,18 @@ body.admin-mode .admin-only-block { display: block !important; }
 }
 .auth-form-section { display: none; }
 .auth-form-section.active { display: block; }
+
+
+/* --- Shared Guest Promo Message --- */
+.guest-promo-msg {
+    display: none; /* Hidden by default; JS will show it if user is a guest */
+    color: var(--primary-accent);
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.guest-promo-msg a {
+    color: inherit;
+    text-decoration: underline;
+}
