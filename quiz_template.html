@@ -29,10 +29,7 @@
                 <h1 id="quiz-title">Loading Quiz...</h1>
                 <p>Attempt as many questions as you like and click Submit<br>to see your score and explanations.</p>
 
-                <!-- NEW: Cleaned up shared promo class -->
-                <p id="guest-score-promo" class="guest-promo-msg">
-                    <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Register/Log in</a> to save your top score, resume your quiz, and track progress.
-                </p>
+                
 
             </div>
             
@@ -41,6 +38,11 @@
             <div id="results" class="result-section">
                 <h2>Your Score: <span id="score">0</span> / <span id="total-qs">0</span></h2>
                 <p>Scroll down to review the explanations for the questions.</p>
+
+                <!-- NEW: Cleaned up shared promo class -->
+                <p id="guest-score-promo" class="guest-promo-msg">
+                    <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Register/Log in</a> to save your top score, resume your quiz, and track progress.
+                </p>
 
                 <button class="btn btn-primary submit-btn retake-btn" onclick="location.reload()">Retake Quiz</button>
             </div>
