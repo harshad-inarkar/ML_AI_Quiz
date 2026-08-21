@@ -174,12 +174,16 @@ class AuthManager {
       const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
       user = userCredential.user;
 
-      // CLEAN USERNAME LOGIC: Replace special chars, collapse spaces, trim, and use underscores
+      // CLEAN USERNAME LOGIC: Replace symbols with spaces, collapse spaces, trim, and underscore
       let baseName = rawName
-        .replace(/[^a-zA-Z0-9]/g, " ") // Replace non-alphanumeric with space
-        .replace(/\s+/g, " ")          // Collapse consecutive spaces into one
-        .trim()                        // Trim leading/trailing spaces
-        .replace(/ /g, "_")            // Replace remaining spaces with underscores
+        // 1. Replace Firebase forbidden keys and ASCII symbols/punctuation with a space
+        .replace(/[.$#\[\]\/!"%&'()*+,\-:;<=>?@\\^`{|}~]/g, " ") 
+        // 2. Collapse consecutive spaces into a single space
+        .replace(/\s+/g, " ") 
+        // 3. Trim leading and trailing spaces
+        .trim() 
+        // 4. Convert all clean inner spaces to underscores
+        .replace(/ /g, "_") 
         || "User";
         
       let finalName = baseName;
@@ -191,7 +195,7 @@ class AuthManager {
         if (!snap.exists()) {
           isUnique = true;
         } else {
-          finalName = `${baseName}_${counter}`; // Fallback to appending _1, _2
+          finalName = `${baseName}_${counter}`; 
           counter++;
         }
       }
@@ -199,7 +203,7 @@ class AuthManager {
       const isWhitelisted = await this.isEmailAllowed(email);
       const assignedRole = isWhitelisted ? "admin" : "user";
 
-      // Atomic Rollback. If DB fails, delete the Auth user to prevent "Ghost Accounts"
+      // Atomic Rollback
       try {
         await this.database.ref(`users/${user.uid}`).set({
           username: finalName,
