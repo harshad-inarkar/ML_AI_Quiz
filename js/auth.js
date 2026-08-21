@@ -174,15 +174,11 @@ class AuthManager {
       const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
       user = userCredential.user;
 
-      // CLEAN USERNAME LOGIC: Replace symbols with spaces, collapse spaces, trim, and underscore
+      // CLEAN USERNAME LOGIC
       let baseName = rawName
-        // 1. Replace Firebase forbidden keys and ASCII symbols/punctuation with a space
         .replace(/[.$#\[\]\/!"%&'()*+,\-:;<=>?@\\^`{|}~]/g, " ") 
-        // 2. Collapse consecutive spaces into a single space
         .replace(/\s+/g, " ") 
-        // 3. Trim leading and trailing spaces
         .trim() 
-        // 4. Convert all clean inner spaces to underscores
         .replace(/ /g, "_") 
         || "User";
         
@@ -298,7 +294,16 @@ class AuthManager {
         }
       }
       
-      const profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
+      let profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
+      
+      // --- FIX: THE RACE CONDITION BUFFER ---
+      // If the profile is missing, it might be because the registration script is still 
+      // processing the DB write. Wait 2 seconds and check again before killing the session.
+      if (!profileSnap.exists()) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
+      }
+      
       this.userProfile = profileSnap.val();
       
       if (!this.userProfile) {
