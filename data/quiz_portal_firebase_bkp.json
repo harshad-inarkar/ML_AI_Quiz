@@ -955,46 +955,57 @@
       "total": 10
     },
     "resources": {
-      "total": 20
+      "total": 22
     }
   },
   "portal_views": {
     "main": {
-      "total": 541,
-      "unique": 84
+      "total": 649,
+      "unique": 90
     },
     "resources": {
-      "total": 316,
-      "unique": 80
+      "total": 356,
+      "unique": 87
+    }
+  },
+  "quiz_states": {
+    "boDMfecge5aagRBadzO4OyrNblx2": {
+      "3": [
+        1,
+        1,
+        1,
+        3,
+        1
+      ]
     }
   },
   "quiz_views": {
     "quiz_1": {
-      "total": 141,
-      "unique": 57
+      "total": 174,
+      "unique": 61
     },
     "quiz_2": {
-      "total": 79,
-      "unique": 33
+      "total": 87,
+      "unique": 36
     },
     "quiz_3": {
-      "total": 53,
-      "unique": 25
+      "total": 58,
+      "unique": 26
     },
     "quiz_4": {
-      "total": 40,
-      "unique": 18
+      "total": 47,
+      "unique": 20
     },
     "quiz_5": {
-      "total": 10,
+      "total": 12,
       "unique": 4
     },
     "quiz_6": {
-      "total": 6,
+      "total": 8,
       "unique": 2
     },
     "quiz_7": {
-      "total": 6,
+      "total": 8,
       "unique": 3
     }
   },
@@ -4560,7 +4571,7 @@
     }
   ],
   "scores": {
-    "mHlMy1lJgBektFN18ouZPxK8HMG3": [
+    "boDMfecge5aagRBadzO4OyrNblx2": [
       null,
       {
         "score": 3,
@@ -4570,11 +4581,13 @@
   },
   "settings": {
     "SHOW_TOTAL_VIEWS": true,
+    "autosave_interval_ms": 60000,
     "enforce_verify_email": false
   },
   "usernames": {
     "Harshad": "boDMfecge5aagRBadzO4OyrNblx2",
-    "Harshad_1": "mHlMy1lJgBektFN18ouZPxK8HMG3"
+    "Harshad_1": "mIWfEWSPPEhXVTsF0GJ1kocLjwn1",
+    "VasudhaSahu": "tE8mBRXc6qNBDuIZcAM31A3PFHI2"
   },
   "users": {
     "boDMfecge5aagRBadzO4OyrNblx2": {
@@ -4582,10 +4595,15 @@
       "role": "admin",
       "username": "Harshad"
     },
-    "mHlMy1lJgBektFN18ouZPxK8HMG3": {
+    "mIWfEWSPPEhXVTsF0GJ1kocLjwn1": {
       "email": "harshad.inarkar@yahoo.com",
       "role": "user",
       "username": "Harshad_1"
+    },
+    "tE8mBRXc6qNBDuIZcAM31A3PFHI2": {
+      "email": "vasudha_sahu@outlook.com",
+      "role": "user",
+      "username": "VasudhaSahu"
     }
   }
 }
