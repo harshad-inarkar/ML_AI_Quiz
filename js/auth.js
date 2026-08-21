@@ -107,8 +107,37 @@ class AuthManager {
     } catch (e) {
       console.error("Could not fetch settings:", e);
     }
-    return { enforce_verify_email: false, SHOW_TOTAL_VIEWS: true };
+    // Added autosave_interval_ms to the default fallbacks
+    return { enforce_verify_email: false, SHOW_TOTAL_VIEWS: true, autosave_interval_ms: 60000 };
   }
+
+
+// --- NEW: Quiz Auto-Save Methods ---
+  async saveQuizState(quizId, stateData) {
+    const user = this.auth.currentUser;
+    if (!user) return;
+    try {
+      await this.database.ref(`quiz_states/${user.uid}/${quizId}`).set(stateData);
+    } catch (e) { console.error("Failed to auto-save quiz:", e); }
+  }
+
+  async getQuizState(quizId) {
+    const user = this.auth.currentUser;
+    if (!user) return null;
+    try {
+      const snap = await this.database.ref(`quiz_states/${user.uid}/${quizId}`).once('value');
+      return snap.val();
+    } catch (e) { return null; }
+  }
+
+  async clearQuizState(quizId) {
+    const user = this.auth.currentUser;
+    if (!user) return;
+    try {
+      await this.database.ref(`quiz_states/${user.uid}/${quizId}`).remove();
+    } catch (e) { console.error("Failed to clear saved state:", e); }
+  }
+  // -----------------------------------
 
   async login(email, password) {
     if (!email || !password) return alert("Please enter both email and password.");

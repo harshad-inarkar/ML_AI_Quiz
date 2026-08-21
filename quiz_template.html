@@ -22,6 +22,10 @@
             
             <div class="header-card">
                 <div class="view-count">Views: <span id="visitor-count">...</span></div>
+
+                <!-- NEW: Hidden Retake Button -->
+                <button id="resume-retake-btn" class="btn btn-secondary" style="display: none; position: absolute; right: 28px; bottom: 26px; padding: 6px 12px; font-size: 12px;" onclick="if(quizApp) quizApp.clearStateAndReload()">Start Fresh</button>
+                
                 <h1 id="quiz-title">Loading Quiz...</h1>
                 <p>Attempt as many questions as you'd like and hit submit to view your score and explanations.</p>
             </div>
