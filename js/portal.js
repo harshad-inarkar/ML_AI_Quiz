@@ -58,7 +58,7 @@ class PortalApp {
     });
   }
 
-  buildQuizCard(key, quizData) {
+ buildQuizCard(key, quizData) {
     const card = document.createElement("div");
     card.className = "quiz-card";
 
@@ -74,7 +74,6 @@ class PortalApp {
             if (total) {
                 const percent = Math.round((score / total) * 100);
                 
-                // Determine dynamic colors based on performance
                 let badgeColor = '#e28591'; // Red (0-39%)
                 let badgeBgFill = 'rgba(226, 133, 145, 0.25)';
                 let trophy = '';
@@ -82,7 +81,7 @@ class PortalApp {
                 if (percent >= 100) {
                     badgeColor = '#10b981'; // Emerald Green
                     badgeBgFill = 'rgba(16, 185, 129, 0.25)';
-                    trophy = ' 🏆'; // Add a little celebration for perfect scores
+                    trophy = ' 🏆'; 
                 } else if (percent >= 70) {
                     badgeColor = '#4a7c7b'; // Primary Teal
                     badgeBgFill = 'rgba(74, 124, 123, 0.25)';
@@ -91,13 +90,17 @@ class PortalApp {
                     badgeBgFill = 'rgba(251, 191, 36, 0.25)';
                 }
 
-                // Inject the CSS variables directly into the inline style, showing only "Top: X/Y"
                 scoreDisplayHTML = `<div class="smart-badge" style="--fill-percent: ${percent}%; --badge-color: ${badgeColor}; --badge-bg-fill: ${badgeBgFill};">Top: ${score}/${total}${trophy}</div>`;
             } else {
-                // Fallback for older scores saved before we tracked the total
                 scoreDisplayHTML = `<div class="smart-badge fallback-badge">Top: ${score}</div>`;
             }
         }
+    }
+    
+    // --- NEW: Check if there is an incomplete saved state for this quiz ---
+    let attemptText = "Attempt Quiz";
+    if (window.authManager && window.authManager.userQuizStates && window.authManager.userQuizStates[key]) {
+        attemptText = "Resume Quiz";
     }
     
     // Elegant Layout: Header (Title + Score) and Footer (Actions + Save Icon)
@@ -108,7 +111,8 @@ class PortalApp {
       </div>
       <div class="action-links" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
         <div style="display: flex; gap: 10px;">
-          <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">Attempt Quiz</a>
+          <!-- Using the dynamic attemptText here -->
+          <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">${attemptText}</a>
           ${quizData.resources_keys && quizData.resources_keys.length > 0 ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` : ''}
           <button class="btn btn-secondary admin-only" onclick="window.portalApp.openQuizModal('${key}')">Edit Quiz</button>
         </div>

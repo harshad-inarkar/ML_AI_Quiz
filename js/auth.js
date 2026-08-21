@@ -334,13 +334,22 @@ class AuthManager {
           await user.updateProfile({ displayName: this.userProfile.username });
       }
       
-      const scoresSnap = await this.database.ref(`scores/${user.uid}`).once('value');
+      // --- NEW: Fetch Quiz States globally for the portal UI ---
+      const [scoresSnap, statesSnap] = await Promise.all([
+          this.database.ref(`scores/${user.uid}`).once('value'),
+          this.database.ref(`quiz_states/${user.uid}`).once('value')
+      ]);
+      
       this.userScores = scoresSnap.val() || {};
+      this.userQuizStates = statesSnap.val() || {}; // Store states in memory
       
       let badge = this.userProfile?.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '';
       let verifyLink = !user.emailVerified ? ` <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="font-size:12px; color:var(--secondary-accent); margin-left: 10px; text-decoration: underline;">[Verify Email]</a>` : '';
       
-      if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'User'}</strong> ${badge}${verifyLink}`;
+      // --- NEW: Inject Cleanup Button for Admins ---
+      let cleanupLink = this.userProfile?.role === 'admin' ? ` <a href="javascript:void(0)" onclick="if(window.runClientCleanup) window.runClientCleanup()" style="font-size:12px; color:var(--red-text); margin-left: 10px; text-decoration: underline;" title="Clean orphaned DB records">[Cleanup]</a>` : '';
+      
+      if (authStatus) authStatus.innerHTML = `Hi, <strong style="color: var(--text-primary);">${this.userProfile?.username || 'User'}</strong> ${badge}${cleanupLink}${verifyLink}`;
       if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="window.authManager.logout()">Logout</a>`;
       
       if (this.userProfile?.role === 'admin') document.body.classList.add('admin-mode');
@@ -348,6 +357,7 @@ class AuthManager {
     } else {
       this.userProfile = null;
       this.userScores = {};
+      this.userQuizStates = {}; // Clear states on logout
       document.body.classList.remove('admin-mode');
       
       if (authStatus) authStatus.innerHTML = ``;
