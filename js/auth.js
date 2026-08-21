@@ -45,7 +45,7 @@ class AuthManager {
               <!-- REGISTER TAB -->
               <div id="tab-register" class="auth-form-section">
                   <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Create an account to track your top quiz scores!</p>
-                  <div class="form-group"><label>Desired Username</label><input type="text" id="reg-username" placeholder="e.g. JohnDoe"></div>
+                  <div class="form-group"><label>Desired Username</label><input type="text" id="reg-username" placeholder="e.g. John Doe"></div>
                   <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="user@email.com"></div>
                   <div class="form-group"><label>Password</label><input type="password" id="reg-password" placeholder="********"></div>
                   <div class="form-actions">
@@ -107,12 +107,10 @@ class AuthManager {
     } catch (e) {
       console.error("Could not fetch settings:", e);
     }
-    // Added autosave_interval_ms to the default fallbacks
     return { enforce_verify_email: false, SHOW_TOTAL_VIEWS: true, autosave_interval_ms: 60000 };
   }
 
-
-// --- NEW: Quiz Auto-Save Methods ---
+  // --- Quiz Auto-Save Methods ---
   async saveQuizState(quizId, stateData) {
     const user = this.auth.currentUser;
     if (!user) return;
@@ -147,7 +145,6 @@ class AuthManager {
       
       // --- HARD GATING LOGIC ---
       if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
-        // Intercept login and prompt user
         const wantsLink = window.confirm("Access Denied: Your email address must be verified to log in.\n\nWould you like us to send a new verification link to your email right now?");
         
         if (wantsLink) {
@@ -156,7 +153,6 @@ class AuthManager {
           alert("Verification link sent! Please check your inbox and spam folder.");
         }
         
-        // Block entry regardless of their choice
         await this.auth.signOut();
         return; 
       }
@@ -173,11 +169,19 @@ class AuthManager {
     if (!email || !password) return alert("Please enter an email and password.");
     if (!rawName || rawName.trim() === "") return alert("Please provide a desired username.");
 
+    let user = null;
     try {
       const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
+      user = userCredential.user;
 
-      let baseName = rawName.replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_") || "User";
+      // CLEAN USERNAME LOGIC: Replace special chars, collapse spaces, trim, and use underscores
+      let baseName = rawName
+        .replace(/[^a-zA-Z0-9]/g, " ") // Replace non-alphanumeric with space
+        .replace(/\s+/g, " ")          // Collapse consecutive spaces into one
+        .trim()                        // Trim leading/trailing spaces
+        .replace(/ /g, "_")            // Replace remaining spaces with underscores
+        || "User";
+        
       let finalName = baseName;
       let counter = 1;
       let isUnique = false;
@@ -187,7 +191,7 @@ class AuthManager {
         if (!snap.exists()) {
           isUnique = true;
         } else {
-          finalName = `${baseName}_${counter}`;
+          finalName = `${baseName}_${counter}`; // Fallback to appending _1, _2
           counter++;
         }
       }
@@ -195,12 +199,18 @@ class AuthManager {
       const isWhitelisted = await this.isEmailAllowed(email);
       const assignedRole = isWhitelisted ? "admin" : "user";
 
-      await this.database.ref(`users/${user.uid}`).set({
-        username: finalName,
-        email: user.email,
-        role: assignedRole
-      });
-      await this.database.ref(`usernames/${finalName}`).set(user.uid);
+      // Atomic Rollback. If DB fails, delete the Auth user to prevent "Ghost Accounts"
+      try {
+        await this.database.ref(`users/${user.uid}`).set({
+          username: finalName,
+          email: user.email,
+          role: assignedRole
+        });
+        await this.database.ref(`usernames/${finalName}`).set(user.uid);
+      } catch (dbError) {
+        await user.delete();
+        throw new Error("Failed to secure database profile: " + dbError.message);
+      }
 
       const actionCodeSettings = { url: window.location.href.split('?')[0] };
       await user.sendEmailVerification(actionCodeSettings);
@@ -254,7 +264,6 @@ class AuthManager {
     const user = this.auth.currentUser;
     if (!user) return; 
 
-    // Handle both legacy (number) and new (object) score formats safely
     const currentData = this.userScores[quizId];
     const currentTop = typeof currentData === 'object' ? currentData.score : (currentData || 0);
 
@@ -264,7 +273,6 @@ class AuthManager {
         await this.database.ref(`scores/${user.uid}/${quizId}`).set(scorePayload);
         this.userScores[quizId] = scorePayload; 
         
-        // OPTIMIZATION: Dispatch a specific lightweight event, not the global auth event
         document.dispatchEvent(new CustomEvent('scores-updated')); 
       } catch (err) {
         console.error("Failed to save score:", err);
@@ -277,7 +285,6 @@ class AuthManager {
     const authActions = document.getElementById('auth-actions');
 
     if (user) {
-      // --- KILL SWITCH FOR ACTIVE UNVERIFIED USERS ---
       if (!user.emailVerified) {
         const settings = await this.fetchSettings();
         if (settings.enforce_verify_email === true) {
@@ -290,7 +297,6 @@ class AuthManager {
       const profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       this.userProfile = profileSnap.val();
       
-      // --- KILL SWITCH FOR DELETED DATABASE ACCOUNTS ---
       if (!this.userProfile) {
         await this.auth.signOut();
         alert("Your account profile has been deleted or deactivated by an administrator.");
@@ -317,7 +323,6 @@ class AuthManager {
       if (authActions) authActions.innerHTML = `<a href="javascript:void(0)" class="nav-link" onclick="document.getElementById('auth-modal').style.display='flex'">Login / Register</a>`;
     }
     
-    // OPTIMIZATION: Dispatched only once at the very end of the state change
     document.dispatchEvent(new CustomEvent('auth-resolved'));
   }
 
