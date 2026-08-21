@@ -17,7 +17,16 @@ async function runClientCleanup() {
             db.ref('quiz_states').once('value')
         ]);
 
-        const users = usersSnap.val() || {};
+        const users = usersSnap.val();
+        
+        // --- STRICT SAFETY CHECK ---
+        // If the users node is null or empty (due to a rule block or network error), 
+        // abort immediately so we don't accidentally wipe everyone's scores!
+        if (!users || Object.keys(users).length === 0) {
+            alert("⚠️ SAFETY ABORT: Could not read the 'users' node, or it is empty. Cleanup cancelled to prevent data loss. Please check your Database Rules.");
+            return;
+        }
+
         const usernames = usernamesSnap.val() || {};
         const scores = scoresSnap.val() || {};
         const states = statesSnap.val() || {};
@@ -50,7 +59,7 @@ async function runClientCleanup() {
             }
         }
 
-        // 5. Execute deletion
+        // 5. Execute deletion safely
         if (deletedCount > 0) {
             await db.ref().update(updates);
             alert(`✅ Cleanup complete!\n\nRemoved ${deletedCount} orphaned records from the database.`);
