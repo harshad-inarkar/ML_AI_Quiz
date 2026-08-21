@@ -143,7 +143,6 @@ class AuthManager {
       const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
       const settings = await this.fetchSettings();
       
-      // --- HARD GATING LOGIC ---
       if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
         const wantsLink = window.confirm("Access Denied: Your email address must be verified to log in.\n\nWould you like us to send a new verification link to your email right now?");
         
@@ -174,7 +173,6 @@ class AuthManager {
       const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
       user = userCredential.user;
 
-      // CLEAN USERNAME LOGIC
       let baseName = rawName
         .replace(/[.$#\[\]\/!"%&'()*+,\-:;<=>?@\\^`{|}~]/g, " ") 
         .replace(/\s+/g, " ") 
@@ -199,14 +197,21 @@ class AuthManager {
       const isWhitelisted = await this.isEmailAllowed(email);
       const assignedRole = isWhitelisted ? "admin" : "user";
 
-      // Atomic Rollback
+      // --- FIX: ATOMIC REGISTRATION & BACKUP ---
       try {
-        await this.database.ref(`users/${user.uid}`).set({
+        const updates = {};
+        updates[`users/${user.uid}`] = {
           username: finalName,
           email: user.email,
           role: assignedRole
-        });
-        await this.database.ref(`usernames/${finalName}`).set(user.uid);
+        };
+        updates[`usernames/${finalName}`] = user.uid;
+        
+        // 1. Write both nodes simultaneously so they can NEVER be out of sync
+        await this.database.ref().update(updates);
+        
+        // 2. Backup the username to the Auth Profile natively
+        await user.updateProfile({ displayName: finalName });
       } catch (dbError) {
         await user.delete();
         throw new Error("Failed to secure database profile: " + dbError.message);
@@ -296,9 +301,7 @@ class AuthManager {
       
       let profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       
-      // --- FIX: THE RACE CONDITION BUFFER ---
-      // If the profile is missing, it might be because the registration script is still 
-      // processing the DB write. Wait 2 seconds and check again before killing the session.
+      // Buffer for brand new registrations to finish writing
       if (!profileSnap.exists()) {
           await new Promise(resolve => setTimeout(resolve, 2000));
           profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
@@ -306,10 +309,29 @@ class AuthManager {
       
       this.userProfile = profileSnap.val();
       
+      // --- FIX: TRUE SELF-CLEANING KILL SWITCH ---
       if (!this.userProfile) {
-        await this.auth.signOut();
-        alert("Your account profile has been deleted or deactivated by an administrator.");
+        try {
+          await this.database.ref(`scores/${user.uid}`).remove();
+          await this.database.ref(`quiz_states/${user.uid}`).remove();
+          
+          // Because we backed up the username into displayName, we can safely delete it!
+          if (user.displayName) {
+             await this.database.ref(`usernames/${user.displayName}`).remove();
+          }
+          
+          await user.delete();
+          alert("Your account profile has been deleted by an administrator. All associated personal data has been permanently removed.");
+        } catch (e) {
+          await this.auth.signOut();
+          alert("Your account profile has been deactivated.");
+        }
         return; 
+      }
+
+      // Legacy Healing: If an older user logs in who doesn't have the displayName backup yet, add it.
+      if (!user.displayName && this.userProfile.username) {
+          await user.updateProfile({ displayName: this.userProfile.username });
       }
       
       const scoresSnap = await this.database.ref(`scores/${user.uid}`).once('value');
