@@ -93,6 +93,11 @@ class PortalApp {
     return hasSavedState ? "Resume Quiz" : "Attempt Quiz";
   }
 
+  _generateNewKey(dataset) {
+    const existingKeys = Object.keys(dataset).filter(k => k !== 'null').map(Number);
+    return existingKeys.length > 0 ? String(Math.max(...existingKeys) + 1) : "1";
+  }
+
   buildQuizCard(key, quizData) {
     const card = document.createElement("div");
     card.className = "quiz-card";
@@ -151,15 +156,10 @@ class PortalApp {
     if (!title) return alert("Title is required.");
     
     const resourcesKeys = resString.split(',').map(s => s.trim()).filter(s => s);
-    let targetKey = key;
-    let inputFile = key ? this.quizConfigData[key].input_file : "";
+    const targetKey = key || this._generateNewKey(this.quizConfigData);
+    const inputFile = key ? this.quizConfigData[key].input_file : `input_quiz_${targetKey}.json`;
 
-    if (!key) {
-      const existingKeys = Object.keys(this.quizConfigData).filter(k => k !== 'null').map(Number);
-      targetKey = existingKeys.length > 0 ? String(Math.max(...existingKeys) + 1) : "1";
-      inputFile = `input_quiz_${targetKey}.json`;
-      if (fileInput.files.length === 0) return alert("A JSON file is required for new quizzes.");
-    }
+    if (!key && fileInput.files.length === 0) return alert("A JSON file is required for new quizzes.");
 
     try {
       if (fileInput.files.length > 0) {

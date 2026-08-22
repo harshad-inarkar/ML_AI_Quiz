@@ -131,12 +131,16 @@ class ResourcesApp {
     container.appendChild(row);
   }
 
+  _generateNewKey(dataset) {
+    const existingKeys = Object.keys(dataset).filter(k => k !== 'null').map(Number);
+    return existingKeys.length > 0 ? String(Math.max(...existingKeys) + 1) : "1";
+  }
+
   async saveResourceGroup() {
     const key = document.getElementById('res-edit-key').value;
     const groupTitle = document.getElementById('cms-res-title').value;
     if (!groupTitle) return alert("Group Title is required.");
 
-    // --- MODULAR: Refactored to map DOM elements purely functionally ---
     const resourcesList = Array.from(document.getElementById('sub-resources-container').children)
       .map(row => ({
           title: row.querySelector('.sub-title').value.trim(),
@@ -147,11 +151,7 @@ class ResourcesApp {
 
     if (resourcesList.length === 0) return alert("Please add at least one link/sub-resource.");
 
-    let targetKey = key;
-    if (!key) {
-      const existingKeys = Object.keys(this.resourceDataRaw).filter(k => k !== 'null').map(Number);
-      targetKey = existingKeys.length > 0 ? String(Math.max(...existingKeys) + 1) : "1";
-    }
+    const targetKey = key || this._generateNewKey(this.resourceDataRaw);
 
     try {
       await this.database.ref(`configs/resources/${targetKey}`).set({ title: groupTitle, resources: resourcesList });

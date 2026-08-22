@@ -13,6 +13,11 @@ class AuthManager {
     this.auth.onAuthStateChanged(this.handleAuthStateChange.bind(this));
   }
 
+  // --- NEW: DRY Utility for Authentication Redirects ---
+  get actionCodeSettings() {
+    return { url: window.location.href.split('?')[0] };
+  }
+
   // --- UI Helper Methods ---
   closeModal() {
     const modal = document.getElementById('auth-modal');
@@ -78,7 +83,7 @@ class AuthManager {
       if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
         const wantsLink = window.confirm("Access Denied: Your email address must be verified to log in.\n\nWould you like us to send a new verification link to your email right now?");
         if (wantsLink) {
-          await userCredential.user.sendEmailVerification({ url: window.location.href.split('?')[0] });
+          await userCredential.user.sendEmailVerification(this.actionCodeSettings);
           alert("Verification link sent! Please check your inbox and spam folder.");
         }
         await this.auth.signOut();
@@ -134,7 +139,7 @@ class AuthManager {
         throw new Error("Failed to secure database profile: " + dbError.message);
       }
 
-      await user.sendEmailVerification({ url: window.location.href.split('?')[0] });
+      await user.sendEmailVerification(this.actionCodeSettings);
       const settings = await this.fetchSettings();
       
       if (settings.enforce_verify_email === true) {
@@ -154,7 +159,7 @@ class AuthManager {
   async resetPassword(email) {
     if (!email) return alert("Please enter your email address.");
     try {
-      await this.auth.sendPasswordResetEmail(email, { url: window.location.href.split('?')[0] });
+      await this.auth.sendPasswordResetEmail(email, this.actionCodeSettings);
       alert("If an account exists with that email, a password reset link has been sent.");
       this.clearForms();
       this.switchTab('login');
@@ -167,7 +172,7 @@ class AuthManager {
     const user = this.auth.currentUser;
     if (user && !user.emailVerified) {
       try {
-        await user.sendEmailVerification({ url: window.location.href.split('?')[0] });
+        await user.sendEmailVerification(this.actionCodeSettings);
         alert("A new verification link has been sent. Please check your inbox and spam folder.");
       } catch (error) {
         alert("Error sending verification email: " + error.message);
@@ -285,10 +290,8 @@ class AuthManager {
   logout() {
     this.auth.signOut().then(() => window.location.reload());
   }
-}
 
   injectAuthModal() {
-    // Retained exact HTML string as instructed, placed logically at end of class
     if (document.getElementById('auth-modal')) return;
     const modalHTML = `
       <div id="auth-modal" class="modal-overlay">
@@ -344,3 +347,4 @@ class AuthManager {
     `;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
   }
+}
