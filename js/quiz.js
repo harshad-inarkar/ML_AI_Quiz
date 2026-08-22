@@ -8,7 +8,7 @@ class QuizApp {
     this.database = database;
     this.quizData = [];
     this.quizKey = new URLSearchParams(window.location.search).get("quiz_key") || "1";
-    this.autoSaveTimer = null; // Stores our interval timer
+    this.autoSaveTimer = null; 
   }
 
   init() {
@@ -25,11 +25,7 @@ class QuizApp {
   async loadQuiz() {
     try {
       const infoSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
-
-      if (!infoSnap.exists()) {
-        this.showNotFound();
-        return;
-      }
+      if (!infoSnap.exists()) return this.showNotFound();
 
       const quizInfo = infoSnap.val();
       document.getElementById("quiz-title").innerText = quizInfo.title;
@@ -40,18 +36,14 @@ class QuizApp {
       const databaseKey = quizInfo.input_file.replace(".json", "");
       const dataSnap = await this.database.ref(`quizzes/${databaseKey}`).once("value");
 
-      if (!dataSnap.exists()) {
-        throw new Error("Quiz data not found in database");
-      }
+      if (!dataSnap.exists()) throw new Error("Quiz data not found in database");
 
       this.quizData = dataSnap.val();
       this.setStatus(null);
       document.getElementById("total-qs").innerText = this.quizData.length;
       this.buildQuiz();
 
-      // --- Restore State & Start Auto-Save if logged in ---
       if (window.authManager && window.authManager.userProfile) {
-          // Reveal the Save and Reset buttons for logged in users
           const headerActions = document.getElementById("quiz-header-actions");
           if (headerActions) headerActions.style.display = "flex";
 
@@ -59,7 +51,6 @@ class QuizApp {
           if (savedState) this.restoreState(savedState);
           this.startAutoSave();
       }
-
     } catch (error) {
       this.setStatus("Failed to load quiz data from database.");
       console.error(error);
@@ -74,12 +65,8 @@ class QuizApp {
   setStatus(message) {
     const statusEl = document.getElementById("status-msg");
     if (!statusEl) return;
-    
-    if (message === null) {
-      statusEl.style.display = "none";
-    } else {
-      statusEl.innerText = message;
-    }
+    statusEl.style.display = message === null ? "none" : "block";
+    if (message !== null) statusEl.innerText = message;
   }
 
   buildQuiz() {
@@ -137,7 +124,7 @@ class QuizApp {
 
   async startAutoSave() {
     const settings = await window.authManager.fetchSettings();
-    const interval = settings.autosave_interval_ms || 60000; // Default to 60s
+    const interval = settings.autosave_interval_ms || 60000; 
     this.autoSaveTimer = setInterval(() => this.saveCurrentState(), interval);
   }
 
@@ -145,7 +132,6 @@ class QuizApp {
     const state = {};
     let hasAnswers = false;
     
-    // Parse current selections
     this.quizData.forEach((_, index) => {
         const val = this.getSelectedValue(index);
         if (val !== -1) {
@@ -154,7 +140,6 @@ class QuizApp {
         }
     });
 
-    // Only hit the database if the user has actually clicked an answer
     if (hasAnswers && window.authManager) {
         window.authManager.saveQuizState(this.quizKey, state);
     }
@@ -173,42 +158,43 @@ class QuizApp {
         window.location.reload();
     }
   }
-  // ------------------------------------
+
+  // --- Modular Grading ---
+  _gradeQuestion(index, question) {
+    const selectedValue = this.getSelectedValue(index);
+    const expBox = document.getElementById(`exp-${index}`);
+    expBox.style.display = "block";
+
+    if (selectedValue === question.answer) {
+      expBox.classList.add("correct");
+      expBox.innerHTML = `<strong>Correct!</strong> ${question.explanation}`;
+      return 1;
+    } else {
+      expBox.classList.remove("correct");
+      const answerText = question.options[question.answer];
+      expBox.innerHTML = `<strong>Incorrect or Unanswered.</strong> The correct answer is: <em>${answerText}</em>.<br><br><strong>Explanation:</strong> ${question.explanation}`;
+      return 0;
+    }
+  }
 
   submit() {
-    // Stop the auto-save timer so it doesn't run after submission
     if (this.autoSaveTimer) clearInterval(this.autoSaveTimer);
 
     let score = 0;
-
     this.quizData.forEach((question, index) => {
-      const selectedValue = this.getSelectedValue(index);
-      const expBox = document.getElementById(`exp-${index}`);
-      expBox.style.display = "block";
-
-      if (selectedValue === question.answer) {
-        score += 1;
-        expBox.classList.add("correct");
-        expBox.innerHTML = `<strong>Correct!</strong> ${question.explanation}`;
-      } else {
-        expBox.classList.remove("correct");
-        const answerText = question.options[question.answer];
-        expBox.innerHTML = `<strong>Incorrect or Unanswered.</strong> The correct answer is: <em>${answerText}</em>.<br><br><strong>Explanation:</strong> ${question.explanation}`;
-      }
+      score += this._gradeQuestion(index, question);
     });
 
     document.getElementById("score").innerText = String(score);
 
     if (window.authManager && window.authManager.userProfile) {
         window.authManager.saveTopScore(this.quizKey, score, this.quizData.length);
-        // Wipe the saved state so they start fresh on their next attempt
         window.authManager.clearQuizState(this.quizKey); 
     } else {
         const promo = document.getElementById("guest-score-promo");
         if (promo) promo.style.display = "block";
     }
 
-    // Hide the Save and Reset buttons container
     const headerActions = document.getElementById("quiz-header-actions");
     if (headerActions) headerActions.style.display = "none";
 

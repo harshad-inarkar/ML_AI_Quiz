@@ -4,7 +4,6 @@ class PortalApp {
     this.listContainer = document.getElementById("quiz-list");
     this.quizConfigData = {};
     
-    // Bind CMS events
     document.getElementById('save-quiz-btn').addEventListener('click', () => this.saveQuiz());
   }
 
@@ -15,19 +14,17 @@ class PortalApp {
       if (el) el.innerText = snap.val() || 0;
     });
 
-    this.dataLoaded = false; // Prevents double fetching
+    this.dataLoaded = false; 
 
-    // When auth resolves (or user logs in/out), handle rendering efficiently
     document.addEventListener('auth-resolved', () => {
         if (!this.dataLoaded) {
-            this.loadQuizzes(); // First visit: Fetch from database
+            this.loadQuizzes();
             this.dataLoaded = true;
         } else {
-            this.renderQuizzes(); // Subsequent auth changes: Re-render from memory instantly
+            this.renderQuizzes(); 
         }
     });
 
-    // When a score updates, simply redraw the DOM to show the new badge
     document.addEventListener('scores-updated', () => {
         if (this.dataLoaded) this.renderQuizzes();
     });
@@ -46,64 +43,66 @@ class PortalApp {
 
   renderQuizzes() {
     this.listContainer.innerHTML = "";
-    const sortedKeys = Object.keys(this.quizConfigData).filter(k => k !== 'null').sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+    const sortedKeys = Object.keys(this.quizConfigData)
+      .filter(k => k !== 'null')
+      .sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
     
     sortedKeys.forEach((key) => {
       this.listContainer.appendChild(this.buildQuizCard(key, this.quizConfigData[key]));
     });
 
-    // Attach download listeners
     document.querySelectorAll('.download-quiz-btn').forEach(btn => {
       btn.addEventListener('click', (e) => this.downloadQuiz(e.currentTarget.getAttribute('data-key')));
     });
   }
 
- buildQuizCard(key, quizData) {
+  // --- Modular UI Generators ---
+  _generateBadgeHTML(quizKey) {
+    if (!window.authManager || !window.authManager.userProfile) return '';
+    
+    const topData = window.authManager.userScores[quizKey];
+    if (topData === undefined) return '';
+
+    const score = typeof topData === 'object' ? topData.score : topData;
+    const total = typeof topData === 'object' ? topData.total : null;
+    
+    if (!total) return `<div class="smart-badge fallback-badge">Top: ${score}</div>`;
+
+    const percent = Math.round((score / total) * 100);
+    let badgeColor = '#e28591'; 
+    let badgeBgFill = 'rgba(226, 133, 145, 0.25)';
+    let trophy = '';
+    
+    if (percent >= 100) {
+        badgeColor = '#10b981'; 
+        badgeBgFill = 'rgba(16, 185, 129, 0.25)';
+        trophy = ' 🏆'; 
+    } else if (percent >= 70) {
+        badgeColor = '#4a7c7b'; 
+        badgeBgFill = 'rgba(74, 124, 123, 0.25)';
+    } else if (percent >= 40) {
+        badgeColor = '#fbbf24'; 
+        badgeBgFill = 'rgba(251, 191, 36, 0.25)';
+    }
+
+    return `<div class="smart-badge" style="--fill-percent: ${percent}%; --badge-color: ${badgeColor}; --badge-bg-fill: ${badgeBgFill};">Top: ${score}/${total}${trophy}</div>`;
+  }
+
+  _getAttemptText(quizKey) {
+    const hasSavedState = window.authManager?.userQuizStates?.[quizKey];
+    return hasSavedState ? "Resume Quiz" : "Attempt Quiz";
+  }
+
+  buildQuizCard(key, quizData) {
     const card = document.createElement("div");
     card.className = "quiz-card";
 
-    // Format the Smart Badge
-    let scoreDisplayHTML = '';
-    if (window.authManager && window.authManager.userProfile) {
-        const topData = window.authManager.userScores[key];
-        
-        if (topData !== undefined) {
-            const score = typeof topData === 'object' ? topData.score : topData;
-            const total = typeof topData === 'object' ? topData.total : null;
-            
-            if (total) {
-                const percent = Math.round((score / total) * 100);
-                
-                let badgeColor = '#e28591'; // Red (0-39%)
-                let badgeBgFill = 'rgba(226, 133, 145, 0.25)';
-                let trophy = '';
-                
-                if (percent >= 100) {
-                    badgeColor = '#10b981'; // Emerald Green
-                    badgeBgFill = 'rgba(16, 185, 129, 0.25)';
-                    trophy = ' 🏆'; 
-                } else if (percent >= 70) {
-                    badgeColor = '#4a7c7b'; // Primary Teal
-                    badgeBgFill = 'rgba(74, 124, 123, 0.25)';
-                } else if (percent >= 40) {
-                    badgeColor = '#fbbf24'; // Amber
-                    badgeBgFill = 'rgba(251, 191, 36, 0.25)';
-                }
-
-                scoreDisplayHTML = `<div class="smart-badge" style="--fill-percent: ${percent}%; --badge-color: ${badgeColor}; --badge-bg-fill: ${badgeBgFill};">Top: ${score}/${total}${trophy}</div>`;
-            } else {
-                scoreDisplayHTML = `<div class="smart-badge fallback-badge">Top: ${score}</div>`;
-            }
-        }
-    }
+    const scoreDisplayHTML = this._generateBadgeHTML(key);
+    const attemptText = this._getAttemptText(key);
+    const resourcesBtnHTML = quizData.resources_keys?.length > 0 
+      ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` 
+      : '';
     
-    // Check if there is an incomplete saved state for this quiz
-    let attemptText = "Attempt Quiz";
-    if (window.authManager && window.authManager.userQuizStates && window.authManager.userQuizStates[key]) {
-        attemptText = "Resume Quiz";
-    }
-    
-    // Elegant Layout: Header (Title + Score) and Footer (Actions + Save Icon)
     card.innerHTML = `
       <div class="quiz-card-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
         <h2 style="margin: 0; padding-right: 15px;">${quizData.title}</h2>
@@ -111,9 +110,8 @@ class PortalApp {
       </div>
       <div class="action-links" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
         <div style="display: flex; gap: 10px;">
-          <!-- Using the dynamic attemptText here -->
           <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">${attemptText}</a>
-          ${quizData.resources_keys && quizData.resources_keys.length > 0 ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` : ''}
+          ${resourcesBtnHTML}
           <button class="btn btn-secondary admin-only" onclick="window.portalApp.openQuizModal('${key}')">Edit Quiz</button>
         </div>
         <button class="btn btn-secondary download-quiz-btn btn-icon" data-key="${key}" title="Save for Offline Use">
@@ -125,7 +123,6 @@ class PortalApp {
   }
 
   // --- CMS Admin Methods ---
-
   openQuizModal(editKey = null) {
     const modal = document.getElementById('quiz-modal');
     document.getElementById('quiz-modal-title').innerText = editKey ? "Edit Quiz" : "Add New Quiz";
@@ -153,8 +150,7 @@ class PortalApp {
     
     if (!title) return alert("Title is required.");
     
-    let resourcesKeys = resString.split(',').map(s => s.trim()).filter(s => s);
-    
+    const resourcesKeys = resString.split(',').map(s => s.trim()).filter(s => s);
     let targetKey = key;
     let inputFile = key ? this.quizConfigData[key].input_file : "";
 

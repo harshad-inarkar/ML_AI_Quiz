@@ -27,7 +27,6 @@ class ResourcesApp {
             this.loadResources();
             this.dataLoaded = true;
         } else {
-            // Re-render from memory if auth state changes so Admin buttons toggle instantly
             this.renderResources(this.resourceDataRaw);
         }
     });
@@ -101,7 +100,6 @@ class ResourcesApp {
   }
 
   // --- CMS Admin Methods ---
-
   openResourceModal(editKey = null) {
     const modal = document.getElementById('resource-modal');
     document.getElementById('res-modal-title').innerText = editKey ? "Edit Resource Group" : "Add Resource Group";
@@ -138,14 +136,14 @@ class ResourcesApp {
     const groupTitle = document.getElementById('cms-res-title').value;
     if (!groupTitle) return alert("Group Title is required.");
 
-    const subRows = document.getElementById('sub-resources-container').children;
-    const resourcesList = [];
-    for (let row of subRows) {
-      const t = row.querySelector('.sub-title').value.trim();
-      const d = row.querySelector('.sub-desc').value.trim();
-      const l = row.querySelector('.sub-link').value.trim();
-      if (t || d || l) resourcesList.push({title: t, desc: d, link: l});
-    }
+    // --- MODULAR: Refactored to map DOM elements purely functionally ---
+    const resourcesList = Array.from(document.getElementById('sub-resources-container').children)
+      .map(row => ({
+          title: row.querySelector('.sub-title').value.trim(),
+          desc: row.querySelector('.sub-desc').value.trim(),
+          link: row.querySelector('.sub-link').value.trim()
+      }))
+      .filter(res => res.title || res.desc || res.link);
 
     if (resourcesList.length === 0) return alert("Please add at least one link/sub-resource.");
 
