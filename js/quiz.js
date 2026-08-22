@@ -49,8 +49,12 @@ class QuizApp {
       document.getElementById("total-qs").innerText = this.quizData.length;
       this.buildQuiz();
 
-      // --- NEW: Restore State & Start Auto-Save if logged in ---
+      // --- Restore State & Start Auto-Save if logged in ---
       if (window.authManager && window.authManager.userProfile) {
+          // Reveal the Save and Reset buttons for logged in users
+          const headerActions = document.getElementById("quiz-header-actions");
+          if (headerActions) headerActions.style.display = "flex";
+
           const savedState = await window.authManager.getQuizState(this.quizKey);
           if (savedState) this.restoreState(savedState);
           this.startAutoSave();
@@ -123,20 +127,11 @@ class QuizApp {
     return label;
   }
 
-  // --- NEW: Auto-Save Logic Methods ---
+  // --- Auto-Save Logic Methods ---
   restoreState(state) {
-    let hasAnswers = false;
     for (const [qIndex, optIndex] of Object.entries(state)) {
        const radio = document.querySelector(`input[name="question_${qIndex}"][value="${optIndex}"]`);
-       if (radio) {
-           radio.checked = true;
-           hasAnswers = true;
-       }
-    }
-    // Only show the Start Fresh button if we actually restored past answers
-    if (hasAnswers) {
-        const retakeBtn = document.getElementById("resume-retake-btn");
-        if (retakeBtn) retakeBtn.style.display = "inline-block";
+       if (radio) radio.checked = true;
     }
   }
 
@@ -165,12 +160,18 @@ class QuizApp {
     }
   }
 
+  manualSave() {
+    this.saveCurrentState();
+    alert("Quiz progress saved successfully!");
+  }
+
   async clearStateAndReload() {
-    // Allows the user to throw away their saved progress and start from zero
-    if (window.authManager) {
-        await window.authManager.clearQuizState(this.quizKey);
+    if (confirm("Are you sure you want to reset your progress? This will clear all your current answers.")) {
+        if (window.authManager) {
+            await window.authManager.clearQuizState(this.quizKey);
+        }
+        window.location.reload();
     }
-    window.location.reload();
   }
   // ------------------------------------
 
@@ -207,9 +208,9 @@ class QuizApp {
         if (promo) promo.style.display = "block";
     }
 
-    // Hide the "Start Fresh" button if it was showing
-    const retakeBtn = document.getElementById("resume-retake-btn");
-    if (retakeBtn) retakeBtn.style.display = "none";
+    // Hide the Save and Reset buttons container
+    const headerActions = document.getElementById("quiz-header-actions");
+    if (headerActions) headerActions.style.display = "none";
 
     document.getElementById("results").style.display = "block";
     document.getElementById("questions-container").classList.add("disabled-form");
