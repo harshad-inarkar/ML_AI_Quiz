@@ -23,13 +23,12 @@
             <div class="header-card">
                 <div class="view-count">Views: <span id="visitor-count">...</span></div>
 
-                <!-- NEW: Extracted inline styles to CSS and added Save/Reset buttons -->
                 <div id="quiz-header-actions" class="quiz-header-actions">
-                    <button id="manual-save-btn" class="btn btn-secondary header-action-btn" onclick="if(quizApp) quizApp.manualSave()" title="Save Progress">
+                    <button id="manual-save-btn" class="btn btn-secondary btn-icon" onclick="if(quizApp) quizApp.manualSave()" title="Save Progress">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                         Save
                     </button>
-                    <button id="resume-retake-btn" class="btn btn-secondary header-action-btn" onclick="if(quizApp) quizApp.clearStateAndReload()" title="Clear answers and start over">
+                    <button id="resume-retake-btn" class="btn btn-secondary btn-icon" onclick="if(quizApp) quizApp.clearStateAndReload()" title="Clear answers and start over">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
                         Reset
                     </button>

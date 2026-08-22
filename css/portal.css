@@ -20,8 +20,6 @@
 }
 
 .quiz-card {
-    border-left: 4px solid var(--primary-accent);
-    margin-bottom: 16px;
     transition:
         transform 0.15s ease,
         border-color 0.15s ease;
@@ -32,33 +30,20 @@
     border-color: var(--secondary-accent);
 }
 
-.quiz-card h2 {
-    margin: 0 0 16px 0;
-    font-family: "Poppins", sans-serif;
-    font-size: 18px;
-    color: var(--text-heading);
-    font-weight: 500;
-}
-
 .action-links {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-/* --- Elegant Quiz Card Adjustments --- */
+/* Elegant Quiz Card Adjustments */
 .smart-badge {
     padding: 4px 12px;
     border-radius: 12px;
     font-size: 13px;
     font-weight: 600;
-    white-space: nowrap; /* Prevents the score from wrapping to two lines */
+    white-space: nowrap; 
     
-    /* 
-       Dynamic CSS variables injected via JS in portal.js.
-       The linear gradient fills the left side with the score color, 
-       and leaves the right side a dark gray.
-    */
     color: var(--badge-color, var(--primary-accent));
     border: 1px solid var(--badge-color, var(--primary-accent));
     background: linear-gradient(
@@ -69,15 +54,7 @@
 }
 
 .fallback-badge {
-    /* Simple solid style for legacy scores saved before totals were tracked */
     background: rgba(74, 124, 123, 0.15);
     color: var(--primary-accent);
     border: 1px solid rgba(74, 124, 123, 0.3);
-}
-
-.icon-only-btn {
-    padding: 8px 10px; /* Squares out the button */
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

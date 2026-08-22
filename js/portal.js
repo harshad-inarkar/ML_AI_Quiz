@@ -97,7 +97,7 @@ class PortalApp {
         }
     }
     
-    // --- NEW: Check if there is an incomplete saved state for this quiz ---
+    // Check if there is an incomplete saved state for this quiz
     let attemptText = "Attempt Quiz";
     if (window.authManager && window.authManager.userQuizStates && window.authManager.userQuizStates[key]) {
         attemptText = "Resume Quiz";
@@ -116,7 +116,7 @@ class PortalApp {
           ${quizData.resources_keys && quizData.resources_keys.length > 0 ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` : ''}
           <button class="btn btn-secondary admin-only" onclick="window.portalApp.openQuizModal('${key}')">Edit Quiz</button>
         </div>
-        <button class="btn btn-secondary download-quiz-btn icon-only-btn" data-key="${key}" title="Save for Offline Use">
+        <button class="btn btn-secondary download-quiz-btn btn-icon" data-key="${key}" title="Save for Offline Use">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         </button>
       </div>
