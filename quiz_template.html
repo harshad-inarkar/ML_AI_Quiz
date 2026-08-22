@@ -23,6 +23,10 @@
             <div class="header-card">
                 <div class="view-count">Views: <span id="visitor-count">...</span></div>
 
+                <h1 id="quiz-title">Loading Quiz...</h1>
+                <p>Attempt as many questions as you like and click Submit<br>to see your score and explanations.</p>
+
+                <!-- MOVED: Placed below the text for natural mobile flow -->
                 <div id="quiz-header-actions" class="quiz-header-actions">
                     <button id="manual-save-btn" class="btn btn-secondary btn-icon" onclick="if(quizApp) quizApp.manualSave()" title="Save Progress">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
@@ -33,10 +37,6 @@
                         Reset
                     </button>
                 </div>
-
-                <h1 id="quiz-title">Loading Quiz...</h1>
-                <p>Attempt as many questions as you like and click Submit<br>to see your score and explanations.</p>
-
             </div>
             
             <div id="status-msg">Fetching configuration...</div>
