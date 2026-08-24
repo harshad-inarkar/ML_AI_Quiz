@@ -56,13 +56,25 @@ class ResourcesApp {
     this.container.innerHTML = "";
     const keysToRender = this.requestedKeys || Object.keys(data).filter(k => k !== 'null');
 
+    // NEW: Inject a Top Insert Button for Admins (Insert at position 0)
+    const isAdmin = window.authManager && window.authManager.userProfile && window.authManager.userProfile.role === 'admin';
+    if (isAdmin) {
+        this.container.appendChild(this.buildInsertButton("0"));
+    }
+
     if (keysToRender.length === 0) {
-      this.container.innerHTML = '<p class="resource-empty-message">No resources currently available.</p>';
+      this.container.innerHTML += '<p class="resource-empty-message">No resources currently available.</p>';
       return;
     }
 
     keysToRender.forEach((key) => {
-      if (data[key]) this.container.appendChild(this.buildResourceCard(key, data[key]));
+      if (data[key]) {
+          this.container.appendChild(this.buildResourceCard(key, data[key]));
+          // NEW: Inject a floating Insert Button after every card
+          if (isAdmin) {
+              this.container.appendChild(this.buildInsertButton(key));
+          }
+      }
     });
   }
 
@@ -79,6 +91,24 @@ class ResourcesApp {
       <ul class="resource-list">${listItems}</ul>
     `;
     return card;
+  }
+
+  // --- NEW UI Generator: Circular Insert Button ---
+  buildInsertButton(afterKey) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "admin-only";
+    // Uses negative margin to float perfectly between cards
+    wrapper.style.cssText = "display: flex; justify-content: center; margin-top: -10px; margin-bottom: 8px; position: relative; z-index: 10;";
+    
+    wrapper.innerHTML = `
+      <button class="btn btn-secondary btn-icon" style="border-radius: 50%; width: 28px; height: 28px; padding: 0; background: var(--surface); border: 2px solid var(--primary-accent); color: var(--primary-accent);" onclick="window.resourcesApp.openResourceModal(null, '${afterKey}')" title="Insert New Resource Here">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    `;
+    return wrapper;
   }
 
   buildListItem(res) {
@@ -100,10 +130,21 @@ class ResourcesApp {
   }
 
   // --- CMS Admin Methods ---
-  openResourceModal(editKey = null) {
+  openResourceModal(editKey = null, insertAfterKey = null) {
     const modal = document.getElementById('resource-modal');
-    document.getElementById('res-modal-title').innerText = editKey ? "Edit Resource Group" : "Add Resource Group";
+    document.getElementById('res-modal-title').innerText = editKey ? "Edit Resource Group" : (insertAfterKey ? "Insert Resource Group" : "Add Resource Group");
     document.getElementById('res-edit-key').value = editKey || "";
+    
+    // Dynamically ensure the hidden insert key exists
+    let insertNode = document.getElementById('res-insert-key');
+    if (!insertNode) {
+        insertNode = document.createElement('input');
+        insertNode.type = 'hidden';
+        insertNode.id = 'res-insert-key';
+        document.getElementById('resource-modal').appendChild(insertNode);
+    }
+    insertNode.value = insertAfterKey || "";
+
     const subContainer = document.getElementById('sub-resources-container');
     subContainer.innerHTML = "";
 
@@ -112,7 +153,7 @@ class ResourcesApp {
       this.resourceDataRaw[editKey].resources.forEach(res => this.addSubResourceRow(res));
     } else {
       document.getElementById('cms-res-title').value = "";
-      this.addSubResourceRow(); // Add one blank row by default
+      this.addSubResourceRow(); 
     }
     
     modal.style.display = 'flex';
@@ -137,7 +178,8 @@ class ResourcesApp {
   }
 
   async saveResourceGroup() {
-    const key = document.getElementById('res-edit-key').value;
+    const editKey = document.getElementById('res-edit-key').value;
+    const insertAfterKey = document.getElementById('res-insert-key')?.value;
     const groupTitle = document.getElementById('cms-res-title').value;
     if (!groupTitle) return alert("Group Title is required.");
 
@@ -151,10 +193,73 @@ class ResourcesApp {
 
     if (resourcesList.length === 0) return alert("Please add at least one link/sub-resource.");
 
-    const targetKey = key || this._generateNewKey(this.resourceDataRaw);
+    const updates = {};
+    const groupPayload = { title: groupTitle, resources: resourcesList };
 
     try {
-      await this.database.ref(`configs/resources/${targetKey}`).set({ title: groupTitle, resources: resourcesList });
+      if (editKey) {
+        // --- Standard Edit ---
+        updates[`configs/resources/${editKey}`] = groupPayload;
+      } else if (insertAfterKey) {
+        // --- Atomic Re-Indexing Insertion ---
+        const insertPos = parseInt(insertAfterKey, 10);
+        const newKey = insertPos + 1;
+
+        // 1. Shift Global Resources Down
+        const resSnap = await this.database.ref('configs/resources').once('value');
+        const allRes = resSnap.val() || {};
+        const keys = Object.keys(allRes).filter(k => k !== 'null').map(Number).sort((a,b) => b - a);
+        
+        keys.forEach(k => {
+            if (k >= newKey) {
+                updates[`configs/resources/${k + 1}`] = allRes[k];
+                updates[`configs/resources/${k}`] = null; 
+            }
+        });
+        updates[`configs/resources/${newKey}`] = groupPayload;
+
+        // 2. Shift Quiz References Globally to Prevent Broken Links
+        const quizSnap = await this.database.ref('configs/index').once('value');
+        const allQuizzes = quizSnap.val() || {};
+        
+        for (const qk of Object.keys(allQuizzes)) {
+            if (allQuizzes[qk].resources_keys) {
+                let updatedArray = allQuizzes[qk].resources_keys.map(oldRef => {
+                    const refNum = parseInt(oldRef, 10);
+                    return refNum >= newKey ? String(refNum + 1) : oldRef;
+                });
+                
+                // 3. Inject new ID into the current quiz's array specifically
+                if (this.quizKey && qk === this.quizKey) {
+                    const idx = updatedArray.indexOf(String(insertAfterKey));
+                    if (idx !== -1) {
+                        updatedArray.splice(idx + 1, 0, String(newKey));
+                    } else if (insertAfterKey === "0") {
+                        updatedArray.unshift(String(newKey));
+                    }
+                }
+                updates[`configs/index/${qk}/resources_keys`] = updatedArray;
+            } else if (this.quizKey && qk === this.quizKey) {
+                updates[`configs/index/${qk}/resources_keys`] = [String(newKey)];
+            }
+        }
+      } else {
+        // --- Standard Append to End ---
+        const targetKey = this._generateNewKey(this.resourceDataRaw);
+        updates[`configs/resources/${targetKey}`] = groupPayload;
+
+        // Append to current quiz if viewing one
+        if (this.quizKey) {
+            const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once('value');
+            const quizData = quizSnap.val() || {};
+            const arr = quizData.resources_keys || [];
+            arr.push(targetKey);
+            updates[`configs/index/${this.quizKey}/resources_keys`] = arr;
+        }
+      }
+
+      // Execute atomic multi-path update
+      await this.database.ref().update(updates);
       alert("Resource Group saved successfully!");
       document.getElementById('resource-modal').style.display = 'none';
       this.loadResources();
