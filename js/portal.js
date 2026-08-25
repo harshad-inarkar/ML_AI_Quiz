@@ -38,11 +38,11 @@ class PortalApp {
 
     if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
         if (!user) {
-            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Access Restricted</h2><p>Please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a> to view and attempt quizzes.</p></div>`;
+            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Unlock Quizzes</h2><p>To keep your progress secure and track your top scores, please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a>.</p></div>`;
             return;
         }
         if (access === 'enforce_verify_email' && !verified) {
-            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>Please verify your email address to access quizzes. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
+            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>For your security, please verify your email address to access quizzes. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
             return;
         }
     }
@@ -143,7 +143,6 @@ class PortalApp {
     return card;
   }
 
-  // --- CMS Admin Methods (Quizzes) ---
   openQuizModal(editKey = null) {
     const modal = document.getElementById('quiz-modal');
     document.getElementById('quiz-modal-title').innerText = editKey ? "Edit Quiz" : "Add New Quiz";
@@ -198,7 +197,6 @@ class PortalApp {
     }
   }
 
-  // --- NEW: CMS Admin Methods (Settings) ---
   async openSettingsModal() {
       const modal = document.getElementById('settings-modal');
       const settings = await window.authManager.fetchSettings();
@@ -220,7 +218,7 @@ class PortalApp {
           });
           alert("Portal Settings updated successfully!");
           document.getElementById('settings-modal').style.display = 'none';
-          this.loadQuizzes(); // Refresh UI to apply new locks dynamically
+          this.loadQuizzes(); 
       } catch (e) {
           alert("Error saving settings: " + e.message);
       }

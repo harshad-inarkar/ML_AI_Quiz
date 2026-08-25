@@ -38,15 +38,20 @@ class ResourcesApp {
     const user = window.authManager.userProfile;
     const verified = window.authManager.auth.currentUser?.emailVerified;
 
-    // --- NEW: CONTENT-LEVEL ACCESS GATING ---
+    // --- CONTENT-LEVEL ACCESS GATING ---
     if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
+        
+        // Hide the save/download button since they don't have access
+        const dlBtn = document.getElementById("download-btn");
+        if (dlBtn) dlBtn.style.display = "none";
+
         if (!user) {
-            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Access Restricted</h2><p>Please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a> to view study resources.</p></div>`;
+            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Unlock Study Resources</h2><p>To keep our learning community secure, please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a> to view and save these materials.</p></div>`;
             document.getElementById("status-msg").style.display = "none";
             return;
         }
         if (access === 'enforce_verify_email' && !verified) {
-            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>Please verify your email address to access study resources. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
+            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>For your security, please verify your email address to access study resources. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
             document.getElementById("status-msg").style.display = "none";
             return;
         }
@@ -64,6 +69,11 @@ class ResourcesApp {
       const snapshot = await this.database.ref("configs/resources").once("value");
       if (!snapshot.exists()) throw new Error("Resources config not found.");
       document.getElementById("status-msg").style.display = "none";
+      
+      // If access is granted, ensure the download button is visible
+      const dlBtn = document.getElementById("download-btn");
+      if (dlBtn) dlBtn.style.display = "flex";
+
       this.renderResources(snapshot.val());
     } catch (error) {
       this.showError(error.message);
