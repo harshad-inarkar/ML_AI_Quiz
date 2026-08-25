@@ -31,6 +31,23 @@ class PortalApp {
   }
 
   async loadQuizzes() {
+    const settings = await window.authManager.fetchSettings();
+    const access = settings.QUIZ_ACCESS_LEVEL || 'unrestricted';
+    const user = window.authManager.userProfile;
+    const verified = window.authManager.auth.currentUser?.emailVerified;
+
+    // --- NEW: CONTENT-LEVEL ACCESS GATING ---
+    if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
+        if (!user) {
+            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Access Restricted</h2><p>Please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a> to view and attempt quizzes.</p></div>`;
+            return;
+        }
+        if (access === 'enforce_verify_email' && !verified) {
+            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>Please verify your email address to access quizzes. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
+            return;
+        }
+    }
+
     try {
       const snapshot = await this.database.ref("configs/index").once("value");
       if (!snapshot.exists()) throw new Error("Config not found");
@@ -38,6 +55,7 @@ class PortalApp {
       this.renderQuizzes();
     } catch (error) {
       console.error(error);
+      this.listContainer.innerHTML = `<p style="text-align:center; color:var(--red-text);">Unable to load quizzes. Please check your access permissions.</p>`;
     }
   }
 
@@ -56,7 +74,6 @@ class PortalApp {
     });
   }
 
-  // --- Modular UI Generators ---
   _generateBadgeHTML(quizKey) {
     if (!window.authManager || !window.authManager.userProfile) return '';
     
@@ -127,7 +144,6 @@ class PortalApp {
     return card;
   }
 
-  // --- CMS Admin Methods ---
   openQuizModal(editKey = null) {
     const modal = document.getElementById('quiz-modal');
     document.getElementById('quiz-modal-title').innerText = editKey ? "Edit Quiz" : "Add New Quiz";

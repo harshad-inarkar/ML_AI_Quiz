@@ -23,6 +23,23 @@ class QuizApp {
   }
 
   async loadQuiz() {
+    const settings = await window.authManager.fetchSettings();
+    const access = settings.QUIZ_ACCESS_LEVEL || 'unrestricted';
+    const user = window.authManager.userProfile;
+    const verified = window.authManager.auth.currentUser?.emailVerified;
+
+    // --- NEW: CONTENT-LEVEL ACCESS GATING ---
+    if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
+        if (!user) {
+            this.setStatus("Access Denied: Please log in or register to attempt this quiz.");
+            return;
+        }
+        if (access === 'enforce_verify_email' && !verified) {
+            this.setStatus("Access Denied: Please verify your email address to attempt this quiz.");
+            return;
+        }
+    }
+
     try {
       const infoSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
       if (!infoSnap.exists()) return this.showNotFound();
@@ -114,7 +131,6 @@ class QuizApp {
     return label;
   }
 
-  // --- Auto-Save Logic Methods ---
   restoreState(state) {
     for (const [qIndex, optIndex] of Object.entries(state)) {
        const radio = document.querySelector(`input[name="question_${qIndex}"][value="${optIndex}"]`);
@@ -159,7 +175,6 @@ class QuizApp {
     }
   }
 
-  // --- Modular Grading ---
   _gradeQuestion(index, question) {
     const selectedValue = this.getSelectedValue(index);
     const expBox = document.getElementById(`exp-${index}`);

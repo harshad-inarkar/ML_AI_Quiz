@@ -13,12 +13,10 @@ class AuthManager {
     this.auth.onAuthStateChanged(this.handleAuthStateChange.bind(this));
   }
 
-  // --- NEW: DRY Utility for Authentication Redirects ---
   get actionCodeSettings() {
     return { url: window.location.href.split('?')[0] };
   }
 
-  // --- UI Helper Methods ---
   closeModal() {
     const modal = document.getElementById('auth-modal');
     if (modal) modal.style.display = 'none';
@@ -51,7 +49,6 @@ class AuthManager {
     document.getElementById(`tab-${tabName}`).classList.add('active');
   }
 
-  // --- Authentication Methods ---
   async isEmailAllowed(email) {
     try {
       const snap = await this.database.ref('allowed_admins').once('value');
@@ -71,24 +68,15 @@ class AuthManager {
     } catch (e) {
       console.error("Could not fetch settings:", e);
     }
-    return { enforce_verify_email: false, SHOW_TOTAL_VIEWS: true, autosave_interval_ms: 60000 };
+    // Updated default access levels
+    return { QUIZ_ACCESS_LEVEL: 'unrestricted', RESOURCES_ACCESS_LEVEL: 'unrestricted', SHOW_TOTAL_VIEWS: true, autosave_interval_ms: 60000 };
   }
 
   async login(email, password) {
     if (!email || !password) return alert("Please enter both email and password.");
     try {
-      const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
-      const settings = await this.fetchSettings();
-      
-      if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
-        const wantsLink = window.confirm("Access Denied: Your email address must be verified to log in.\n\nWould you like us to send a new verification link to your email right now?");
-        if (wantsLink) {
-          await userCredential.user.sendEmailVerification(this.actionCodeSettings);
-          alert("Verification link sent! Please check your inbox and spam folder.");
-        }
-        await this.auth.signOut();
-        return; 
-      }
+      await this.auth.signInWithEmailAndPassword(email, password);
+      // Soft-Landing: No longer kicking unverified users out. Handled by page content blocks.
       this.closeModal();
     } catch (error) {
       alert("Login Error: " + error.message);
@@ -140,17 +128,8 @@ class AuthManager {
       }
 
       await user.sendEmailVerification(this.actionCodeSettings);
-      const settings = await this.fetchSettings();
-      
-      if (settings.enforce_verify_email === true) {
-        await this.auth.signOut();
-        alert("Registration successful! A verification link has been sent to your email (check your inbox/spam folder).\n\nYou MUST click it to verify your account before logging in.");
-        this.switchTab('login');
-      } else {
-        alert("Registration successful! You are now logged in. A verification link has been sent to your email (check your inbox/spam folder).");
-        this.closeModal();
-      }
-
+      alert("Registration successful! You are now logged in. A verification link has been sent to your email (check your inbox/spam folder).");
+      this.closeModal();
     } catch (error) {
       alert("Registration Error: " + error.message);
     }
@@ -180,7 +159,6 @@ class AuthManager {
     }
   }
 
-  // --- Quiz State & Score Methods ---
   async saveQuizState(quizId, stateData) {
     const user = this.auth.currentUser;
     if (user) await this.database.ref(`quiz_states/${user.uid}/${quizId}`).set(stateData).catch(e => console.error(e));
@@ -219,19 +197,11 @@ class AuthManager {
     }
   }
 
-  // --- Session Management ---
   async handleAuthStateChange(user) {
     const authStatus = document.getElementById('auth-status');
     const authActions = document.getElementById('auth-actions');
 
     if (user) {
-      const settings = await this.fetchSettings();
-      if (settings.enforce_verify_email === true && !user.emailVerified) {
-          await this.auth.signOut();
-          alert("Security policy updated: You must verify your email address to continue using the portal.\n\nPlease log in again to request a new verification link.");
-          return;
-      }
-      
       let profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       if (!profileSnap.exists()) {
           await new Promise(resolve => setTimeout(resolve, 2000));
