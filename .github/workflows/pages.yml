@@ -8,6 +8,7 @@ on:
       - '**/*.html'
       - '**/*.css'
       - '**/*.js'
+      - 'resources_dir/**'
       - '.github/workflows/pages.yml'
 
 # Set permissions to allow deployment to GitHub Pages
