@@ -1,374 +1,115 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500;700&display=swap");
-
-:root {
-    --bg-main: #000000;
-    --surface: #0b1517;
-    --surface-alt: #132225;
-    --surface-border: #1a2f33;
-    --primary-accent: #4a7c7b;
-    --secondary-accent: #6da4a3;
-    --text-primary: #cbd5e1;
-    --text-heading: #e2e8f0;
-    --text-secondary: #94a3b8;
-
-    --green-bg: rgba(74, 124, 123, 0.15);
-    --green-text: #6da4a3;
-    --green-border: #4a7c7b;
-    --red-bg: rgba(153, 56, 73, 0.15);
-    --red-text: #e28591;
-    --red-border: #993849;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Inter", Arial, sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    margin: 0;
-    padding: 24px 20px 48px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-synthesis: none;
-}
-
-/* Header card, shared by every page */
-.header-card {
-    position: relative;
-    background-color: var(--surface);
-    border: 1px solid var(--surface-border);
-    padding: 30px 28px 26px;
-    border-radius: 20px;
-    margin-bottom: 26px;
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(109, 164, 163, 0.03);
-    overflow: hidden;
-}
-
-.header-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
-}
-
-.header-card h1 {
-    margin: 8px 0 10px 0;
-    font-family: "Poppins", sans-serif;
-    font-size: 26px;
-    font-weight: 500;
-    color: var(--text-heading);
-    letter-spacing: -0.02em;
-    padding-right: 70px; /* Extracted from specific page CSS */
-}
-
-.header-card p {
-    margin: 0;
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.6;
-}
-
-.view-count {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    font-size: 11px;
-    color: var(--secondary-accent);
-    font-weight: 500;
-    background: rgba(109, 164, 163, 0.1);
-    border: 1px solid var(--surface-border);
-    padding: 4px 12px;
-    border-radius: 999px;
-}
-
-.nav-link {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: var(--secondary-accent);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 13px;
-    transition: color 0.2s;
-}
-
-.nav-link:hover {
-    color: var(--text-heading);
-}
-
-/* Buttons, shared by every page */
-.btn {
-    display: inline-block;
-    padding: 8px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition:
-        background-color 0.2s,
-        border-color 0.2s,
-        color 0.2s,
-        opacity 0.2s;
-}
-
-.btn-primary {
-    background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
-    color: #000000;
-    border: 1px solid transparent;
-}
-
-.btn-primary:hover {
-    opacity: 0.9;
-}
-
-.btn-secondary {
-    background-color: rgba(109, 164, 163, 0.05);
-    color: var(--secondary-accent);
-    border: 1px solid rgba(109, 164, 163, 0.3);
-}
-
-.btn-secondary:hover {
-    background-color: rgba(109, 164, 163, 0.15);
-    border-color: var(--secondary-accent);
-    color: var(--text-heading);
-}
-
-/* --- NEW: Standardized Icon Button Utility --- */
-.btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 6px 12px;
-}
-
-.btn-icon svg {
-    width: 16px;
-    height: 16px;
-}
-
-/* Loading / status messaging */
-#status-msg {
+/* --- Extracted JavaScript Inline Styles (DRY) --- */
+.restricted-box {
     text-align: center;
-    color: var(--text-secondary);
     padding: 40px;
-    font-size: 15px;
-}
-
-/* Error banner */
-.error-box {
-    display: none;
-    background-color: var(--red-bg);
-    color: var(--red-text);
-    padding: 16px;
-    border-radius: 12px;
-    border-left: 4px solid var(--red-border);
-    margin-bottom: 24px;
-    font-size: 14px;
-}
-
-/* Shared max-width inner wrapper */
-.page-content {
-    max-width: 640px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-/* Full-viewport shell */
-.page-shell {
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-/* Base surface card - Applied directly to dynamic elements */
-.quiz-card,
-.question-card,
-.resource-card {
     background: var(--surface);
-    border: 1px solid var(--surface-border);
     border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--surface-border);
+    margin-top: 20px;
 }
 
-/* --- NEW: Standardized Card Extensions --- */
-.quiz-card, 
-.resource-card {
-    border-left: 4px solid var(--primary-accent);
-    margin-bottom: 18px; 
-}
-
-.quiz-card h2, 
-.resource-card h2 {
-    margin: 0 0 16px 0;
-    font-family: "Poppins", sans-serif;
-    font-size: 18px;
+.restricted-box h2 {
+    margin-top: 0;
     color: var(--text-heading);
-    font-weight: 500;
 }
 
-/* --- Authentication & CMS Styles --- */
-.top-nav-bar {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    margin-bottom: 16px;
-    width: 100%;
-}
-.top-nav-bar .nav-link { 
-    margin-bottom: 0; 
-}
-.auth-area { 
-    display: flex; 
-    align-items: center; 
-    justify-content: flex-end; 
-    flex-grow: 1; 
-}
-.auth-info { 
-    font-weight: 500; 
-    color: var(--text-secondary); 
-    margin-right: 15px; 
-    font-size: 14px; 
-}
-.admin-badge { 
-    background: var(--primary-accent); 
-    color: #000; 
-    padding: 2px 6px; 
-    border-radius: 4px; 
-    font-size: 11px; 
-    margin-left: 6px; 
-    font-weight: 700; 
-    text-transform: uppercase; 
-    vertical-align: middle; 
-}
-
-/* Admin Visibility Toggles */
-.admin-only { display: none !important; }
-body.admin-mode .admin-only { display: inline-flex !important; }
-body.admin-mode .admin-only-block { display: block !important; }
-
-/* Modals */
-.modal-overlay {
-    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.85); z-index: 1000;
-    justify-content: center; align-items: center; padding: 20px;
-}
-.modal-content {
-    background: var(--surface); border: 1px solid var(--surface-border);
-    border-radius: 16px; padding: 30px; width: 100%; max-width: 500px;
-    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.9);
-}
-.modal-content h2 { margin-top: 0; color: var(--text-heading); font-family: "Poppins", sans-serif; }
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); }
-.form-group input, .form-group textarea, .form-group select {
-    width: 100%; padding: 10px 12px; border-radius: 8px;
-    background: var(--surface-alt); border: 1px solid var(--surface-border);
-    color: var(--text-primary); font-family: "Inter", sans-serif;
-}
-.form-group input:focus { outline: none; border-color: var(--secondary-accent); }
-.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
-
-/* Auth Modal Tabs */
-.auth-tabs {
-    display: flex;
-    border-bottom: 2px solid var(--surface-border);
-    margin-bottom: 20px;
-}
-.auth-tab {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-weight: 600;
-    transition: 0.3s;
-}
-.auth-tab:hover { color: var(--text-primary); }
-.auth-tab.active {
+.restricted-box a {
     color: var(--primary-accent);
-    border-bottom: 2px solid var(--primary-accent);
-    margin-bottom: -2px;
-}
-.auth-form-section { display: none; }
-.auth-form-section.active { display: block; }
-
-/* Shared Guest Promo Message */
-.guest-promo-msg {
-    display: none; 
-    color: var(--primary-accent);
-    margin-top: 15px;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.guest-promo-msg a {
-    color: inherit;
     text-decoration: underline;
 }
 
+.error-text {
+    text-align: center;
+    color: var(--red-text);
+}
 
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
 
-/* --- NEW: Discord Promo Strip --- */
-.discord-promo {
-    background: rgba(88, 101, 242, 0.1);
-    border-left: 4px solid #5865F2;
-    padding: 10px 16px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+.card-title-text {
+    margin: 0;
+    padding-right: 15px;
+}
+
+.action-links-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
+}
+
+.action-links-left {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-small {
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+.insert-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: -10px;
+    margin-bottom: 8px;
     position: relative;
-    z-index: 2; /* Ensures it stays above background gradients */
+    z-index: 10;
 }
 
-.discord-promo-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-heading);
-    font-size: 14px;
-    font-weight: 500;
+.btn-circle {
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: var(--surface);
+    border: 2px solid var(--primary-accent);
+    color: var(--primary-accent);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-.discord-promo-actions {
-    display: flex;
-    gap: 10px;
+.cms-row {
+    background: rgba(0,0,0,0.2);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid var(--surface-border);
+    position: relative;
 }
 
-/* Discord Specific Buttons */
-.btn-discord {
-    background: #5865F2;
-    color: #ffffff;
-    border: 1px solid #5865F2;
-}
-
-.btn-discord:hover {
-    background: #4752C4;
-    border-color: #4752C4;
-    color: #ffffff;
-}
-
-.btn-discord-outline {
+.btn-close-row {
+    position: absolute;
+    right: 10px;
+    top: 10px;
     background: transparent;
-    color: #5865F2;
-    border: 1px solid #5865F2;
+    border: none;
+    color: var(--red-text);
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.btn-discord-outline:hover {
-    background: rgba(88, 101, 242, 0.1);
-    color: #ffffff;
+.form-group-sm {
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.auth-group-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.auth-link {
+    font-size: 12px;
+    color: var(--primary-accent);
+    text-decoration: none;
 }

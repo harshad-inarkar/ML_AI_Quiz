@@ -38,7 +38,6 @@ class ResourcesApp {
     const user = window.authManager.userProfile;
     const verified = window.authManager.auth.currentUser?.emailVerified;
 
-    // --- Call the DRY AuthManager utility to inject the promo ---
     window.authManager.injectDiscordPromo(settings);
 
     if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
@@ -46,12 +45,12 @@ class ResourcesApp {
         if (dlBtn) dlBtn.style.display = "none";
 
         if (!user) {
-            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Unlock Study Resources</h2><p>To keep our learning community secure, please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a> to view and save these materials.</p></div>`;
+            this.container.innerHTML = window.authManager.generateRestrictedHTML("Study Resources", "login");
             document.getElementById("status-msg").style.display = "none";
             return;
         }
         if (access === 'enforce_verify_email' && !verified) {
-            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>For your security, please verify your email address to access study resources. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
+            this.container.innerHTML = window.authManager.generateRestrictedHTML("Study Resources", "verify");
             document.getElementById("status-msg").style.display = "none";
             return;
         }
@@ -111,9 +110,9 @@ class ResourcesApp {
     const listItems = group.resources.map((res) => this.buildListItem(res)).filter(Boolean).join("");
 
     card.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div class="card-header-flex">
         <h2>${key}. ${group.title}</h2>
-        <button class="btn btn-secondary admin-only" onclick="window.resourcesApp.openResourceModal('${key}')" style="padding: 4px 10px; font-size:12px;">Edit</button>
+        <button class="btn btn-secondary btn-small admin-only" onclick="window.resourcesApp.openResourceModal('${key}')">Edit</button>
       </div>
       <ul class="resource-list">${listItems}</ul>
     `;
@@ -122,11 +121,10 @@ class ResourcesApp {
 
   buildInsertButton(afterKey) {
     const wrapper = document.createElement("div");
-    wrapper.className = "admin-only";
-    wrapper.style.cssText = "display: flex; justify-content: center; margin-top: -10px; margin-bottom: 8px; position: relative; z-index: 10;";
+    wrapper.className = "insert-btn-wrapper admin-only";
     
     wrapper.innerHTML = `
-      <button class="btn btn-secondary btn-icon" style="border-radius: 50%; width: 28px; height: 28px; padding: 0; background: var(--surface); border: 2px solid var(--primary-accent); color: var(--primary-accent);" onclick="window.resourcesApp.openResourceModal(null, '${afterKey}')" title="Insert New Resource Here">
+      <button class="btn btn-secondary btn-icon btn-circle" onclick="window.resourcesApp.openResourceModal(null, '${afterKey}')" title="Insert New Resource Here">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -185,12 +183,12 @@ class ResourcesApp {
   addSubResourceRow(data = {title: "", desc: "", link: ""}) {
     const container = document.getElementById('sub-resources-container');
     const row = document.createElement('div');
-    row.style.cssText = "background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--surface-border); position: relative;";
+    row.className = "cms-row";
     row.innerHTML = `
-      <button type="button" onclick="this.parentElement.remove()" style="position:absolute; right:10px; top:10px; background:transparent; border:none; color:var(--red-text); cursor:pointer; font-weight:bold;">X</button>
-      <div class="form-group" style="margin-bottom:8px;"><label>Bullet Title</label><input type="text" class="sub-title" value="${data.title || ''}"></div>
-      <div class="form-group" style="margin-bottom:8px;"><label>Link Text (Description)</label><input type="text" class="sub-desc" value="${data.desc || ''}"></div>
-      <div class="form-group" style="margin-bottom:0;"><label>URL Link</label><input type="text" class="sub-link" value="${data.link || ''}"></div>
+      <button type="button" class="btn-close-row" onclick="this.parentElement.remove()">X</button>
+      <div class="form-group form-group-sm"><label>Bullet Title</label><input type="text" class="sub-title" value="${data.title || ''}"></div>
+      <div class="form-group form-group-sm"><label>Link Text (Description)</label><input type="text" class="sub-desc" value="${data.desc || ''}"></div>
+      <div class="form-group"><label>URL Link</label><input type="text" class="sub-link" value="${data.link || ''}"></div>
     `;
     container.appendChild(row);
   }

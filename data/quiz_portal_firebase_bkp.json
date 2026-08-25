@@ -289,6 +289,11 @@
             "desc": "Great_Learning_Attention_Visualisation.ipynb",
             "link": "https://colab.research.google.com/drive/1pyQrSDigS-HYKE95UmDfb_U7cwJjvoBZ",
             "title": "Attention Visualisation"
+          },
+          {
+            "desc": "Transformer_for_Translation_GREAT_LEARNING.ipynb",
+            "link": "https://colab.research.google.com/drive/15AChTVgpDHmflAb7m28tn64DLfWgi8Tv",
+            "title": "Transformer for Translation - EN to HI"
           }
         ],
         "title": "Colab Notebooks: Module-3-NLP"
@@ -326,7 +331,32 @@
             "title": "MIT: Deep Learning 6.S191: Slides/Labs by  Alexander/Ava Amini"
           }
         ],
-        "title": "Youtube: Lecture Series on CNN, RNN,  Attention, Transformers and LLMS"
+        "title": "Youtube: RNN, Attention, Transformers Series"
+      },
+      {
+        "resources": [
+          {
+            "desc": "Andrew NG: AI Engineering",
+            "link": "https://www.deeplearning.ai/the-batch/he-ai-engineering-skills-map-in-detail-building-and-deploying-ai-applications",
+            "title": "The AI Engineering Skills Map In Detail — Building and Deploying AI Applications"
+          },
+          {
+            "desc": "criodo: attention-mechanism-math",
+            "link": "https://resources.criodo.com/resources/attention-mechanism-math/",
+            "title": "Attention Mechanism: The Math Behind Transformers"
+          },
+          {
+            "desc": "transformers-core-components-notes.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/transformers-core-components-notes.pdf",
+            "title": "Transformers Core Components"
+          },
+          {
+            "desc": "transformer-explainer",
+            "link": "https://poloclub.github.io/transformer-explainer/",
+            "title": "Visual tool: Transformer architecture"
+          }
+        ],
+        "title": "NLP Attention Transformers "
       },
       {
         "resources": [
@@ -952,20 +982,20 @@
   ],
   "portal_downloads": {
     "main": {
-      "total": 12
+      "total": 21
     },
     "resources": {
-      "total": 25
+      "total": 41
     }
   },
   "portal_views": {
     "main": {
-      "total": 747,
-      "unique": 94
+      "total": 926,
+      "unique": 109
     },
     "resources": {
-      "total": 392,
-      "unique": 90
+      "total": 554,
+      "unique": 117
     }
   },
   "quiz_states": {
@@ -1039,43 +1069,36 @@
         3,
         1
       ]
-    ],
-    "mIWfEWSPPEhXVTsF0GJ1kocLjwn1": {
-      "2": [
-        1,
-        1,
-        2
-      ]
-    }
+    ]
   },
   "quiz_views": {
     "quiz_1": {
-      "total": 206,
-      "unique": 65
+      "total": 242,
+      "unique": 76
     },
     "quiz_2": {
-      "total": 123,
-      "unique": 41
+      "total": 136,
+      "unique": 46
     },
     "quiz_3": {
-      "total": 67,
-      "unique": 28
+      "total": 81,
+      "unique": 35
     },
     "quiz_4": {
-      "total": 49,
-      "unique": 21
+      "total": 56,
+      "unique": 26
     },
     "quiz_5": {
-      "total": 16,
-      "unique": 5
+      "total": 22,
+      "unique": 7
     },
     "quiz_6": {
-      "total": 8,
-      "unique": 2
+      "total": 11,
+      "unique": 5
     },
     "quiz_7": {
-      "total": 8,
-      "unique": 3
+      "total": 11,
+      "unique": 5
     }
   },
   "quizzes": {
@@ -4690,18 +4713,30 @@
     ]
   },
   "settings": {
+    "QUIZ_ACCESS_LEVEL": "enforce_register",
+    "RESOURCES_ACCESS_LEVEL": "enforce_register",
     "SHOW_TOTAL_VIEWS": true,
     "autosave_interval_ms": 15000,
-    "enforce_verify_email": false
+    "discord_link1_join": "https://discord.gg/fMsJHSfTtN",
+    "discord_link2_channel": "https://discord.com/channels/1540056204926124152/1540212946540564570",
+    "enforce_verify_email": false,
+    "show_discord_promo": true
   },
   "usernames": {
     "Ashu21": "3GHUffNvjbOpqKJGbMpZCGcrR4Z2",
+    "Chandrakanth_A": "F7I6qq7JU6Qu4UJFTuSi5t68eE32",
     "Harshad": "boDMfecge5aagRBadzO4OyrNblx2",
     "Harshad_1": "mIWfEWSPPEhXVTsF0GJ1kocLjwn1",
     "Nirmalya": "JSrgxSqlRdYhzdeespzmnW9nuTb2",
-    "Vasudha_Sahu": "ExbTh2twaIPjX201DwrbBXCyDBs1"
+    "Vasudha_Sahu": "ExbTh2twaIPjX201DwrbBXCyDBs1",
+    "ranjanri": "2Po8UI7y2iXv7Sf82yjCj4BMXI13"
   },
   "users": {
+    "2Po8UI7y2iXv7Sf82yjCj4BMXI13": {
+      "email": "ranjan_17@hotmail.com",
+      "role": "user",
+      "username": "ranjanri"
+    },
     "3GHUffNvjbOpqKJGbMpZCGcrR4Z2": {
       "email": "ashutosh.khatri21@gmail.com",
       "role": "user",
@@ -4711,6 +4746,11 @@
       "email": "vasudha_sahu@outlook.com",
       "role": "user",
       "username": "Vasudha_Sahu"
+    },
+    "F7I6qq7JU6Qu4UJFTuSi5t68eE32": {
+      "email": "chandrakanth6993@gmail.com",
+      "role": "user",
+      "username": "Chandrakanth_A"
     },
     "JSrgxSqlRdYhzdeespzmnW9nuTb2": {
       "email": "hazranirmalya@gmail.com",

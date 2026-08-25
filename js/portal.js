@@ -36,16 +36,15 @@ class PortalApp {
     const user = window.authManager.userProfile;
     const verified = window.authManager.auth.currentUser?.emailVerified;
 
-    // --- Call the DRY AuthManager utility to inject the promo ---
     window.authManager.injectDiscordPromo(settings);
 
     if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
         if (!user) {
-            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Unlock Quizzes</h2><p>To keep your progress secure and track your top scores, please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a>.</p></div>`;
+            this.listContainer.innerHTML = window.authManager.generateRestrictedHTML("Quizzes", "login");
             return;
         }
         if (access === 'enforce_verify_email' && !verified) {
-            this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>For your security, please verify your email address to access quizzes. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
+            this.listContainer.innerHTML = window.authManager.generateRestrictedHTML("Quizzes", "verify");
             return;
         }
     }
@@ -57,7 +56,7 @@ class PortalApp {
       this.renderQuizzes();
     } catch (error) {
       console.error(error);
-      this.listContainer.innerHTML = `<p style="text-align:center; color:var(--red-text);">Unable to load quizzes. Please check your access permissions.</p>`;
+      this.listContainer.innerHTML = `<p class="error-text">Unable to load quizzes. Please check your access permissions.</p>`;
     }
   }
 
@@ -123,12 +122,12 @@ class PortalApp {
       : '';
     
     card.innerHTML = `
-      <div class="quiz-card-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-        <h2 style="margin: 0; padding-right: 15px;">${quizData.title}</h2>
+      <div class="card-header-flex">
+        <h2 class="card-title-text">${quizData.title}</h2>
         ${scoreDisplayHTML}
       </div>
-      <div class="action-links" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div style="display: flex; gap: 10px;">
+      <div class="action-links-wrapper">
+        <div class="action-links-left">
           <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">${attemptText}</a>
           ${resourcesBtnHTML}
           <button class="btn btn-secondary admin-only" onclick="window.portalApp.openQuizModal('${key}')">Edit Quiz</button>
@@ -169,10 +168,7 @@ class PortalApp {
     if (!title) return alert("Title is required.");
     
     const resourcesKeys = resString.split(',').map(s => s.trim()).filter(s => s);
-    
-    // --- Call the DRY app-bootstrap utility to generate keys ---
     const targetKey = key || window.generateNewDatabaseKey(this.quizConfigData);
-    
     const inputFile = key ? this.quizConfigData[key].input_file : `input_quiz_${targetKey}.json`;
 
     if (!key && fileInput.files.length === 0) return alert("A JSON file is required for new quizzes.");
@@ -235,6 +231,8 @@ class PortalApp {
           alert("Error saving settings: " + e.message);
       }
   }
+
+  downloadResources() {} // Kept intentional parity
 
   async downloadQuiz(quizKey) {
     const btn = document.querySelector(`.download-quiz-btn[data-key="${quizKey}"]`);

@@ -294,7 +294,17 @@ class AuthManager {
     this.auth.signOut().then(() => window.location.reload());
   }
 
-  // --- NEW: DRY Utility for Discord UI Injection ---
+  // --- DRY Utility: Generates consistent Restriction Boxes ---
+  generateRestrictedHTML(title, type) {
+    if (type === 'login') {
+        return `<div class="restricted-box"><h2>Unlock ${title}</h2><p>To keep your progress and our learning community secure, please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Log in or Register</a>.</p></div>`;
+    }
+    if (type === 'verify') {
+        return `<div class="restricted-box"><h2>Verification Required</h2><p>For your security, please verify your email address to access ${title.toLowerCase()}. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()">Resend Link</a></p></div>`;
+    }
+    return '';
+  }
+
   injectDiscordPromo(settings) {
     if (!settings.show_discord_promo || !this.userProfile) return;
     if (document.getElementById('discord-promo-strip')) return; 
@@ -333,12 +343,12 @@ class AuthManager {
 
               <!-- LOGIN TAB -->
               <div id="tab-login" class="auth-form-section active">
-                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Log in to save your top scores and track your progress.</p>
+                  <p class="auth-subtitle">Log in to save your top scores and track your progress.</p>
                   <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="user@email.com"></div>
                   <div class="form-group">
-                      <div style="display: flex; justify-content: space-between;">
+                      <div class="form-group-header">
                           <label>Password</label>
-                          <a href="javascript:void(0)" onclick="window.authManager.switchTab('reset')" style="font-size: 12px; color: var(--primary-accent); text-decoration: none;">Forgot Password?</a>
+                          <a href="javascript:void(0)" onclick="window.authManager.switchTab('reset')" class="auth-link">Forgot Password?</a>
                       </div>
                       <input type="password" id="login-password" placeholder="********">
                   </div>
@@ -350,7 +360,7 @@ class AuthManager {
 
               <!-- REGISTER TAB -->
               <div id="tab-register" class="auth-form-section">
-                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Create an account to track your top quiz scores!</p>
+                  <p class="auth-subtitle">Create an account to track your top quiz scores!</p>
                   <div class="form-group"><label>Desired Username</label><input type="text" id="reg-username" placeholder="e.g. John Doe"></div>
                   <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="user@email.com"></div>
                   <div class="form-group"><label>Password</label><input type="password" id="reg-password" placeholder="********"></div>
@@ -363,7 +373,7 @@ class AuthManager {
               <!-- RESET PASSWORD TAB -->
               <div id="tab-reset" class="auth-form-section">
                   <h3 style="margin-top: 0; margin-bottom: 10px;">Reset Password</h3>
-                  <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Enter your registered email address to receive a secure password reset link.</p>
+                  <p class="auth-subtitle">Enter your registered email address to receive a secure password reset link.</p>
                   <div class="form-group"><label>Email Address</label><input type="email" id="reset-email" placeholder="user@email.com"></div>
                   <div class="form-actions">
                       <button class="btn btn-secondary" onclick="window.authManager.switchTab('login')">Back to Login</button>
