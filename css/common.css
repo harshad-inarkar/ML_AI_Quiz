@@ -316,3 +316,59 @@ body.admin-mode .admin-only-block { display: block !important; }
     color: inherit;
     text-decoration: underline;
 }
+
+
+
+/* --- NEW: Discord Promo Strip --- */
+.discord-promo {
+    background: rgba(88, 101, 242, 0.1);
+    border-left: 4px solid #5865F2;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+    z-index: 2; /* Ensures it stays above background gradients */
+}
+
+.discord-promo-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-heading);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.discord-promo-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Discord Specific Buttons */
+.btn-discord {
+    background: #5865F2;
+    color: #ffffff;
+    border: 1px solid #5865F2;
+}
+
+.btn-discord:hover {
+    background: #4752C4;
+    border-color: #4752C4;
+    color: #ffffff;
+}
+
+.btn-discord-outline {
+    background: transparent;
+    color: #5865F2;
+    border: 1px solid #5865F2;
+}
+
+.btn-discord-outline:hover {
+    background: rgba(88, 101, 242, 0.1);
+    color: #ffffff;
+}

@@ -24,10 +24,12 @@
             </div>
         </div>
 
-        <!-- NEW: SETTINGS MODAL -->
+        <!-- SETTINGS MODAL -->
         <div id="settings-modal" class="modal-overlay">
             <div class="modal-content">
                 <h2>Portal Settings</h2>
+                
+                <h3 style="font-size: 15px; margin-bottom: 12px; color: var(--text-heading);">Access Control</h3>
                 <div class="form-group">
                     <label>Quiz Access Level</label>
                     <select id="cms-quiz-access">
@@ -44,6 +46,26 @@
                         <option value="enforce_verify_email">Require Verified Email</option>
                     </select>
                 </div>
+
+                <hr style="border: 0; border-top: 1px solid var(--surface-border); margin: 20px 0;">
+                
+                <h3 style="font-size: 15px; margin-bottom: 12px; color: var(--text-heading);">Discord Integration</h3>
+                <div class="form-group">
+                    <label>Show Discord Promo Strip?</label>
+                    <select id="cms-discord-show">
+                        <option value="false">No (Hidden)</option>
+                        <option value="true">Yes (Visible to Logged-in Users)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Link 1 (Join Server URL)</label>
+                    <input type="text" id="cms-discord-link1" placeholder="https://discord.gg/...">
+                </div>
+                <div class="form-group">
+                    <label>Link 2 (Explore Channel URL)</label>
+                    <input type="text" id="cms-discord-link2" placeholder="https://discord.com/channels/...">
+                </div>
+
                 <div class="form-actions">
                     <button class="btn btn-secondary" onclick="document.getElementById('settings-modal').style.display='none'">Cancel</button>
                     <button class="btn btn-primary" onclick="window.portalApp.saveSettings()">Save Settings</button>

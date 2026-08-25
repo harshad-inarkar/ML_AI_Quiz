@@ -68,15 +68,33 @@ class AuthManager {
     } catch (e) {
       console.error("Could not fetch settings:", e);
     }
-    // Updated default access levels
-    return { QUIZ_ACCESS_LEVEL: 'unrestricted', RESOURCES_ACCESS_LEVEL: 'unrestricted', SHOW_TOTAL_VIEWS: true, autosave_interval_ms: 60000 };
+    // --- NEW: Added Discord Config Defaults ---
+    return { 
+        QUIZ_ACCESS_LEVEL: 'unrestricted', 
+        RESOURCES_ACCESS_LEVEL: 'unrestricted', 
+        show_discord_promo: false,
+        discord_link1_join: 'https://discord.com',
+        discord_link2_channel: 'https://discord.com',
+        SHOW_TOTAL_VIEWS: true, 
+        autosave_interval_ms: 60000 
+    };
   }
 
   async login(email, password) {
     if (!email || !password) return alert("Please enter both email and password.");
     try {
-      await this.auth.signInWithEmailAndPassword(email, password);
-      // Soft-Landing: No longer kicking unverified users out. Handled by page content blocks.
+      const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
+      const settings = await this.fetchSettings();
+      
+      if (settings.enforce_verify_email === true && !userCredential.user.emailVerified) {
+        const wantsLink = window.confirm("Access Denied: Your email address must be verified to log in.\n\nWould you like us to send a new verification link to your email right now?");
+        if (wantsLink) {
+          await userCredential.user.sendEmailVerification(this.actionCodeSettings);
+          alert("Verification link sent! Please check your inbox and spam folder.");
+        }
+        await this.auth.signOut();
+        return; 
+      }
       this.closeModal();
     } catch (error) {
       alert("Login Error: " + error.message);
@@ -128,8 +146,17 @@ class AuthManager {
       }
 
       await user.sendEmailVerification(this.actionCodeSettings);
-      alert("Registration successful! You are now logged in. A verification link has been sent to your email (check your inbox/spam folder).");
-      this.closeModal();
+      const settings = await this.fetchSettings();
+      
+      if (settings.enforce_verify_email === true) {
+        await this.auth.signOut();
+        alert("Registration successful! A verification link has been sent to your email (check your inbox/spam folder).\n\nYou MUST click it to verify your account before logging in.");
+        this.switchTab('login');
+      } else {
+        alert("Registration successful! You are now logged in. A verification link has been sent to your email (check your inbox/spam folder).");
+        this.closeModal();
+      }
+
     } catch (error) {
       alert("Registration Error: " + error.message);
     }
@@ -202,6 +229,13 @@ class AuthManager {
     const authActions = document.getElementById('auth-actions');
 
     if (user) {
+      const settings = await this.fetchSettings();
+      if (settings.enforce_verify_email === true && !user.emailVerified) {
+          await this.auth.signOut();
+          alert("Security policy updated: You must verify your email address to continue using the portal.\n\nPlease log in again to request a new verification link.");
+          return;
+      }
+      
       let profileSnap = await this.database.ref(`users/${user.uid}`).once('value');
       if (!profileSnap.exists()) {
           await new Promise(resolve => setTimeout(resolve, 2000));
