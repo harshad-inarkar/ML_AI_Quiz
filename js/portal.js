@@ -65,8 +65,7 @@ class PortalApp {
     if (document.getElementById('discord-promo-strip')) return; 
 
     const headerCard = document.querySelector('.header-card');
-    const h1 = headerCard?.querySelector('h1');
-    if (!h1) return;
+    if (!headerCard) return;
 
     const link1 = settings.discord_link1_join || "#";
     const link2 = settings.discord_link2_channel || "#";
@@ -79,11 +78,12 @@ class PortalApp {
             </div>
             <div class="discord-promo-actions">
                 <a href="${link1}" target="_blank" class="btn btn-discord">Join Discord</a>
-                <a href="${link2}" target="_blank" class="btn btn-discord-outline">Explore</a>
+                <a href="${link2}" target="_blank" class="btn btn-discord-outline">Already member</a>
             </div>
         </div>
     `;
-    h1.insertAdjacentHTML('beforebegin', promoHTML);
+    // Inject directly above the header card
+    headerCard.insertAdjacentHTML('beforebegin', promoHTML);
   }
 
   renderQuizzes() {
@@ -225,7 +225,6 @@ class PortalApp {
     }
   }
 
-  // --- NEW: Handle Discord Settings in Modal ---
   async openSettingsModal() {
       const modal = document.getElementById('settings-modal');
       const settings = await window.authManager.fetchSettings();
