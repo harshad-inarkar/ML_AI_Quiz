@@ -990,11 +990,11 @@
   },
   "portal_views": {
     "main": {
-      "total": 926,
-      "unique": 109
+      "total": 930,
+      "unique": 110
     },
     "resources": {
-      "total": 554,
+      "total": 568,
       "unique": 117
     }
   },
