@@ -271,7 +271,7 @@ body.admin-mode .admin-only-block { display: block !important; }
 .modal-content h2 { margin-top: 0; color: var(--text-heading); font-family: "Poppins", sans-serif; }
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); }
-.form-group input, .form-group textarea {
+.form-group input, .form-group textarea, .form-group select {
     width: 100%; padding: 10px 12px; border-radius: 8px;
     background: var(--surface-alt); border: 1px solid var(--surface-border);
     color: var(--text-primary); font-family: "Inter", sans-serif;

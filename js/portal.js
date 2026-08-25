@@ -36,7 +36,6 @@ class PortalApp {
     const user = window.authManager.userProfile;
     const verified = window.authManager.auth.currentUser?.emailVerified;
 
-    // --- NEW: CONTENT-LEVEL ACCESS GATING ---
     if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
         if (!user) {
             this.listContainer.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);"><h2 style="margin-top:0; color:var(--text-heading);">Access Restricted</h2><p>Please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a> to view and attempt quizzes.</p></div>`;
@@ -144,6 +143,7 @@ class PortalApp {
     return card;
   }
 
+  // --- CMS Admin Methods (Quizzes) ---
   openQuizModal(editKey = null) {
     const modal = document.getElementById('quiz-modal');
     document.getElementById('quiz-modal-title').innerText = editKey ? "Edit Quiz" : "Add New Quiz";
@@ -196,6 +196,34 @@ class PortalApp {
     } catch (e) {
       alert("Error saving quiz. Ensure JSON file is valid. Error: " + e.message);
     }
+  }
+
+  // --- NEW: CMS Admin Methods (Settings) ---
+  async openSettingsModal() {
+      const modal = document.getElementById('settings-modal');
+      const settings = await window.authManager.fetchSettings();
+      
+      document.getElementById('cms-quiz-access').value = settings.QUIZ_ACCESS_LEVEL || 'unrestricted';
+      document.getElementById('cms-res-access').value = settings.RESOURCES_ACCESS_LEVEL || 'unrestricted';
+      
+      modal.style.display = 'flex';
+  }
+
+  async saveSettings() {
+      const quizAccess = document.getElementById('cms-quiz-access').value;
+      const resAccess = document.getElementById('cms-res-access').value;
+
+      try {
+          await this.database.ref('settings').update({
+              QUIZ_ACCESS_LEVEL: quizAccess,
+              RESOURCES_ACCESS_LEVEL: resAccess
+          });
+          alert("Portal Settings updated successfully!");
+          document.getElementById('settings-modal').style.display = 'none';
+          this.loadQuizzes(); // Refresh UI to apply new locks dynamically
+      } catch (e) {
+          alert("Error saving settings: " + e.message);
+      }
   }
 
   async downloadQuiz(quizKey) {

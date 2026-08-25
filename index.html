@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="css/portal.css" />
     </head>
     <body class="page-shell portal-page">
+        <!-- QUIZ MODAL -->
         <div id="quiz-modal" class="modal-overlay">
             <div class="modal-content">
                 <h2 id="quiz-modal-title">Add New Quiz</h2>
@@ -23,8 +24,34 @@
             </div>
         </div>
 
-        <div class="page-content portal-container">
+        <!-- NEW: SETTINGS MODAL -->
+        <div id="settings-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Portal Settings</h2>
+                <div class="form-group">
+                    <label>Quiz Access Level</label>
+                    <select id="cms-quiz-access">
+                        <option value="unrestricted">Unrestricted (Public)</option>
+                        <option value="enforce_register">Require Login</option>
+                        <option value="enforce_verify_email">Require Verified Email</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Resources Access Level</label>
+                    <select id="cms-res-access">
+                        <option value="unrestricted">Unrestricted (Public)</option>
+                        <option value="enforce_register">Require Login</option>
+                        <option value="enforce_verify_email">Require Verified Email</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" onclick="document.getElementById('settings-modal').style.display='none'">Cancel</button>
+                    <button class="btn btn-primary" onclick="window.portalApp.saveSettings()">Save Settings</button>
+                </div>
+            </div>
+        </div>
 
+        <div class="page-content portal-container">
             <!-- Top Nav Area -->
             <div class="top-nav-bar" style="justify-content: flex-end;">
                 <div class="auth-area">
@@ -38,7 +65,6 @@
                 <h1>Quiz Portal</h1>
                 <p>Select a quiz below to test your knowledge.<br>
 
-                <!-- NEW: Cleaned up shared promo class -->
                 <span id="guest-promo-text" class="guest-promo-msg">
                     <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Register/Log in</a> to save your top score, resume your quiz, and track progress.
                 </span>
@@ -47,8 +73,9 @@
 
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <a href="resources_template.html" class="btn btn-secondary">View All Study Resources</a>
-                    <!-- Admin Only Add Button -->
+                    <!-- Admin Only Buttons -->
                     <button class="btn btn-primary admin-only" onclick="window.portalApp.openQuizModal()">+ Add New Quiz</button>
+                    <button class="btn btn-secondary admin-only" onclick="window.portalApp.openSettingsModal()">Portal Settings</button>
                 </div>
             </div>
             <div id="quiz-list"><p id="loading">Loading quizzes...</p></div>
@@ -72,7 +99,6 @@
             document.addEventListener('auth-resolved', () => {
                 const promoText = document.getElementById('guest-promo-text');
                 if (promoText) {
-                    // Hide the text if a user is logged in, otherwise show it inline
                     promoText.style.display = (window.authManager && window.authManager.userProfile) ? 'none' : 'inline';
                 }
             });
