@@ -36,7 +36,8 @@ class PortalApp {
     const user = window.authManager.userProfile;
     const verified = window.authManager.auth.currentUser?.emailVerified;
 
-    this._renderDiscordPromo(settings);
+    // --- Call the DRY AuthManager utility to inject the promo ---
+    window.authManager.injectDiscordPromo(settings);
 
     if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
         if (!user) {
@@ -58,32 +59,6 @@ class PortalApp {
       console.error(error);
       this.listContainer.innerHTML = `<p style="text-align:center; color:var(--red-text);">Unable to load quizzes. Please check your access permissions.</p>`;
     }
-  }
-
-  _renderDiscordPromo(settings) {
-    if (!settings.show_discord_promo || !window.authManager?.userProfile) return;
-    if (document.getElementById('discord-promo-strip')) return; 
-
-    const headerCard = document.querySelector('.header-card');
-    if (!headerCard) return;
-
-    const link1 = settings.discord_link1_join || "#";
-    const link2 = settings.discord_link2_channel || "#";
-
-    const promoHTML = `
-        <div id="discord-promo-strip" class="discord-promo">
-            <div class="discord-promo-content">
-                <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="#5865F2"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a67.55,67.55,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.1,46,96,53,91.08,65.69,84.69,65.69Z"/></svg>
-                <span>Join our Discord community for collaboration and support!</span>
-            </div>
-            <div class="discord-promo-actions">
-                <a href="${link1}" target="_blank" class="btn btn-discord">Join Discord</a>
-                <a href="${link2}" target="_blank" class="btn btn-discord-outline">Already member</a>
-            </div>
-        </div>
-    `;
-    // Inject directly above the header card
-    headerCard.insertAdjacentHTML('beforebegin', promoHTML);
   }
 
   renderQuizzes() {
@@ -135,11 +110,6 @@ class PortalApp {
   _getAttemptText(quizKey) {
     const hasSavedState = window.authManager?.userQuizStates?.[quizKey];
     return hasSavedState ? "Resume Quiz" : "Attempt Quiz";
-  }
-
-  _generateNewKey(dataset) {
-    const existingKeys = Object.keys(dataset).filter(k => k !== 'null').map(Number);
-    return existingKeys.length > 0 ? String(Math.max(...existingKeys) + 1) : "1";
   }
 
   buildQuizCard(key, quizData) {
@@ -199,7 +169,10 @@ class PortalApp {
     if (!title) return alert("Title is required.");
     
     const resourcesKeys = resString.split(',').map(s => s.trim()).filter(s => s);
-    const targetKey = key || this._generateNewKey(this.quizConfigData);
+    
+    // --- Call the DRY app-bootstrap utility to generate keys ---
+    const targetKey = key || window.generateNewDatabaseKey(this.quizConfigData);
+    
     const inputFile = key ? this.quizConfigData[key].input_file : `input_quiz_${targetKey}.json`;
 
     if (!key && fileInput.files.length === 0) return alert("A JSON file is required for new quizzes.");

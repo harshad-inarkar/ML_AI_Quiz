@@ -1,4 +1,12 @@
 /**
+ * Utility to generate the next highest numerical key for Firebase records.
+ */
+function generateNewDatabaseKey(dataset) {
+    const existingKeys = Object.keys(dataset).filter(k => k !== 'null').map(Number);
+    return existingKeys.length > 0 ? String(Math.max(...existingKeys) + 1) : "1";
+}
+
+/**
  * Boots the given page-controller class once the DOM is ready. Firebase and
  * App Check are already initialized by firebase-config.js / app-check.js,
  * loaded earlier in the page.
