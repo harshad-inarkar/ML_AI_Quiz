@@ -33,6 +33,25 @@ class ResourcesApp {
   }
 
   async loadResources() {
+    const settings = await window.authManager.fetchSettings();
+    const access = settings.RESOURCES_ACCESS_LEVEL || 'unrestricted';
+    const user = window.authManager.userProfile;
+    const verified = window.authManager.auth.currentUser?.emailVerified;
+
+    // --- NEW: CONTENT-LEVEL ACCESS GATING ---
+    if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
+        if (!user) {
+            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Access Restricted</h2><p>Please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'" style="color:var(--primary-accent); text-decoration:underline;">Log in or Register</a> to view study resources.</p></div>`;
+            document.getElementById("status-msg").style.display = "none";
+            return;
+        }
+        if (access === 'enforce_verify_email' && !verified) {
+            this.container.innerHTML = `<div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border); margin-top:20px;"><h2 style="margin-top:0; color:var(--text-heading);">Verification Required</h2><p>Please verify your email address to access study resources. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()" style="color:var(--primary-accent); text-decoration:underline;">Resend Link</a></p></div>`;
+            document.getElementById("status-msg").style.display = "none";
+            return;
+        }
+    }
+
     try {
       if (this.quizKey) {
         const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
@@ -56,7 +75,6 @@ class ResourcesApp {
     this.container.innerHTML = "";
     const keysToRender = this.requestedKeys || Object.keys(data).filter(k => k !== 'null');
 
-    // NEW: Inject a Top Insert Button for Admins (Insert at position 0)
     const isAdmin = window.authManager && window.authManager.userProfile && window.authManager.userProfile.role === 'admin';
     if (isAdmin) {
         this.container.appendChild(this.buildInsertButton("0"));
@@ -70,7 +88,6 @@ class ResourcesApp {
     keysToRender.forEach((key) => {
       if (data[key]) {
           this.container.appendChild(this.buildResourceCard(key, data[key]));
-          // NEW: Inject a floating Insert Button after every card
           if (isAdmin) {
               this.container.appendChild(this.buildInsertButton(key));
           }
@@ -93,11 +110,9 @@ class ResourcesApp {
     return card;
   }
 
-  // --- NEW UI Generator: Circular Insert Button ---
   buildInsertButton(afterKey) {
     const wrapper = document.createElement("div");
     wrapper.className = "admin-only";
-    // Uses negative margin to float perfectly between cards
     wrapper.style.cssText = "display: flex; justify-content: center; margin-top: -10px; margin-bottom: 8px; position: relative; z-index: 10;";
     
     wrapper.innerHTML = `
@@ -129,13 +144,11 @@ class ResourcesApp {
     document.getElementById("error-container").innerHTML = `<strong>Error:</strong><br>${message}`;
   }
 
-  // --- CMS Admin Methods ---
   openResourceModal(editKey = null, insertAfterKey = null) {
     const modal = document.getElementById('resource-modal');
     document.getElementById('res-modal-title').innerText = editKey ? "Edit Resource Group" : (insertAfterKey ? "Insert Resource Group" : "Add Resource Group");
     document.getElementById('res-edit-key').value = editKey || "";
     
-    // Dynamically ensure the hidden insert key exists
     let insertNode = document.getElementById('res-insert-key');
     if (!insertNode) {
         insertNode = document.createElement('input');
@@ -198,14 +211,11 @@ class ResourcesApp {
 
     try {
       if (editKey) {
-        // --- Standard Edit ---
         updates[`configs/resources/${editKey}`] = groupPayload;
       } else if (insertAfterKey) {
-        // --- Atomic Re-Indexing Insertion ---
         const insertPos = parseInt(insertAfterKey, 10);
         const newKey = insertPos + 1;
 
-        // 1. Shift Global Resources Down
         const resSnap = await this.database.ref('configs/resources').once('value');
         const allRes = resSnap.val() || {};
         const keys = Object.keys(allRes).filter(k => k !== 'null').map(Number).sort((a,b) => b - a);
@@ -218,7 +228,6 @@ class ResourcesApp {
         });
         updates[`configs/resources/${newKey}`] = groupPayload;
 
-        // 2. Shift Quiz References Globally to Prevent Broken Links
         const quizSnap = await this.database.ref('configs/index').once('value');
         const allQuizzes = quizSnap.val() || {};
         
@@ -229,7 +238,6 @@ class ResourcesApp {
                     return refNum >= newKey ? String(refNum + 1) : oldRef;
                 });
                 
-                // 3. Inject new ID into the current quiz's array specifically
                 if (this.quizKey && qk === this.quizKey) {
                     const idx = updatedArray.indexOf(String(insertAfterKey));
                     if (idx !== -1) {
@@ -244,11 +252,9 @@ class ResourcesApp {
             }
         }
       } else {
-        // --- Standard Append to End ---
         const targetKey = this._generateNewKey(this.resourceDataRaw);
         updates[`configs/resources/${targetKey}`] = groupPayload;
 
-        // Append to current quiz if viewing one
         if (this.quizKey) {
             const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once('value');
             const quizData = quizSnap.val() || {};
@@ -258,7 +264,6 @@ class ResourcesApp {
         }
       }
 
-      // Execute atomic multi-path update
       await this.database.ref().update(updates);
       alert("Resource Group saved successfully!");
       document.getElementById('resource-modal').style.display = 'none';
