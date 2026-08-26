@@ -47,23 +47,12 @@ class ResourcesApp {
         if (p.innerText.includes("Review the materials")) p.innerText = descParams;
     });
 
-    // --- NEW: Inject "Practice Quizzes" Button ---
-    if (dlBtn && dlBtn.parentElement && !document.getElementById('practice-quizzes-btn')) {
-        const practiceBtn = document.createElement("a");
-        practiceBtn.id = "practice-quizzes-btn";
-        practiceBtn.href = "index.html";
-        practiceBtn.className = "btn btn-secondary";
-        practiceBtn.innerText = "Practice Quizzes";
-        dlBtn.parentElement.insertBefore(practiceBtn, dlBtn.parentElement.firstChild);
-    }
-
-    // --- NEW: Cross-link Toggle Button (Notebooks <-> Resources) ---
+    // --- Inject Cross-link Toggle Button first (so it stays on the right) ---
     if (dlBtn && dlBtn.parentElement && !document.getElementById('toggle-resource-type-btn')) {
         const toggleBtn = document.createElement("a");
         toggleBtn.id = "toggle-resource-type-btn";
         toggleBtn.className = "btn btn-secondary";
         
-        // Preserve the quiz_key if the user is filtering by a specific quiz
         if (this.type === 'notebook') {
             toggleBtn.href = this.quizKey ? `resources_template.html?quiz_key=${this.quizKey}` : `resources_template.html`;
             toggleBtn.innerText = "Study Resources";
@@ -73,6 +62,16 @@ class ResourcesApp {
         }
         
         dlBtn.parentElement.insertBefore(toggleBtn, dlBtn.parentElement.firstChild);
+    }
+
+    // --- Inject "Practice Quizzes" Button second (pushes it to the far left) ---
+    if (dlBtn && dlBtn.parentElement && !document.getElementById('practice-quizzes-btn')) {
+        const practiceBtn = document.createElement("a");
+        practiceBtn.id = "practice-quizzes-btn";
+        practiceBtn.href = "index.html";
+        practiceBtn.className = "btn btn-secondary";
+        practiceBtn.innerText = "Practice Quizzes";
+        dlBtn.parentElement.insertBefore(practiceBtn, dlBtn.parentElement.firstChild);
     }
 
     this.dataLoaded = false;
@@ -146,7 +145,10 @@ class ResourcesApp {
     }
 
     if (keysToRender.length === 0) {
-      this.container.innerHTML += `<p class="resource-empty-message">No ${this.pageTitleName.toLowerCase()} currently available.</p>`;
+      const emptyMsg = document.createElement('p');
+      emptyMsg.className = "resource-empty-message";
+      emptyMsg.innerText = `No ${this.pageTitleName.toLowerCase()} currently available.`;
+      this.container.appendChild(emptyMsg);
       return;
     }
 

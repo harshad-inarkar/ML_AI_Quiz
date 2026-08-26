@@ -14,14 +14,14 @@ class PortalApp {
       if (el) el.innerText = snap.val() || 0;
     });
 
-    // --- NEW: Inject Practice Notebooks Global Link ---
+    // --- Inject Practice Notebooks Global Link ---
     const resLink = document.querySelector('a[href="resources_template.html"]');
     if (resLink && !document.getElementById('global-notebooks-btn')) {
         const nbBtn = document.createElement("a");
         nbBtn.id = "global-notebooks-btn";
         nbBtn.href = "resources_template.html?type=notebook";
         nbBtn.className = "btn btn-secondary";
-        nbBtn.innerText = "Notebooks Resources";
+        nbBtn.innerText = "Practice Notebooks"; // Standardized naming
         resLink.parentNode.insertBefore(nbBtn, resLink.nextSibling);
     }
 
@@ -132,7 +132,7 @@ class PortalApp {
       ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` 
       : '';
     
-    // --- NEW: Generate Notebooks Button inside Quiz Card ---
+    // Generate Notebooks Button inside Quiz Card
     const notebooksBtnHTML = quizData.notebooks_keys?.length > 0 
       ? `<a href="resources_template.html?type=notebook&quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Notebooks</a>` 
       : '';
@@ -162,7 +162,7 @@ class PortalApp {
     document.getElementById('quiz-modal-title').innerText = editKey ? "Edit Quiz" : "Add New Quiz";
     document.getElementById('quiz-edit-key').value = editKey || "";
     
-    // --- NEW: Dynamically Inject CMS Notebook Input if missing ---
+    // Dynamically Inject CMS Notebook Input if missing
     let nbInput = document.getElementById('cms-quiz-notebooks');
     if (!nbInput) {
         const formGroup = document.createElement('div');
@@ -265,8 +265,6 @@ class PortalApp {
           alert("Error saving settings: " + e.message);
       }
   }
-
-  downloadResources() {} // Kept intentional parity
 
   async downloadQuiz(quizKey) {
     const btn = document.querySelector(`.download-quiz-btn[data-key="${quizKey}"]`);
