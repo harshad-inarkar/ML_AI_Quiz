@@ -294,7 +294,6 @@ class AuthManager {
     this.auth.signOut().then(() => window.location.reload());
   }
 
-  // --- DRY Utility: Generates consistent Restriction Boxes ---
   generateRestrictedHTML(title, type) {
     if (type === 'login') {
         return `<div class="restricted-box"><h2>Unlock ${title}</h2><p>To keep your progress and our learning community secure, please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Log in or Register</a>.</p></div>`;
@@ -305,8 +304,30 @@ class AuthManager {
     return '';
   }
 
+  // --- NEW: Intercept Click and Store Preference ---
+  async dismissDiscordPromo(redirectUrl) {
+    if (confirm("Already in the community? We'll redirect you to Discord and hide this banner from now on. Proceed?")) {
+        // Open window synchronously to avoid popup blockers
+        window.open(redirectUrl, '_blank');
+        
+        const user = this.auth.currentUser;
+        if (user) {
+            try {
+                await this.database.ref(`users/${user.uid}`).update({ hide_discord_promo: true });
+                if (this.userProfile) this.userProfile.hide_discord_promo = true;
+                
+                const strip = document.getElementById('discord-promo-strip');
+                if (strip) strip.remove();
+            } catch (e) {
+                console.error("Failed to update preference:", e);
+            }
+        }
+    }
+  }
+
   injectDiscordPromo(settings) {
-    if (!settings.show_discord_promo || !this.userProfile) return;
+    // --- UPDATED: Check for the hide_discord_promo flag ---
+    if (!settings.show_discord_promo || !this.userProfile || this.userProfile.hide_discord_promo) return;
     if (document.getElementById('discord-promo-strip')) return; 
 
     const headerCard = document.querySelector('.header-card');
@@ -323,7 +344,7 @@ class AuthManager {
             </div>
             <div class="discord-promo-actions">
                 <a href="${link1}" target="_blank" class="btn btn-discord">Join Discord</a>
-                <a href="${link2}" target="_blank" class="btn btn-discord-outline">Already member</a>
+                <a href="javascript:void(0)" onclick="window.authManager.dismissDiscordPromo('${link2}')" class="btn btn-discord-outline">Already member</a>
             </div>
         </div>
     `;

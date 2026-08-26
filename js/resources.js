@@ -20,6 +20,16 @@ class ResourcesApp {
     const dlBtn = document.getElementById("download-btn");
     if (dlBtn) dlBtn.addEventListener("click", () => this.downloadResources());
 
+    // --- NEW: Inject "Practice Quizzes" Button ---
+    if (dlBtn && dlBtn.parentElement && !document.getElementById('practice-quizzes-btn')) {
+        const practiceBtn = document.createElement("a");
+        practiceBtn.id = "practice-quizzes-btn";
+        practiceBtn.href = "index.html";
+        practiceBtn.className = "btn btn-secondary";
+        practiceBtn.innerText = "Practice Quizzes";
+        dlBtn.parentElement.insertBefore(practiceBtn, dlBtn.parentElement.firstChild);
+    }
+
     this.dataLoaded = false;
 
     document.addEventListener('auth-resolved', () => {
@@ -255,7 +265,6 @@ class ResourcesApp {
             }
         }
       } else {
-        // --- Call the DRY app-bootstrap utility to generate keys ---
         const targetKey = window.generateNewDatabaseKey(this.resourceDataRaw);
         updates[`configs/resources/${targetKey}`] = groupPayload;
 
