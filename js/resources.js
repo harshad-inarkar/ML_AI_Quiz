@@ -2,14 +2,14 @@ class ResourcesApp {
   constructor(database) {
     this.database = database;
     
-    // --- NEW: Dynamic Routing Logic ---
+    // --- Dynamic Routing Logic ---
     const urlParams = new URLSearchParams(window.location.search);
     this.quizKey = urlParams.get("quiz_key");
     this.type = urlParams.get("type") === 'notebook' ? 'notebook' : 'standard';
     
     this.dbPath = this.type === 'notebook' ? 'configs/resources_notebooks' : 'configs/resources';
     this.quizKeyField = this.type === 'notebook' ? 'notebooks_keys' : 'resources_keys';
-    this.pageTitleName = this.type === 'notebook' ? 'Notebooks Resources' : 'Study Resources';
+    this.pageTitleName = this.type === 'notebook' ? 'Practice Notebooks' : 'Study Resources';
     
     this.requestedKeys = null; 
     this.quizTitle = null;     
@@ -47,7 +47,7 @@ class ResourcesApp {
         if (p.innerText.includes("Review the materials")) p.innerText = descParams;
     });
 
-    // Change "Practice Quizzes" redirect based on context
+    // --- NEW: Inject "Practice Quizzes" Button ---
     if (dlBtn && dlBtn.parentElement && !document.getElementById('practice-quizzes-btn')) {
         const practiceBtn = document.createElement("a");
         practiceBtn.id = "practice-quizzes-btn";
@@ -55,6 +55,24 @@ class ResourcesApp {
         practiceBtn.className = "btn btn-secondary";
         practiceBtn.innerText = "Practice Quizzes";
         dlBtn.parentElement.insertBefore(practiceBtn, dlBtn.parentElement.firstChild);
+    }
+
+    // --- NEW: Cross-link Toggle Button (Notebooks <-> Resources) ---
+    if (dlBtn && dlBtn.parentElement && !document.getElementById('toggle-resource-type-btn')) {
+        const toggleBtn = document.createElement("a");
+        toggleBtn.id = "toggle-resource-type-btn";
+        toggleBtn.className = "btn btn-secondary";
+        
+        // Preserve the quiz_key if the user is filtering by a specific quiz
+        if (this.type === 'notebook') {
+            toggleBtn.href = this.quizKey ? `resources_template.html?quiz_key=${this.quizKey}` : `resources_template.html`;
+            toggleBtn.innerText = "Study Resources";
+        } else {
+            toggleBtn.href = this.quizKey ? `resources_template.html?type=notebook&quiz_key=${this.quizKey}` : `resources_template.html?type=notebook`;
+            toggleBtn.innerText = "Practice Notebooks";
+        }
+        
+        dlBtn.parentElement.insertBefore(toggleBtn, dlBtn.parentElement.firstChild);
     }
 
     this.dataLoaded = false;
