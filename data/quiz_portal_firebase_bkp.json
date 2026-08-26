@@ -8,21 +8,14 @@
       {
         "input_file": "input_mlp_quiz_1.json",
         "resources_keys": [
+          "3",
           "4",
-          "5",
-          "6",
-          "7"
+          "5"
         ],
         "title": "Quiz 1: MLP, Act Funcs, GD"
       },
       {
         "input_file": "input_mlp_quiz_2.json",
-        "resources_keys": [
-          "4",
-          "5",
-          "6",
-          "7"
-        ],
         "title": "Quiz 2: MLP, Act Funcs, GD"
       },
       {
@@ -36,28 +29,18 @@
       {
         "input_file": "input_quiz_5.json",
         "resources_keys": [
-          "8",
-          "9",
-          "10"
+          "6",
+          "7",
+          "8"
         ],
         "title": "Quiz 5: RNN, Attention"
       },
       {
         "input_file": "input_quiz_6.json",
-        "resources_keys": [
-          "8",
-          "9",
-          "10"
-        ],
         "title": "Quiz 6: RNN, Attention"
       },
       {
         "input_file": "input_quiz_7.json",
-        "resources_keys": [
-          "8",
-          "9",
-          "10"
-        ],
         "title": "Quiz 7: RNN, Attention"
       }
     ],
@@ -82,51 +65,6 @@
           }
         ],
         "title": "Olympus: Module-1: Foundations of Gen AI"
-      },
-      {
-        "resources": [
-          {
-            "desc": "python_foundations.ipynb",
-            "link": "https://colab.research.google.com/drive/1k4yWgBjaO44-FOZ3-bza7qp4vfbwfmwN",
-            "title": "Topics: Python Basics, NumPy, Matplotlib"
-          },
-          {
-            "desc": "pandas_tutorial.ipynb",
-            "link": "https://colab.research.google.com/drive/1BHvd1jZonwLKFYfDqP4fFQqOMb7E1gR3",
-            "title": "Topics: Pandas Data Processing"
-          },
-          {
-            "desc": "Classification_Algorithms.ipynb",
-            "link": "https://colab.research.google.com/drive/11hu2uqWByxyVR3UaW3_H1KMQIyhLEyFO",
-            "title": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost"
-          },
-          {
-            "desc": "Non-Linear Classification using Feature Lifting.ipynb",
-            "link": "https://colab.research.google.com/drive/1PGODJYx3Y3psn76FsnMRZ4e9RjAO9_8-",
-            "title": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation"
-          },
-          {
-            "desc": "Real_World_Example.ipynb",
-            "link": "https://colab.research.google.com/drive/1HtsmrO3dme3Uflc77I30kf--yXe5eVqK",
-            "title": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC"
-          },
-          {
-            "desc": "Unsupervised_Algorithms.ipynb",
-            "link": "https://colab.research.google.com/drive/1rRXmBigTsZ8wJfVwfjR1qBH7bNrEDQ50",
-            "title": "Topics: PCA, k-Means Clustering"
-          },
-          {
-            "desc": "Isolation_Forest.ipynb",
-            "link": "https://colab.research.google.com/drive/1ZmudUsPz3dbvnzFOVeT6oyxVhmcmeNNh",
-            "title": "Topics: Isolation Forest for Anomaly Detection"
-          },
-          {
-            "desc": "advanced_ml_quiz_notebook.ipynb",
-            "link": "https://colab.research.google.com/drive/15xgQ4nJSF2IUBqPE5aR_bCnsk6E_Tl2b",
-            "title": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton"
-          }
-        ],
-        "title": "Colab Notebooks: Module-1 Foundations of Gen AI"
       },
       {
         "resources": [
@@ -196,36 +134,6 @@
       {
         "resources": [
           {
-            "desc": "GenAI-PyTorch_Fundamentals_Part1_Tensors_with_FashionMNIST.ipynb",
-            "link": "https://colab.research.google.com/drive/1Uk8ICZPJ3xt0z4sUPjwETZ-v8J1XZAsJ",
-            "title": "PyTorch Fundamentals: Tensors with Images"
-          },
-          {
-            "desc": "GreatLearning_GenAI_Perceptron_demo_2026July25.ipynb",
-            "link": "https://colab.research.google.com/drive/1jf9UvMRYeCjmeQrB1G13bRD2aKUWfP-G",
-            "title": "Perceptron Demo"
-          },
-          {
-            "desc": "Basic Text Processing using Scikit-learn and Classifying Newsgroup Data",
-            "link": "https://colab.research.google.com/drive/1wB8ysHeOQZtW7e8cMmijygJZw6qXeQWa",
-            "title": "Perceptron Practice Assignment"
-          },
-          {
-            "desc": "GenAI_June-Nov_2026_Optimization_GradientMethod.ipynb",
-            "link": "https://colab.research.google.com/drive/1LYyZv4HyshIZSmTHkZzwDhHK7lCc9myb",
-            "title": "Gradient Method"
-          },
-          {
-            "desc": "GreatLearning_GenAI_2026_MLP_PyTorch_01Aug2026.ipynb",
-            "link": "https://colab.research.google.com/drive/1IwRmF8TA0tu9KOQlGifEN_7ZW-2205SU",
-            "title": "Multi-Layer Perceptron (MLP)"
-          }
-        ],
-        "title": "Colab Notebooks: Module-2-Deeplearning"
-      },
-      {
-        "resources": [
-          {
             "desc": "Deeplearning by Prof. Bryce",
             "link": "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=1",
             "title": "Deeplearning lecture series by Prof. Bryce"
@@ -282,21 +190,6 @@
           }
         ],
         "title": "Olympus: Module-3: NLP"
-      },
-      {
-        "resources": [
-          {
-            "desc": "Great_Learning_Attention_Visualisation.ipynb",
-            "link": "https://colab.research.google.com/drive/1pyQrSDigS-HYKE95UmDfb_U7cwJjvoBZ",
-            "title": "Attention Visualisation"
-          },
-          {
-            "desc": "Transformer_for_Translation_GREAT_LEARNING.ipynb",
-            "link": "https://colab.research.google.com/drive/15AChTVgpDHmflAb7m28tn64DLfWgi8Tv",
-            "title": "Transformer for Translation - EN to HI"
-          }
-        ],
-        "title": "Colab Notebooks: Module-3-NLP"
       },
       {
         "resources": [
@@ -953,36 +846,107 @@
         ],
         "title": "Appendix: Explainability"
       }
+    ],
+    "resources_notebooks": [
+      null,
+      {
+        "resources": [
+          {
+            "desc": "python_foundations.ipynb",
+            "link": "https://colab.research.google.com/drive/1k4yWgBjaO44-FOZ3-bza7qp4vfbwfmwN",
+            "title": "Topics: Python Basics, NumPy, Matplotlib"
+          },
+          {
+            "desc": "pandas_tutorial.ipynb",
+            "link": "https://colab.research.google.com/drive/1BHvd1jZonwLKFYfDqP4fFQqOMb7E1gR3",
+            "title": "Topics: Pandas Data Processing"
+          },
+          {
+            "desc": "Classification_Algorithms.ipynb",
+            "link": "https://colab.research.google.com/drive/11hu2uqWByxyVR3UaW3_H1KMQIyhLEyFO",
+            "title": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost"
+          },
+          {
+            "desc": "Non-Linear Classification using Feature Lifting.ipynb",
+            "link": "https://colab.research.google.com/drive/1PGODJYx3Y3psn76FsnMRZ4e9RjAO9_8-",
+            "title": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation"
+          },
+          {
+            "desc": "Real_World_Example.ipynb",
+            "link": "https://colab.research.google.com/drive/1HtsmrO3dme3Uflc77I30kf--yXe5eVqK",
+            "title": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC"
+          },
+          {
+            "desc": "Unsupervised_Algorithms.ipynb",
+            "link": "https://colab.research.google.com/drive/1rRXmBigTsZ8wJfVwfjR1qBH7bNrEDQ50",
+            "title": "Topics: PCA, k-Means Clustering"
+          },
+          {
+            "desc": "Isolation_Forest.ipynb",
+            "link": "https://colab.research.google.com/drive/1ZmudUsPz3dbvnzFOVeT6oyxVhmcmeNNh",
+            "title": "Topics: Isolation Forest for Anomaly Detection"
+          },
+          {
+            "desc": "Assignmnet-1 [By Harshad]",
+            "link": "https://colab.research.google.com/drive/1ocot6erK8wQaBqG5E0d6Q_r-3OezvWYK#scrollTo=N6HBqiKpGeJ3",
+            "title": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton"
+          }
+        ],
+        "title": "Colab Notebooks: Module-1 Foundations of Gen AI"
+      },
+      {
+        "resources": [
+          {
+            "desc": "GenAI-PyTorch_Fundamentals_Part1_Tensors_with_FashionMNIST.ipynb",
+            "link": "https://colab.research.google.com/drive/1Uk8ICZPJ3xt0z4sUPjwETZ-v8J1XZAsJ",
+            "title": "PyTorch Fundamentals: Tensors with Images"
+          },
+          {
+            "desc": "GreatLearning_GenAI_Perceptron_demo_2026July25.ipynb",
+            "link": "https://colab.research.google.com/drive/1jf9UvMRYeCjmeQrB1G13bRD2aKUWfP-G",
+            "title": "Perceptron Demo"
+          },
+          {
+            "desc": "GenAI_June-Nov_2026_Optimization_GradientMethod.ipynb",
+            "link": "https://colab.research.google.com/drive/11Yc1QklrZhkEsxtPwdOrfkzycsfdG6m5",
+            "title": "Gradient Method [Fixed by Harshad]"
+          },
+          {
+            "desc": "GreatLearning_GenAI_2026_MLP_PyTorch_01Aug2026.ipynb",
+            "link": "https://colab.research.google.com/drive/1IwRmF8TA0tu9KOQlGifEN_7ZW-2205SU",
+            "title": "Multi-Layer Perceptron (MLP)"
+          },
+          {
+            "desc": "Perceptron Practice NewsGroup data [By Harshad]",
+            "link": "https://colab.research.google.com/drive/1vZp5SPfvq2Q7vhsAFmCnwVq-9gpZABu0",
+            "title": "Perceptron Practice Assignment [Implemented By Harshad]"
+          }
+        ],
+        "title": "Colab Notebooks: Module-2-Deeplearning"
+      },
+      {
+        "resources": [
+          {
+            "desc": "Great_Learning_Attention_Visualisation.ipynb",
+            "link": "https://colab.research.google.com/drive/1pyQrSDigS-HYKE95UmDfb_U7cwJjvoBZ",
+            "title": "Attention Visualisation"
+          },
+          {
+            "desc": "Transformer_for_Translation_GREAT_LEARNING.ipynb",
+            "link": "https://colab.research.google.com/drive/15AChTVgpDHmflAb7m28tn64DLfWgi8Tv",
+            "title": "Transformer for Translation - EN to HI"
+          }
+        ],
+        "title": "Colab Notebooks: Module-3-NLP"
+      }
     ]
   },
-  "index": [
-    null,
-    {
-      "input_file": "input_mlp_quiz_1.json",
-      "resources_keys": [
-        "4",
-        "5",
-        "6",
-        "7"
-      ],
-      "title": "Quiz 1: MLP, Act Funcs, GD"
-    },
-    {
-      "input_file": "input_mlp_quiz_2.json",
-      "title": "Quiz 2: MLP, Act Funcs, GD"
-    },
-    {
-      "input_file": "input_mlp_quiz_3.json",
-      "title": "Quiz 3: MLP, Act Funcs, GD"
-    },
-    {
-      "input_file": "input_mlp_quiz_4.json",
-      "title": "Quiz 4: MLP, Act Funcs, GD"
-    }
-  ],
   "portal_downloads": {
     "main": {
       "total": 21
+    },
+    "notebooks": {
+      "total": 1
     },
     "resources": {
       "total": 41
@@ -990,12 +954,16 @@
   },
   "portal_views": {
     "main": {
-      "total": 971,
-      "unique": 110
+      "total": 1048,
+      "unique": 112
+    },
+    "notebooks": {
+      "total": 46,
+      "unique": 3
     },
     "resources": {
-      "total": 606,
-      "unique": 117
+      "total": 675,
+      "unique": 119
     }
   },
   "quiz_states": {
@@ -1069,15 +1037,52 @@
         3,
         1
       ]
+    ],
+    "pxuLtIvxk2Y7VWv2HAQK1cBRUBJ3": [
+      null,
+      [
+        1,
+        2,
+        1,
+        1,
+        1,
+        2,
+        1,
+        2,
+        1,
+        1,
+        2,
+        2,
+        1,
+        2,
+        2,
+        1,
+        1,
+        2,
+        1,
+        2,
+        0,
+        2,
+        3,
+        1
+      ],
+      [
+        1,
+        1,
+        2,
+        1,
+        null,
+        1
+      ]
     ]
   },
   "quiz_views": {
     "quiz_1": {
-      "total": 244,
+      "total": 246,
       "unique": 76
     },
     "quiz_2": {
-      "total": 136,
+      "total": 138,
       "unique": 46
     },
     "quiz_3": {
@@ -4307,361 +4312,6 @@
       }
     ]
   },
-  "resources": [
-    null,
-    {
-      "resources": [
-        {
-          "desc": "Module-1-ML",
-          "link": "https://olympus.mygreatlearning.com/courses/149817",
-          "title": "Module-1 Foundations of Gen AI: Machine Learning"
-        },
-        {
-          "desc": "Book_ML_Tom_Mitchell",
-          "link": "https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf",
-          "title": "Book: Machine Learning Tom Mitchell"
-        },
-        {
-          "desc": "Book_ML_with_Python",
-          "link": "https://www.nrigroupindia.com/e-book/Introduction%20to%20Machine%20Learning%20with%20Python%20(%20PDFDrive.com%20)-min.pdf",
-          "title": "Book: Introduction to Machine Learning with Python"
-        }
-      ],
-      "title": "GL/Olympus: Module-1: Foundations of Gen AI"
-    },
-    {
-      "resources": [
-        {
-          "desc": "python_foundations.ipynb",
-          "link": "https://colab.research.google.com/drive/1k4yWgBjaO44-FOZ3-bza7qp4vfbwfmwN",
-          "title": "Topics: Python Basics, NumPy, Matplotlib"
-        },
-        {
-          "desc": "pandas_tutorial.ipynb",
-          "link": "https://colab.research.google.com/drive/1BHvd1jZonwLKFYfDqP4fFQqOMb7E1gR3",
-          "title": "Topics: Pandas Data Processing"
-        },
-        {
-          "desc": "Classification_Algorithms.ipynb",
-          "link": "https://colab.research.google.com/drive/11hu2uqWByxyVR3UaW3_H1KMQIyhLEyFO",
-          "title": "Topics: Logistic Regression, Perceptron, SVM, k-NN, Decision Trees, Random Forest, GBDT, XGBoost"
-        },
-        {
-          "desc": "Non-Linear Classification using Feature Lifting.ipynb",
-          "link": "https://colab.research.google.com/drive/1PGODJYx3Y3psn76FsnMRZ4e9RjAO9_8-",
-          "title": "Topics: Non-Linearly Separable Datasets, Feature Lifting/Transformation"
-        },
-        {
-          "desc": "Real_World_Example.ipynb",
-          "link": "https://colab.research.google.com/drive/1HtsmrO3dme3Uflc77I30kf--yXe5eVqK",
-          "title": "Topics: Cancer Classification, GridSearchCV for Decision Trees and SVM, Evaluation Metrics, ROC Curve, AUC"
-        },
-        {
-          "desc": "Unsupervised_Algorithms.ipynb",
-          "link": "https://colab.research.google.com/drive/1rRXmBigTsZ8wJfVwfjR1qBH7bNrEDQ50",
-          "title": "Topics: PCA, k-Means Clustering"
-        },
-        {
-          "desc": "Isolation_Forest.ipynb",
-          "link": "https://colab.research.google.com/drive/1ZmudUsPz3dbvnzFOVeT6oyxVhmcmeNNh",
-          "title": "Topics: Isolation Forest for Anomaly Detection"
-        },
-        {
-          "desc": "advanced_ml_quiz_notebook.ipynb",
-          "link": "https://colab.research.google.com/drive/15xgQ4nJSF2IUBqPE5aR_bCnsk6E_Tl2b",
-          "title": "Assignment-1: Regression, Classification,Hyperparameter Tuning, GridSearch, Baysian Optimisaton"
-        }
-      ],
-      "title": "Colab Notebooks: Module-1 Foundations of Gen AI"
-    },
-    {
-      "resources": [
-        {
-          "link": "https://www.kaggle.com/code/marcinrutecki/one-hot-encoding-everything-you-need-to-know/code",
-          "title": "One-Hot Encoding: Everything you need to know"
-        },
-        {
-          "link": "https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html",
-          "title": "Column Transformer with Mixed Types"
-        },
-        {
-          "link": "https://www.datacamp.com/tutorial/one-hot-encoding-python-tutorial",
-          "title": "One-Hot Encoding Python Tutorial"
-        }
-      ],
-      "title": "Pre-processing Resources"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Module-2-Deeplearning",
-          "link": "https://olympus.mygreatlearning.com/courses/157286",
-          "title": "Module-2 Fundamentals of Deeplearning"
-        },
-        {
-          "desc": "Deep Learning Book",
-          "link": "https://www.deeplearningbook.org/contents/mlp.html",
-          "title": "Deep Learning book: Ian Goodfellow and Yoshua Bengio and Aaron Courville"
-        },
-        {
-          "desc": "Perceptron Deck1",
-          "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8957909",
-          "title": "Perceptron Slide 18th July"
-        },
-        {
-          "desc": "Module-2-Session1",
-          "link": "https://olympus.mygreatlearning.com/recordings/3084339",
-          "title": "Perceptron 18th July Recording"
-        },
-        {
-          "desc": "MLP Deck2",
-          "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8973903",
-          "title": "MLP Slide 25th July"
-        },
-        {
-          "desc": "Module-2-Session2",
-          "link": "https://olympus.mygreatlearning.com/recordings/3089921",
-          "title": "MLP 25th July Recording"
-        },
-        {
-          "desc": "MLP and Gradient Deck3",
-          "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8997795",
-          "title": "MLP Gradients Slide 1st Aug"
-        },
-        {
-          "desc": "Module-2-Session3",
-          "link": "https://olympus.mygreatlearning.com/recordings/3095125",
-          "title": "MLP Gradients 1st Aug Recording"
-        }
-      ],
-      "title": "GL/Olympus: Module-2: DeepLearning"
-    },
-    {
-      "resources": [
-        {
-          "desc": "GenAI-PyTorch_Fundamentals_Part1_Tensors_with_FashionMNIST.ipynb",
-          "link": "https://colab.research.google.com/drive/1Uk8ICZPJ3xt0z4sUPjwETZ-v8J1XZAsJ",
-          "title": "PyTorch Fundamentals: Tensors with Images"
-        },
-        {
-          "desc": "GreatLearning_GenAI_Perceptron_demo_2026July25.ipynb",
-          "link": "https://colab.research.google.com/drive/1jf9UvMRYeCjmeQrB1G13bRD2aKUWfP-G",
-          "title": "Perceptron Demo"
-        },
-        {
-          "desc": "Basic Text Processing using Scikit-learn and Classifying Newsgroup Data",
-          "link": "https://colab.research.google.com/drive/1wB8ysHeOQZtW7e8cMmijygJZw6qXeQWa",
-          "title": "Perceptron Practice Assignment"
-        },
-        {
-          "desc": "GenAI_June-Nov_2026_Optimization_GradientMethod.ipynb",
-          "link": "https://colab.research.google.com/drive/1LYyZv4HyshIZSmTHkZzwDhHK7lCc9myb",
-          "title": "Gradient Method"
-        },
-        {
-          "desc": "GreatLearning_GenAI_2026_MLP_PyTorch_01Aug2026.ipynb",
-          "link": "https://colab.research.google.com/drive/1IwRmF8TA0tu9KOQlGifEN_7ZW-2205SU",
-          "title": "Multi-Layer Perceptron (MLP)"
-        }
-      ],
-      "title": "Colab Notebooks: Module-2-Deeplearning"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Lecture Series",
-          "link": "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=1",
-          "title": "Deeplearning lecture series by Prof. Bryce"
-        },
-        {
-          "desc": "MLP Feed Forward Networks",
-          "link": "https://www.youtube.com/watch?v=AsyPA69QBks&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=7",
-          "title": "Feed Forward Network lecture by Prof. Bryce"
-        }
-      ],
-      "title": "Youtube: Deeplearning by Prof. Bryce"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Medium_link1",
-          "link": "https://medium.com/@ilyurek/understanding-the-vanishing-gradient-problem-and-the-role-of-activation-functions-f7cf33507925",
-          "title": "Vanishing Gradient in Neural Networks"
-        },
-        {
-          "desc": "Medium_link2",
-          "link": "https://medium.com/@piyushkashyap045/understanding-the-vanishing-gradient-problem-in-deep-learning-840a9da6567f",
-          "title": "Vanishing Gradient in Neural Networks"
-        },
-        {
-          "desc": "Medium_link3",
-          "link": "https://medium.com/@ilyurek/optimizers-a-deep-dive-into-gradient-descent-adam-and-beyond-e6a1d00bc9b0",
-          "title": "Gradient Descent Optimisers"
-        }
-      ],
-      "title": "Medium: Deeplearning Resources Gradients"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Module-3-NLP",
-          "link": "https://olympus.mygreatlearning.com/courses/149818",
-          "title": "Module-3 NLP"
-        }
-      ],
-      "title": "GL/Olympus: Module-3: NLP"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Great_Learning_Attention_Visualisation.ipynb",
-          "link": "https://colab.research.google.com/drive/1pyQrSDigS-HYKE95UmDfb_U7cwJjvoBZ",
-          "title": "Attention Visualisation"
-        }
-      ],
-      "title": "Colab Notebooks: Module-3-NLP"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Stanford: ML and Building LLMs",
-          "link": "https://www.youtube.com/watch?si=meC12mscwMAorfjs&v=9vM4p9NN0Ts",
-          "title": "LLMs by Prof. Yann"
-        }
-      ],
-      "title": "Youtube: Stanford Building LLM by Prof. Yann Dubois"
-    },
-    {
-      "resources": [
-        {
-          "desc": "NumPy",
-          "link": "https://numpy.org/",
-          "title": "Numerical computing and array operations"
-        },
-        {
-          "desc": "Pandas",
-          "link": "https://pandas.pydata.org/",
-          "title": "Data manipulation and analysis"
-        },
-        {
-          "desc": "Matplotlib",
-          "link": "https://matplotlib.org/",
-          "title": "Matplotlib: Data visualization"
-        },
-        {
-          "desc": "Scikit-learn (sklearn)",
-          "link": "https://scikit-learn.org/",
-          "title": "Machine learning algorithms, preprocessing, model evaluation, etc."
-        },
-        {
-          "desc": "Seaborn",
-          "link": "https://seaborn.pydata.org/",
-          "title": "Statistical data visualization"
-        },
-        {
-          "desc": "PyTorch",
-          "link": "https://pytorch.org/",
-          "title": "PyTorch: Deep learning framework"
-        },
-        {
-          "desc": "TorchVision",
-          "link": "https://pytorch.org/vision/",
-          "title": "Computer vision datasets, models, and utilities built on PyTorch"
-        },
-        {
-          "desc": "GeeksforGeeks: DL Frameworks",
-          "link": "https://www.geeksforgeeks.org/deep-learning/deep-learning-frameworks/",
-          "title": "Deep Learning Frameworks"
-        }
-      ],
-      "title": "Appendix: Python Libraries"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Olympus: GenAI Prep Work",
-          "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390329",
-          "title": "Pre-Program Statistics"
-        },
-        {
-          "desc": "Medium Article: Stats",
-          "link": "https://medium.com/@abhishekshaw020/understanding-the-basics-of-statistics-for-data-science-db779331e5c4",
-          "title": "Understanding the basics of statistics for data science"
-        },
-        {
-          "desc": "W3Schools: Statistics",
-          "link": "https://www.w3schools.com/datascience/ds_stat_intro.asp",
-          "title": "Data Science Statistics Introduction"
-        },
-        {
-          "desc": "DLBook: Probability",
-          "link": "https://www.deeplearningbook.org/contents/prob.html",
-          "title": "Deep Learning Book"
-        }
-      ],
-      "title": "Pre-requisites: Statistics"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Olympus: GenAI Prep Work",
-          "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390330",
-          "title": "Linear Algebra"
-        },
-        {
-          "desc": "geeksforgeeks: Linear Algebra",
-          "link": "https://www.geeksforgeeks.org/data-science/linear-algebra-required-for-data-science/",
-          "title": "Linear Algebra required for Data Science"
-        },
-        {
-          "desc": "DLBoook: Linear Algebra",
-          "link": "https://www.deeplearningbook.org/contents/linear_algebra.html",
-          "title": "Deep Learning Book"
-        }
-      ],
-      "title": "Pre-requisites: Linear Algebra"
-    },
-    {
-      "resources": [
-        {
-          "desc": "Scikit: PCA",
-          "link": "https://scikit-learn.org/stable/modules/decomposition.html",
-          "title": "Scikit-learn PCA documentation"
-        },
-        {
-          "desc": "LDA vs PCA",
-          "link": "https://scikit-learn.org/stable/auto_examples/decomposition/plot_pca_vs_lda.html#sphx-glr-auto-examples-decomposition-plot-pca-vs-lda-py",
-          "title": "Scikit-learn LDA vs PCA auto examples"
-        }
-      ],
-      "title": "Pre-requisites: Dimensionality Reduction"
-    },
-    {
-      "resources": [
-        {
-          "desc": "GeeksforGeeks: ML",
-          "link": "https://www.geeksforgeeks.org/machine-learning/machine-learning/",
-          "title": "Machine Learning"
-        },
-        {
-          "desc": "Olympus GenAI Prep Work",
-          "link": "https://olympus.mygreatlearning.com/courses/149816/modules/items/8390333",
-          "title": "Deep Learning Prep Work"
-        },
-        {
-          "desc": "GeeksforGeeks: DL",
-          "link": "https://www.geeksforgeeks.org/deep-learning/introduction-deep-learning/",
-          "title": "Introduction to Deep Learning"
-        },
-        {
-          "desc": "Medium Article: DL",
-          "link": "https://medium.com/intro-to-artificial-intelligence/deep-learning-series-1-intro-to-deep-learning-abb1780ee20",
-          "title": "Deep Learning Series 1: Intro to Deep Learning"
-        }
-      ],
-      "title": "Resources: ML and Deep Learning"
-    }
-  ],
   "scores": {
     "3GHUffNvjbOpqKJGbMpZCGcrR4Z2": [
       null,
@@ -4728,6 +4378,7 @@
     "Harshad_1": "mIWfEWSPPEhXVTsF0GJ1kocLjwn1",
     "Nirmalya": "JSrgxSqlRdYhzdeespzmnW9nuTb2",
     "Vasudha_Sahu": "ExbTh2twaIPjX201DwrbBXCyDBs1",
+    "caudayshanker_gmail_com": "pxuLtIvxk2Y7VWv2HAQK1cBRUBJ3",
     "ranjanri": "2Po8UI7y2iXv7Sf82yjCj4BMXI13"
   },
   "users": {
@@ -4767,6 +4418,11 @@
       "hide_discord_promo": true,
       "role": "user",
       "username": "Harshad_1"
+    },
+    "pxuLtIvxk2Y7VWv2HAQK1cBRUBJ3": {
+      "email": "caudayshanker@gmail.com",
+      "role": "user",
+      "username": "caudayshanker_gmail_com"
     }
   }
 }
