@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Resource Routing...</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <style>
+        .router-container { max-width: 500px; margin: 100px auto; }
+        .spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: var(--primary-accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="page-shell">
+    <div class="page-content router-container" id="router-content">
+        <div style="text-align:center; padding:40px; background:var(--surface); border-radius:16px; border:1px solid var(--surface-border);">
+            <div class="spinner" id="loading-spinner"></div>
+            <h2 style="margin-top:0; color:var(--text-heading);" id="router-title">Verifying Access...</h2>
+            <p id="router-msg">Please wait while we securely retrieve your file.</p>
+        </div>
+    </div>
+
+    <!-- Required Firebase SDKs (Note the addition of Storage!) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-check-compat.js"></script>
+    
+    <!-- Portal Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/app-check.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <script>
+        // Wait for the global AuthManager to resolve the user's session
+        document.addEventListener('DOMContentLoaded', () => {
+            window.authManager = new AuthManager(firebase.database());
+            
+            document.addEventListener('auth-resolved', async () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const fileName = urlParams.get('file');
+                const container = document.getElementById("router-content");
+
+                if (!fileName) {
+                    document.getElementById("loading-spinner").style.display = "none";
+                    document.getElementById("router-title").innerText = "File Not Found";
+                    document.getElementById("router-msg").innerText = "No file was specified in the URL.";
+                    return;
+                }
+
+                // SECURITY CHECK: Is the user logged in?
+                if (!window.authManager.userProfile) {
+                    // Inject the DRY login prompt from your AuthManager
+                    container.innerHTML = window.authManager.generateRestrictedHTML("Study Resources", "login");
+                    return;
+                }
+
+                // If logged in, fetch the secure, temporary download URL from Firebase Storage
+                try {
+                    const storageRef = firebase.storage().ref(`resources_dir/${fileName}`);
+                    const downloadUrl = await storageRef.getDownloadURL();
+                    
+                    document.getElementById("router-title").innerText = "Access Granted!";
+                    document.getElementById("router-msg").innerText = "Opening your file...";
+                    
+                    // Redirect the browser to the secure file
+                    window.location.replace(downloadUrl);
+                    
+                } catch (error) {
+                    console.error("Storage Error:", error);
+                    document.getElementById("loading-spinner").style.display = "none";
+                    document.getElementById("router-title").innerText = "Access Denied";
+                    
+                    if (error.code === 'storage/object-not-found') {
+                        document.getElementById("router-msg").innerText = "The requested file does not exist on the server.";
+                    } else if (error.code === 'storage/unauthorized') {
+                        document.getElementById("router-msg").innerText = "You do not have permission to access this file.";
+                    } else {
+                        document.getElementById("router-msg").innerText = "An error occurred while retrieving the file.";
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
