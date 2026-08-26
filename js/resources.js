@@ -121,8 +121,13 @@ class ResourcesApp {
       }
 
       const snapshot = await this.database.ref(this.dbPath).once("value");
-      if (!snapshot.exists()) throw new Error(`${this.pageTitleName} config not found in database.`);
       document.getElementById("status-msg").style.display = "none";
+      
+      // If the database is completely empty, just render an empty screen gracefully
+      if (!snapshot.exists()) {
+          this.renderResources({});
+          return;
+      }
       
       const dlBtn = document.getElementById("download-btn");
       if (dlBtn) dlBtn.style.display = "flex";
