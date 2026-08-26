@@ -28,14 +28,20 @@ class QuizApp {
     const user = window.authManager.userProfile;
     const verified = window.authManager.auth.currentUser?.emailVerified;
 
-    // --- NEW: CONTENT-LEVEL ACCESS GATING ---
+    // --- DRY Content-Level Access Gating ---
     if (access !== 'unrestricted' && (!user || user.role !== 'admin')) {
+        const statusEl = document.getElementById("status-msg");
+        if (statusEl) statusEl.style.display = "none";
+        
+        const container = document.getElementById("questions-container");
+        if (!container) return;
+
         if (!user) {
-            this.setStatus("Access Denied: Please log in or register to attempt this quiz.");
+            container.innerHTML = window.authManager.generateRestrictedHTML("Quiz", "login");
             return;
         }
         if (access === 'enforce_verify_email' && !verified) {
-            this.setStatus("Access Denied: Please verify your email address to attempt this quiz.");
+            container.innerHTML = window.authManager.generateRestrictedHTML("Quiz", "verify");
             return;
         }
     }
