@@ -1,7 +1,16 @@
 class ResourcesApp {
   constructor(database) {
     this.database = database;
-    this.quizKey = new URLSearchParams(window.location.search).get("quiz_key");
+    
+    // --- NEW: Dynamic Routing Logic ---
+    const urlParams = new URLSearchParams(window.location.search);
+    this.quizKey = urlParams.get("quiz_key");
+    this.type = urlParams.get("type") === 'notebook' ? 'notebook' : 'standard';
+    
+    this.dbPath = this.type === 'notebook' ? 'configs/resources_notebooks' : 'configs/resources';
+    this.quizKeyField = this.type === 'notebook' ? 'notebooks_keys' : 'resources_keys';
+    this.pageTitleName = this.type === 'notebook' ? 'Practice Notebooks' : 'Study Resources';
+    
     this.requestedKeys = null; 
     this.quizTitle = null;     
     this.container = document.getElementById("resources-container");
@@ -11,8 +20,13 @@ class ResourcesApp {
   }
 
   init() {
-    new ViewCounter(this.database, "portal_views/resources", "visited_resources_page", "visitor-count").track();
-    this.database.ref("portal_downloads/resources/total").on("value", (snap) => {
+    // Dynamically update Tracking Paths
+    const viewsPath = this.type === 'notebook' ? "portal_views/notebooks" : "portal_views/resources";
+    const dlPath = this.type === 'notebook' ? "portal_downloads/notebooks/total" : "portal_downloads/resources/total";
+    const viewsKey = this.type === 'notebook' ? "visited_notebooks_page" : "visited_resources_page";
+
+    new ViewCounter(this.database, viewsPath, viewsKey, "visitor-count").track();
+    this.database.ref(dlPath).on("value", (snap) => {
       const el = document.getElementById("download-count");
       if (el) el.innerText = snap.val() || 0;
     });
@@ -20,7 +34,20 @@ class ResourcesApp {
     const dlBtn = document.getElementById("download-btn");
     if (dlBtn) dlBtn.addEventListener("click", () => this.downloadResources());
 
-    // --- NEW: Inject "Practice Quizzes" Button ---
+    // Dynamically update DOM Text
+    document.title = this.pageTitleName;
+    const h1 = document.querySelector('.header-card h1');
+    if (h1) h1.innerText = this.pageTitleName;
+
+    const descParams = this.type === 'notebook' 
+        ? "Access interactive Jupyter Notebooks in Google Colab." 
+        : "Review the materials below to assist with your learning.";
+    const pList = document.querySelectorAll('.header-card p');
+    pList.forEach(p => {
+        if (p.innerText.includes("Review the materials")) p.innerText = descParams;
+    });
+
+    // Change "Practice Quizzes" redirect based on context
     if (dlBtn && dlBtn.parentElement && !document.getElementById('practice-quizzes-btn')) {
         const practiceBtn = document.createElement("a");
         practiceBtn.id = "practice-quizzes-btn";
@@ -55,12 +82,12 @@ class ResourcesApp {
         if (dlBtn) dlBtn.style.display = "none";
 
         if (!user) {
-            this.container.innerHTML = window.authManager.generateRestrictedHTML("Study Resources", "login");
+            this.container.innerHTML = window.authManager.generateRestrictedHTML(this.pageTitleName, "login");
             document.getElementById("status-msg").style.display = "none";
             return;
         }
         if (access === 'enforce_verify_email' && !verified) {
-            this.container.innerHTML = window.authManager.generateRestrictedHTML("Study Resources", "verify");
+            this.container.innerHTML = window.authManager.generateRestrictedHTML(this.pageTitleName, "verify");
             document.getElementById("status-msg").style.display = "none";
             return;
         }
@@ -71,12 +98,13 @@ class ResourcesApp {
         const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
         if (quizSnap.exists()) {
           this.quizTitle = quizSnap.val().title; 
-          this.requestedKeys = quizSnap.val().resources_keys ? quizSnap.val().resources_keys.map(String) : [];
+          const keyArray = quizSnap.val()[this.quizKeyField];
+          this.requestedKeys = keyArray ? keyArray.map(String) : [];
         }
       }
 
-      const snapshot = await this.database.ref("configs/resources").once("value");
-      if (!snapshot.exists()) throw new Error("Resources config not found.");
+      const snapshot = await this.database.ref(this.dbPath).once("value");
+      if (!snapshot.exists()) throw new Error(`${this.pageTitleName} config not found in database.`);
       document.getElementById("status-msg").style.display = "none";
       
       const dlBtn = document.getElementById("download-btn");
@@ -100,7 +128,7 @@ class ResourcesApp {
     }
 
     if (keysToRender.length === 0) {
-      this.container.innerHTML += '<p class="resource-empty-message">No resources currently available.</p>';
+      this.container.innerHTML += `<p class="resource-empty-message">No ${this.pageTitleName.toLowerCase()} currently available.</p>`;
       return;
     }
 
@@ -134,7 +162,7 @@ class ResourcesApp {
     wrapper.className = "insert-btn-wrapper admin-only";
     
     wrapper.innerHTML = `
-      <button class="btn btn-secondary btn-icon btn-circle" onclick="window.resourcesApp.openResourceModal(null, '${afterKey}')" title="Insert New Resource Here">
+      <button class="btn btn-secondary btn-icon btn-circle" onclick="window.resourcesApp.openResourceModal(null, '${afterKey}')" title="Insert New Entry Here">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -164,7 +192,7 @@ class ResourcesApp {
 
   openResourceModal(editKey = null, insertAfterKey = null) {
     const modal = document.getElementById('resource-modal');
-    document.getElementById('res-modal-title').innerText = editKey ? "Edit Resource Group" : (insertAfterKey ? "Insert Resource Group" : "Add Resource Group");
+    document.getElementById('res-modal-title').innerText = editKey ? `Edit ${this.pageTitleName}` : (insertAfterKey ? `Insert ${this.pageTitleName}` : `Add ${this.pageTitleName}`);
     document.getElementById('res-edit-key').value = editKey || "";
     
     let insertNode = document.getElementById('res-insert-key');
@@ -217,36 +245,36 @@ class ResourcesApp {
       }))
       .filter(res => res.title || res.desc || res.link);
 
-    if (resourcesList.length === 0) return alert("Please add at least one link/sub-resource.");
+    if (resourcesList.length === 0) return alert("Please add at least one link/entry.");
 
     const updates = {};
     const groupPayload = { title: groupTitle, resources: resourcesList };
 
     try {
       if (editKey) {
-        updates[`configs/resources/${editKey}`] = groupPayload;
+        updates[`${this.dbPath}/${editKey}`] = groupPayload;
       } else if (insertAfterKey) {
         const insertPos = parseInt(insertAfterKey, 10);
         const newKey = insertPos + 1;
 
-        const resSnap = await this.database.ref('configs/resources').once('value');
+        const resSnap = await this.database.ref(this.dbPath).once('value');
         const allRes = resSnap.val() || {};
         const keys = Object.keys(allRes).filter(k => k !== 'null').map(Number).sort((a,b) => b - a);
         
         keys.forEach(k => {
             if (k >= newKey) {
-                updates[`configs/resources/${k + 1}`] = allRes[k];
-                updates[`configs/resources/${k}`] = null; 
+                updates[`${this.dbPath}/${k + 1}`] = allRes[k];
+                updates[`${this.dbPath}/${k}`] = null; 
             }
         });
-        updates[`configs/resources/${newKey}`] = groupPayload;
+        updates[`${this.dbPath}/${newKey}`] = groupPayload;
 
         const quizSnap = await this.database.ref('configs/index').once('value');
         const allQuizzes = quizSnap.val() || {};
         
         for (const qk of Object.keys(allQuizzes)) {
-            if (allQuizzes[qk].resources_keys) {
-                let updatedArray = allQuizzes[qk].resources_keys.map(oldRef => {
+            if (allQuizzes[qk][this.quizKeyField]) {
+                let updatedArray = allQuizzes[qk][this.quizKeyField].map(oldRef => {
                     const refNum = parseInt(oldRef, 10);
                     return refNum >= newKey ? String(refNum + 1) : oldRef;
                 });
@@ -259,30 +287,30 @@ class ResourcesApp {
                         updatedArray.unshift(String(newKey));
                     }
                 }
-                updates[`configs/index/${qk}/resources_keys`] = updatedArray;
+                updates[`configs/index/${qk}/${this.quizKeyField}`] = updatedArray;
             } else if (this.quizKey && qk === this.quizKey) {
-                updates[`configs/index/${qk}/resources_keys`] = [String(newKey)];
+                updates[`configs/index/${qk}/${this.quizKeyField}`] = [String(newKey)];
             }
         }
       } else {
         const targetKey = window.generateNewDatabaseKey(this.resourceDataRaw);
-        updates[`configs/resources/${targetKey}`] = groupPayload;
+        updates[`${this.dbPath}/${targetKey}`] = groupPayload;
 
         if (this.quizKey) {
             const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once('value');
             const quizData = quizSnap.val() || {};
-            const arr = quizData.resources_keys || [];
+            const arr = quizData[this.quizKeyField] || [];
             arr.push(targetKey);
-            updates[`configs/index/${this.quizKey}/resources_keys`] = arr;
+            updates[`configs/index/${this.quizKey}/${this.quizKeyField}`] = arr;
         }
       }
 
       await this.database.ref().update(updates);
-      alert("Resource Group saved successfully!");
+      alert("Saved successfully!");
       document.getElementById('resource-modal').style.display = 'none';
       this.loadResources();
     } catch (e) {
-      alert("Error saving resource: " + e.message);
+      alert("Error saving data: " + e.message);
     }
   }
 
@@ -297,14 +325,18 @@ class ResourcesApp {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
+      
+      const filePrefix = this.type === 'notebook' ? 'notebooks_' : 'resources_';
       if (this.quizTitle) {
-        a.download = `resources_${this.quizTitle.replace(/[^a-z0-9]+/gi, ' ').trim().replace(/\s+/g, '_').toLowerCase()}_offline.html`;
+        a.download = `${filePrefix}${this.quizTitle.replace(/[^a-z0-9]+/gi, ' ').trim().replace(/\s+/g, '_').toLowerCase()}_offline.html`;
       } else {
-        a.download = `study_resources_full_offline.html`;
+        a.download = `${filePrefix}full_offline.html`;
       }
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-      this.database.ref("portal_downloads/resources/total").set(firebase.database.ServerValue.increment(1));
-    } catch (e) { alert("Failed to download resources."); } finally { btn.innerHTML = originalHtml; btn.disabled = false; }
+      
+      const dlPath = this.type === 'notebook' ? "portal_downloads/notebooks/total" : "portal_downloads/resources/total";
+      this.database.ref(dlPath).set(firebase.database.ServerValue.increment(1));
+    } catch (e) { alert("Failed to download."); } finally { btn.innerHTML = originalHtml; btn.disabled = false; }
   }
 
   generateOfflineResourcesHtml(data) {
@@ -315,7 +347,7 @@ class ResourcesApp {
       const listItems = group.resources.map(res => this.buildListItem(res)).filter(Boolean).join("");
       return `<div class="card"><h2>${key}. ${group.title}</h2><ul>${listItems}</ul></div>`;
     }).join("");
-    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Study Resources - Offline</title><style>body { font-family: 'Arial', sans-serif; background-color: #000; color: #cbd5e1; margin: 0; padding: 40px 20px; display: flex; justify-content: center; line-height: 1.6; }.container { max-width: 640px; width: 100%; }.header { background: #0b1517; padding: 30px; border-radius: 16px; border: 1px solid #1a2f33; margin-bottom: 24px; text-align: center; border-top: 5px solid #4a7c7b; }h1 { margin: 0 0 10px 0; font-size: 24px; color: #e2e8f0; }.card { background: #0b1517; padding: 24px; border-radius: 16px; border: 1px solid #1a2f33; border-left: 4px solid #4a7c7b; margin-bottom: 20px; }h2 { margin: 0 0 16px 0; font-size: 18px; color: #e2e8f0; }ul { margin: 0; padding-left: 22px; }li { margin-bottom: 12px; }a { color: #6da4a3; text-decoration: underline; text-underline-offset: 3px; }a:hover { color: #e2e8f0; text-decoration-color: #6da4a3; }</style></head><body><div class="container"><div class="header"><h1>Study Resources</h1><p style="margin: 0; color: #94a3b8;">Offline Reference Copy</p></div>${contentHtml}</div></body></html>`;
+    return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${this.pageTitleName} - Offline</title><style>body { font-family: 'Arial', sans-serif; background-color: #000; color: #cbd5e1; margin: 0; padding: 40px 20px; display: flex; justify-content: center; line-height: 1.6; }.container { max-width: 640px; width: 100%; }.header { background: #0b1517; padding: 30px; border-radius: 16px; border: 1px solid #1a2f33; margin-bottom: 24px; text-align: center; border-top: 5px solid #4a7c7b; }h1 { margin: 0 0 10px 0; font-size: 24px; color: #e2e8f0; }.card { background: #0b1517; padding: 24px; border-radius: 16px; border: 1px solid #1a2f33; border-left: 4px solid #4a7c7b; margin-bottom: 20px; }h2 { margin: 0 0 16px 0; font-size: 18px; color: #e2e8f0; }ul { margin: 0; padding-left: 22px; }li { margin-bottom: 12px; }a { color: #6da4a3; text-decoration: underline; text-underline-offset: 3px; }a:hover { color: #e2e8f0; text-decoration-color: #6da4a3; }</style></head><body><div class="container"><div class="header"><h1>${this.pageTitleName}</h1><p style="margin: 0; color: #94a3b8;">Offline Reference Copy</p></div>${contentHtml}</div></body></html>`;
   }
 }
 

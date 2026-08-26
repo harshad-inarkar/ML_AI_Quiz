@@ -14,6 +14,17 @@ class PortalApp {
       if (el) el.innerText = snap.val() || 0;
     });
 
+    // --- NEW: Inject Practice Notebooks Global Link ---
+    const resLink = document.querySelector('a[href="resources_template.html"]');
+    if (resLink && !document.getElementById('global-notebooks-btn')) {
+        const nbBtn = document.createElement("a");
+        nbBtn.id = "global-notebooks-btn";
+        nbBtn.href = "resources_template.html?type=notebook";
+        nbBtn.className = "btn btn-secondary";
+        nbBtn.innerText = "Practice Notebooks";
+        resLink.parentNode.insertBefore(nbBtn, resLink.nextSibling);
+    }
+
     this.dataLoaded = false; 
 
     document.addEventListener('auth-resolved', () => {
@@ -121,6 +132,11 @@ class PortalApp {
       ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` 
       : '';
     
+    // --- NEW: Generate Notebooks Button inside Quiz Card ---
+    const notebooksBtnHTML = quizData.notebooks_keys?.length > 0 
+      ? `<a href="resources_template.html?type=notebook&quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Notebooks</a>` 
+      : '';
+    
     card.innerHTML = `
       <div class="card-header-flex">
         <h2 class="card-title-text">${quizData.title}</h2>
@@ -130,6 +146,7 @@ class PortalApp {
         <div class="action-links-left">
           <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">${attemptText}</a>
           ${resourcesBtnHTML}
+          ${notebooksBtnHTML}
           <button class="btn btn-secondary admin-only" onclick="window.portalApp.openQuizModal('${key}')">Edit Quiz</button>
         </div>
         <button class="btn btn-secondary download-quiz-btn btn-icon" data-key="${key}" title="Save for Offline Use">
@@ -145,13 +162,26 @@ class PortalApp {
     document.getElementById('quiz-modal-title').innerText = editKey ? "Edit Quiz" : "Add New Quiz";
     document.getElementById('quiz-edit-key').value = editKey || "";
     
+    // --- NEW: Dynamically Inject CMS Notebook Input if missing ---
+    let nbInput = document.getElementById('cms-quiz-notebooks');
+    if (!nbInput) {
+        const formGroup = document.createElement('div');
+        formGroup.className = 'form-group';
+        formGroup.innerHTML = '<label>Notebook Keys (Comma separated)</label><input type="text" id="cms-quiz-notebooks" placeholder="e.g. 1, 2">';
+        const resInputGroup = document.getElementById('cms-quiz-resources').parentNode;
+        resInputGroup.parentNode.insertBefore(formGroup, resInputGroup.nextSibling);
+        nbInput = document.getElementById('cms-quiz-notebooks');
+    }
+
     if (editKey && this.quizConfigData[editKey]) {
       document.getElementById('cms-quiz-title').value = this.quizConfigData[editKey].title;
       document.getElementById('cms-quiz-resources').value = this.quizConfigData[editKey].resources_keys ? this.quizConfigData[editKey].resources_keys.join(", ") : "";
+      nbInput.value = this.quizConfigData[editKey].notebooks_keys ? this.quizConfigData[editKey].notebooks_keys.join(", ") : "";
       document.getElementById('cms-json-hint').innerText = "(Leave empty to keep existing questions)";
     } else {
       document.getElementById('cms-quiz-title').value = "";
       document.getElementById('cms-quiz-resources').value = "";
+      nbInput.value = "";
       document.getElementById('cms-json-hint').innerText = "* (Required)";
     }
     
@@ -163,11 +193,14 @@ class PortalApp {
     const key = document.getElementById('quiz-edit-key').value;
     const title = document.getElementById('cms-quiz-title').value;
     const resString = document.getElementById('cms-quiz-resources').value;
+    const nbString = document.getElementById('cms-quiz-notebooks')?.value || "";
     const fileInput = document.getElementById('cms-quiz-file');
     
     if (!title) return alert("Title is required.");
     
     const resourcesKeys = resString.split(',').map(s => s.trim()).filter(s => s);
+    const notebooksKeys = nbString.split(',').map(s => s.trim()).filter(s => s);
+
     const targetKey = key || window.generateNewDatabaseKey(this.quizConfigData);
     const inputFile = key ? this.quizConfigData[key].input_file : `input_quiz_${targetKey}.json`;
 
@@ -183,6 +216,7 @@ class PortalApp {
 
       const configPayload = { title: title, input_file: inputFile };
       if (resourcesKeys.length > 0) configPayload.resources_keys = resourcesKeys;
+      if (notebooksKeys.length > 0) configPayload.notebooks_keys = notebooksKeys;
       
       await this.database.ref(`configs/index/${targetKey}`).set(configPayload);
       
