@@ -21,7 +21,7 @@ class PortalApp {
         nbBtn.id = "global-notebooks-btn";
         nbBtn.href = "resources_template.html?type=notebook";
         nbBtn.className = "btn btn-secondary";
-        nbBtn.innerText = "Practice Notebooks";
+        nbBtn.innerText = "Notebooks Resources";
         resLink.parentNode.insertBefore(nbBtn, resLink.nextSibling);
     }
 
