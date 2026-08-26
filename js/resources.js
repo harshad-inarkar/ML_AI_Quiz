@@ -9,7 +9,7 @@ class ResourcesApp {
     
     this.dbPath = this.type === 'notebook' ? 'configs/resources_notebooks' : 'configs/resources';
     this.quizKeyField = this.type === 'notebook' ? 'notebooks_keys' : 'resources_keys';
-    this.pageTitleName = this.type === 'notebook' ? 'Practice Notebooks' : 'Study Resources';
+    this.pageTitleName = this.type === 'notebook' ? 'Notebooks Resources' : 'Study Resources';
     
     this.requestedKeys = null; 
     this.quizTitle = null;     
