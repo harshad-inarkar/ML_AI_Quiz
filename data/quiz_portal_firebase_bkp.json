@@ -990,11 +990,11 @@
   },
   "portal_views": {
     "main": {
-      "total": 930,
+      "total": 971,
       "unique": 110
     },
     "resources": {
-      "total": 568,
+      "total": 606,
       "unique": 117
     }
   },
@@ -1073,7 +1073,7 @@
   },
   "quiz_views": {
     "quiz_1": {
-      "total": 242,
+      "total": 244,
       "unique": 76
     },
     "quiz_2": {
@@ -4719,7 +4719,6 @@
     "autosave_interval_ms": 15000,
     "discord_link1_join": "https://discord.gg/fMsJHSfTtN",
     "discord_link2_channel": "https://discord.com/channels/1540056204926124152/1540212946540564570",
-    "enforce_verify_email": false,
     "show_discord_promo": true
   },
   "usernames": {
@@ -4759,11 +4758,13 @@
     },
     "boDMfecge5aagRBadzO4OyrNblx2": {
       "email": "harshad.inarkar@gmail.com",
+      "hide_discord_promo": true,
       "role": "admin",
       "username": "Harshad"
     },
     "mIWfEWSPPEhXVTsF0GJ1kocLjwn1": {
       "email": "harshad.inarkar@yahoo.com",
+      "hide_discord_promo": true,
       "role": "user",
       "username": "Harshad_1"
     }
