@@ -2,14 +2,14 @@ class ResourcesApp {
   constructor(database) {
     this.database = database;
     
-    // --- Dynamic Routing Logic ---
+    // --- Dynamic Routing Logic for Code Workspace ---
     const urlParams = new URLSearchParams(window.location.search);
     this.quizKey = urlParams.get("quiz_key");
-    this.type = urlParams.get("type") === 'notebook' ? 'notebook' : 'standard';
+    this.type = urlParams.get("type") === 'workspace' ? 'workspace' : 'standard';
     
-    this.dbPath = this.type === 'notebook' ? 'configs/resources_notebooks' : 'configs/resources';
-    this.quizKeyField = this.type === 'notebook' ? 'notebooks_keys' : 'resources_keys';
-    this.pageTitleName = this.type === 'notebook' ? 'Practice Notebooks' : 'Study Resources';
+    this.dbPath = this.type === 'workspace' ? 'configs/code_workspace' : 'configs/resources';
+    this.quizKeyField = this.type === 'workspace' ? 'workspace_keys' : 'resources_keys';
+    this.pageTitleName = this.type === 'workspace' ? 'Code Workspace' : 'Study Resources';
     
     this.requestedKeys = null; 
     this.quizTitle = null;     
@@ -21,9 +21,9 @@ class ResourcesApp {
 
   init() {
     // Dynamically update Tracking Paths
-    const viewsPath = this.type === 'notebook' ? "portal_views/notebooks" : "portal_views/resources";
-    const dlPath = this.type === 'notebook' ? "portal_downloads/notebooks/total" : "portal_downloads/resources/total";
-    const viewsKey = this.type === 'notebook' ? "visited_notebooks_page" : "visited_resources_page";
+    const viewsPath = this.type === 'workspace' ? "portal_views/workspace" : "portal_views/resources";
+    const dlPath = this.type === 'workspace' ? "portal_downloads/workspace/total" : "portal_downloads/resources/total";
+    const viewsKey = this.type === 'workspace' ? "visited_workspace_page" : "visited_resources_page";
 
     new ViewCounter(this.database, viewsPath, viewsKey, "visitor-count").track();
     this.database.ref(dlPath).on("value", (snap) => {
@@ -39,8 +39,8 @@ class ResourcesApp {
     const h1 = document.querySelector('.header-card h1');
     if (h1) h1.innerText = this.pageTitleName;
 
-    const descParams = this.type === 'notebook' 
-        ? "Access interactive Jupyter Notebooks in Google Colab." 
+    const descParams = this.type === 'workspace' 
+        ? "Access Python notebooks, hands-on coding labs, and GitHub projects." 
         : "Review the materials below to assist with your learning.";
     const pList = document.querySelectorAll('.header-card p');
     pList.forEach(p => {
@@ -53,12 +53,12 @@ class ResourcesApp {
         toggleBtn.id = "toggle-resource-type-btn";
         toggleBtn.className = "btn btn-secondary";
         
-        if (this.type === 'notebook') {
+        if (this.type === 'workspace') {
             toggleBtn.href = this.quizKey ? `resources_template.html?quiz_key=${this.quizKey}` : `resources_template.html`;
             toggleBtn.innerText = "Study Resources";
         } else {
-            toggleBtn.href = this.quizKey ? `resources_template.html?type=notebook&quiz_key=${this.quizKey}` : `resources_template.html?type=notebook`;
-            toggleBtn.innerText = "Practice Notebooks";
+            toggleBtn.href = this.quizKey ? `resources_template.html?type=workspace&quiz_key=${this.quizKey}` : `resources_template.html?type=workspace`;
+            toggleBtn.innerText = "Code Workspace";
         }
         
         dlBtn.parentElement.insertBefore(toggleBtn, dlBtn.parentElement.firstChild);
@@ -351,7 +351,7 @@ class ResourcesApp {
       const a = document.createElement("a");
       a.href = url;
       
-      const filePrefix = this.type === 'notebook' ? 'notebooks_' : 'resources_';
+      const filePrefix = this.type === 'workspace' ? 'workspace_' : 'resources_';
       if (this.quizTitle) {
         a.download = `${filePrefix}${this.quizTitle.replace(/[^a-z0-9]+/gi, ' ').trim().replace(/\s+/g, '_').toLowerCase()}_offline.html`;
       } else {
@@ -359,7 +359,7 @@ class ResourcesApp {
       }
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
       
-      const dlPath = this.type === 'notebook' ? "portal_downloads/notebooks/total" : "portal_downloads/resources/total";
+      const dlPath = this.type === 'workspace' ? "portal_downloads/workspace/total" : "portal_downloads/resources/total";
       this.database.ref(dlPath).set(firebase.database.ServerValue.increment(1));
     } catch (e) { alert("Failed to download."); } finally { btn.innerHTML = originalHtml; btn.disabled = false; }
   }
