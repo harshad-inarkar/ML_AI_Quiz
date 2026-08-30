@@ -2,21 +2,21 @@
     {
         "q": "What is the defining characteristic of a sequence model compared to a standard feedforward neural network?",
         "options": [
+            "It explicitly prevents the use of hidden layers",
             "It is designed to process inputs where the order of elements matters, such as time-series or text",
             "It requires all inputs to be processed simultaneously in a single matrix operation",
-            "It can only output a single scalar value regardless of input size",
-            "It explicitly prevents the use of hidden layers"
+            "It can only output a single scalar value regardless of input size"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Sequence models are specifically designed to capture relationships and temporal dependencies across ordered data."
     },
     {
         "q": "How does an autoregressive model typically factorize the joint probability of a sequence?",
         "options": [
             "As the product of conditional probabilities of each element given all previous elements",
-            "As the sum of independent probabilities for each element",
             "As a single joint distribution completely ignoring element order",
-            "By predicting all elements simultaneously given a latent noise vector"
+            "By predicting all elements simultaneously given a latent noise vector",
+            "As the sum of independent probabilities for each element"
         ],
         "answer": 0,
         "explanation": "Autoregressive models use the chain rule of probability to decompose a sequence into a product of conditional probabilities (e.g., predicting the next word based on previous words)."
@@ -24,43 +24,43 @@
     {
         "q": "In autoregressive sequence generation, what describes the problem of 'exposure bias'?",
         "options": [
-            "The discrepancy caused by training on ground-truth tokens but relying on model-generated tokens during inference",
+            "The inability of the model to process unmasked future tokens",
             "The tendency of the model to repeat the same tokens infinitely",
             "The over-representation of rare words in the training data",
-            "The inability of the model to process unmasked future tokens"
+            "The discrepancy caused by training on ground-truth tokens but relying on model-generated tokens during inference"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "Exposure bias occurs because an autoregressive model uses true previous tokens during training (teacher forcing) but must rely on its own potentially flawed predictions during inference."
     },
     {
         "q": "What is the primary role of a latent variable in a latent variable model?",
         "options": [
-            "To represent underlying, unobserved factors that explain the observed data",
-            "To act as a fixed embedding for padding tokens",
             "To permanently store the ground-truth labels for sequence generation",
-            "To force the model to output discrete, deterministic values"
+            "To force the model to output discrete, deterministic values",
+            "To act as a fixed embedding for padding tokens",
+            "To represent underlying, unobserved factors that explain the observed data"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "Latent variables capture hidden structures or causes in the data, allowing the model to represent complex distributions and uncertainty."
     },
     {
         "q": "Which of the following is a classic example of a latent variable model for sequences?",
         "options": [
-            "Hidden Markov Model (HMM)",
-            "K-Nearest Neighbors (KNN)",
             "Support Vector Machine (SVM)",
-            "Random Forest"
+            "Random Forest",
+            "K-Nearest Neighbors (KNN)",
+            "Hidden Markov Model (HMM)"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "An HMM relies on a sequence of unobserved (latent) states that govern the observable outputs at each time step."
     },
     {
         "q": "What is the primary architectural cause of the vanishing gradient problem in standard Recurrent Neural Networks (RNNs)?",
         "options": [
             "Repeated multiplication of the same weight matrix during backpropagation through time",
-            "The exclusive use of purely linear activation functions",
+            "Too many attention heads computing in parallel",
             "The absence of a latent variable space",
-            "Too many attention heads computing in parallel"
+            "The exclusive use of purely linear activation functions"
         ],
         "answer": 0,
         "explanation": "During Backpropagation Through Time (BPTT), gradients are multiplied repeatedly by the recurrent weight matrix, causing them to shrink exponentially if the matrix's eigenvalues are less than one."
@@ -69,9 +69,9 @@
         "q": "How does a standard RNN update its hidden state at time step t?",
         "options": [
             "By combining the current input at step t with the hidden state from step t-1",
-            "By taking the average of all future inputs",
+            "By applying a causal mask to the output gate",
             "By ignoring previous steps and only processing the input at step t",
-            "By applying a causal mask to the output gate"
+            "By taking the average of all future inputs"
         ],
         "answer": 0,
         "explanation": "The core mechanism of an RNN is its recurrence formula, which updates the current hidden state using both the current input and the hidden state from the previous time step."
@@ -79,144 +79,144 @@
     {
         "q": "What is Tokenisation in Natural Language Processing?",
         "options": [
-            "The process of breaking down text into smaller discrete units like words, subwords, or characters",
-            "The process of mapping words to continuous vector spaces",
             "The removal of punctuation and stop words from a corpus",
-            "The translation of text from one language to another"
+            "The process of breaking down text into smaller discrete units like words, subwords, or characters",
+            "The translation of text from one language to another",
+            "The process of mapping words to continuous vector spaces"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Tokenisation is the foundational preprocessing step that splits raw text into manageable chunks (tokens) that a model can process."
     },
     {
         "q": "Why is Byte-Pair Encoding (BPE) highly effective for modern tokenisation?",
         "options": [
-            "It balances the flexibility of character-level modeling with the efficiency of word-level modeling",
-            "It maps every possible word to a fixed one-hot encoded vector",
             "It eliminates the need for word embeddings entirely",
-            "It strictly limits the vocabulary to a maximum of 1,000 tokens"
+            "It strictly limits the vocabulary to a maximum of 1,000 tokens",
+            "It balances the flexibility of character-level modeling with the efficiency of word-level modeling",
+            "It maps every possible word to a fixed one-hot encoded vector"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "BPE is a subword tokenisation algorithm that merges frequently occurring character sequences, allowing models to efficiently handle rare words and avoid out-of-vocabulary (OOV) errors."
     },
     {
         "q": "What core linguistic theory underpins the creation of Word Embeddings like Word2Vec?",
         "options": [
-            "The Distributional Hypothesis, which states that words appearing in similar contexts have similar meanings",
             "Chomsky's Universal Grammar theory",
-            "The Bag-of-Words assumption that word order does not matter",
-            "The hypothesis that character count dictates semantic meaning"
+            "The hypothesis that character count dictates semantic meaning",
+            "The Distributional Hypothesis, which states that words appearing in similar contexts have similar meanings",
+            "The Bag-of-Words assumption that word order does not matter"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "The distributional hypothesis is the basis for dense embeddings, suggesting that semantic meaning can be derived from the surrounding context words."
     },
     {
         "q": "How does the Continuous Bag-of-Words (CBOW) model in Word2Vec differ from Skip-Gram?",
         "options": [
+            "CBOW is based on global co-occurrence matrices, while Skip-Gram is a neural network",
             "CBOW predicts a target word from its surrounding context words, while Skip-Gram predicts context words from a target word",
             "CBOW uses subword tokens, while Skip-Gram uses character tokens",
-            "CBOW is based on global co-occurrence matrices, while Skip-Gram is a neural network",
             "CBOW cannot handle out-of-vocabulary words, while Skip-Gram can"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "CBOW aggregates context to guess the missing center word, whereas Skip-Gram takes a center word and guesses which words are likely to appear around it."
     },
     {
         "q": "What is the purpose of 'Negative Sampling' in training Word2Vec models?",
         "options": [
-            "To improve training efficiency by only updating weights for the true context word and a small number of random 'noise' words",
-            "To remove offensive or negative words from the training corpus",
             "To decrease the dimensionality of the final embedding vectors",
-            "To prevent the model from learning syntactic relationships"
+            "To improve training efficiency by only updating weights for the true context word and a small number of random 'noise' words",
+            "To prevent the model from learning syntactic relationships",
+            "To remove offensive or negative words from the training corpus"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Calculating the full softmax over a large vocabulary is computationally expensive. Negative sampling approximates this by treating the task as binary classification for the true word and a few random negative samples."
     },
     {
         "q": "What is the key mathematical foundation of GloVe (Global Vectors) embeddings?",
         "options": [
-            "Dimensionality reduction and regression on a global word-word co-occurrence matrix",
-            "A causal autoregressive language modeling objective",
             "Self-attention applied to randomly initialized vectors",
+            "A causal autoregressive language modeling objective",
+            "Dimensionality reduction and regression on a global word-word co-occurrence matrix",
             "Recurrent gating mechanisms"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "GloVe explicitly leverages global statistical information by training on the non-zero entries of a global word-word co-occurrence matrix, combining the benefits of matrix factorization and local context windows."
     },
     {
         "q": "Which component of a standard LSTM is specifically designed to allow information to flow unchanged over long sequences?",
         "options": [
-            "The cell state",
-            "The hidden state",
             "The output gate",
-            "The multi-head projection"
+            "The multi-head projection",
+            "The cell state",
+            "The hidden state"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "The cell state acts as an internal memory conveyor belt. With minimal linear interactions regulated by gates, it allows gradients to flow backwards with less risk of vanishing."
     },
     {
         "q": "What is the specific function of the 'Forget Gate' in an LSTM?",
         "options": [
-            "To decide what information from the previous cell state should be discarded",
             "To determine what new information will be added to the cell state",
+            "To randomly drop out neurons to prevent overfitting",
             "To filter the final output of the LSTM cell",
-            "To randomly drop out neurons to prevent overfitting"
+            "To decide what information from the previous cell state should be discarded"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "The forget gate outputs a number between 0 and 1 for each number in the cell state, where 0 means 'completely get rid of this' and 1 means 'keep this completely'."
     },
     {
         "q": "How does a Gated Recurrent Unit (GRU) differ structurally from an LSTM?",
         "options": [
+            "A GRU only processes sequences backwards",
             "A GRU combines the forget and input gates into a single update gate and merges the cell and hidden states",
-            "A GRU relies entirely on self-attention instead of recurrence",
             "A GRU adds an extra 'reset' memory cell to store global corpus statistics",
-            "A GRU only processes sequences backwards"
+            "A GRU relies entirely on self-attention instead of recurrence"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "GRUs simplify the LSTM architecture by merging the hidden and cell states and using only two gates (update and reset), making them computationally cheaper while performing similarly."
     },
     {
         "q": "In a GRU, what is the role of the 'Reset Gate'?",
         "options": [
-            "It dictates how much of the past hidden state should be ignored when computing the new candidate state",
-            "It resets the entire network's weights during training if loss spikes",
             "It forces the hidden state to zero at the end of every sentence",
-            "It replaces the activation function with a linear transformation"
+            "It resets the entire network's weights during training if loss spikes",
+            "It replaces the activation function with a linear transformation",
+            "It dictates how much of the past hidden state should be ignored when computing the new candidate state"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "The reset gate allows the model to drop information that is irrelevant for the future, effectively allowing the GRU to forget past state information when computing the new candidate representation."
     },
     {
         "q": "What fundamental problem in traditional sequence-to-sequence (seq2seq) models did the Attention mechanism solve?",
         "options": [
-            "The bottleneck problem caused by compressing an entire input sequence into a single fixed-length vector",
             "The inability to use subword tokenisation",
             "The requirement that input and output sequences must be the exact same length",
+            "The bottleneck problem caused by compressing an entire input sequence into a single fixed-length vector",
             "The vanishing gradient problem in convolutional neural networks"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "Traditional seq2seq models encoded the entire input into one context vector, creating a bottleneck. Attention allows the decoder to look back at all parts of the input sequence dynamically."
     },
     {
         "q": "In the Query-Key-Value (QKV) attention formalism, what does the 'Query' vector represent?",
         "options": [
-            "The current state or token looking for relevant information",
-            "The memory or content being stored for future retrieval",
             "The compatibility score between two different sequences",
-            "The final output probability distribution"
+            "The current state or token looking for relevant information",
+            "The final output probability distribution",
+            "The memory or content being stored for future retrieval"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "The Query represents the current token's search intent. It is compared against all Key vectors to determine how much attention should be paid to their corresponding Value vectors."
     },
     {
         "q": "In QKV attention, how is the final output for a given query computed?",
         "options": [
-            "As a weighted sum of the Value vectors, where weights are derived from the Query-Key compatibility scores",
-            "By concatenating the Query and Key vectors and passing them through a feedforward network",
+            "As a simple average of all Key vectors",
             "By taking the dot product of the Query and Value vectors directly",
-            "As a simple average of all Key vectors"
+            "By concatenating the Query and Key vectors and passing them through a feedforward network",
+            "As a weighted sum of the Value vectors, where weights are derived from the Query-Key compatibility scores"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "The softmax scores from the Query-Key dot products act as weights. These weights are multiplied by the Value vectors and summed to produce the final attended representation."
     },
     {
@@ -224,8 +224,8 @@
         "options": [
             "To prevent the dot products from growing too large, which pushes the softmax function into regions with extremely small gradients",
             "To reduce the number of trainable parameters in the model",
-            "To ensure the attention weights always sum to exactly 1.0",
-            "To convert the attention mechanism from O(N^2) complexity to O(N) complexity"
+            "To convert the attention mechanism from O(N^2) complexity to O(N) complexity",
+            "To ensure the attention weights always sum to exactly 1.0"
         ],
         "answer": 0,
         "explanation": "For large dimensions, dot products grow in magnitude, pushing the softmax function into regions where gradients approach zero. Scaling mitigates this."
@@ -233,32 +233,32 @@
     {
         "q": "What defines 'Self-Attention' compared to general attention?",
         "options": [
-            "The Queries, Keys, and Values all originate from the exact same input sequence",
             "The model only attends to the most frequent token in the sequence",
+            "The Queries, Keys, and Values all originate from the exact same input sequence",
             "It uses an additive neural network instead of dot-products to compute scores",
             "It requires human-annotated alignment labels during training"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "In self-attention, a sequence attends to itself. This allows each token in the sequence to build a representation that incorporates context from other tokens in the same sequence."
     },
     {
         "q": "In a Transformer model, where is 'Cross-Attention' typically used?",
         "options": [
-            "In the decoder, where Queries come from the previous decoder layer, and Keys/Values come from the encoder output",
             "In the first layer of the encoder to process the raw embeddings",
-            "To compare two entirely different languages before translation begins",
-            "As a replacement for positional encoding"
+            "In the decoder, where Queries come from the previous decoder layer, and Keys/Values come from the encoder output",
+            "As a replacement for positional encoding",
+            "To compare two entirely different languages before translation begins"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Cross-attention links the encoder and decoder. The decoder generates Queries based on its current state, and attends to the Keys and Values generated by the encoder's representation of the input."
     },
     {
         "q": "What specific problem does Multi-Head Attention solve compared to Single-Head Attention?",
         "options": [
             "It allows the model to jointly attend to information from different representation subspaces at different positions",
+            "It prevents the model from looking at future tokens",
             "It reduces the computational complexity of the attention matrix",
-            "It inherently provides positional encoding to the input sequence",
-            "It prevents the model from looking at future tokens"
+            "It inherently provides positional encoding to the input sequence"
         ],
         "answer": 0,
         "explanation": "By projecting queries, keys, and values into multiple different linear subspaces, multi-head attention enables the model to simultaneously focus on different types of relationships (e.g., semantic vs. syntactic)."
@@ -268,8 +268,8 @@
         "options": [
             "To prevent tokens from attending to future tokens during autoregressive generation",
             "To mask out padding tokens so they do not affect gradients",
-            "To randomly drop connections and prevent overfitting",
-            "To hide the true labels from the loss function"
+            "To hide the true labels from the loss function",
+            "To randomly drop connections and prevent overfitting"
         ],
         "answer": 0,
         "explanation": "Causal masking sets the attention scores of future tokens to negative infinity (becoming zero after softmax), ensuring predictions depend strictly on past and present tokens to maintain the autoregressive property."
@@ -277,21 +277,21 @@
     {
         "q": "Why do Transformer-based attention models require Positional Encodings?",
         "options": [
+            "To scale the gradients during backpropagation",
             "Because self-attention operations are permutation-invariant and do not inherently process data in order",
             "To ensure the model vocabulary matches the embedding dimension",
-            "To scale the gradients during backpropagation",
             "Because cross-attention requires explicit time-stamps to function"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Unlike RNNs, which process data sequentially, attention processes all tokens in parallel. Positional encodings are injected to give the model information about the relative or absolute position of tokens."
     },
     {
         "q": "Which of the following describes 'Additive Attention' (Bahdanau Attention)?",
         "options": [
             "It uses a feed-forward neural network with a single hidden layer to compute the compatibility score between query and key",
-            "It computes compatibility purely by adding the Query and Key vectors together",
+            "It requires multiple heads to function correctly",
             "It computes scores using the dot product of Query and Key",
-            "It requires multiple heads to function correctly"
+            "It computes compatibility purely by adding the Query and Key vectors together"
         ],
         "answer": 0,
         "explanation": "Bahdanau attention calculates alignment scores by concatenating the query and key and passing them through a small feed-forward network with a tanh activation."
@@ -299,21 +299,21 @@
     {
         "q": "What is the computational complexity of standard self-attention for a sequence of length N and representation dimension D?",
         "options": [
-            "O(N^2 * D)",
             "O(N * D^2)",
+            "O(N^3 * D)",
             "O(N * D)",
-            "O(N^3 * D)"
+            "O(N^2 * D)"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "Standard self-attention computes an N x N attention matrix, requiring a dot product of dimension D for every pair of tokens, resulting in quadratic complexity with respect to sequence length."
     },
     {
         "q": "In the context of sequence models, what does 'BPTT' stand for?",
         "options": [
             "Backpropagation Through Time",
+            "Binary Position Token Tracking",
             "Bidirectional Processing of Text Tokens",
-            "Bayesian Probability for Time-series Translation",
-            "Binary Position Token Tracking"
+            "Bayesian Probability for Time-series Translation"
         ],
         "answer": 0,
         "explanation": "BPTT is the algorithm used to train RNNs, involving unrolling the network through time and applying the standard backpropagation algorithm."
@@ -323,8 +323,8 @@
         "options": [
             "They both have mechanisms that can learn to act as a forget/reset gate to discard past information",
             "They both feature an explicit output gate",
-            "They both feature an independent cell state",
-            "They both use multi-head attention internally"
+            "They both use multi-head attention internally",
+            "They both feature an independent cell state"
         ],
         "answer": 0,
         "explanation": "Both architectures rely on a gating mechanism to control the retention of past memory: LSTMs use a Forget Gate, while GRUs use a Reset Gate, both serving to drop irrelevant past information."

@@ -2,32 +2,32 @@
     {
         "q": "What is the defining characteristic of a sequence model compared with a model that treats inputs as an unordered collection?",
         "options": [
-            "It can model dependencies between elements according to their sequence positions",
             "It requires every input to have exactly the same value",
+            "It can model dependencies between elements according to their sequence positions",
             "It can only process numerical features",
             "It does not require training data"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Sequence models are designed to capture relationships and dependencies among elements where order matters, such as words in a sentence or time-series observations."
     },
     {
         "q": "What does an autoregressive model use to predict the next element in a sequence?",
         "options": [
             "Only the final element of the training dataset",
-            "Previously observed elements in the sequence",
             "Only randomly generated latent variables",
-            "The complete future sequence"
+            "The complete future sequence",
+            "Previously observed elements in the sequence"
         ],
-        "answer": 1,
+        "answer": 3,
         "explanation": "An autoregressive model predicts the next element using previously observed elements, typically modeling the conditional probability of the next token given earlier tokens."
     },
     {
-        "q": "Which factorization best represents an autoregressive model for a sequence x₁, x₂, ..., xₙ?",
+        "q": "Which factorization best represents an autoregressive model for a sequence x\u2081, x\u2082, ..., x\u2099?",
         "options": [
-            "p(x₁,...,xₙ) = ∏ᵢ p(xᵢ | x₁,...,xᵢ₋₁)",
-            "p(x₁,...,xₙ) = ∑ᵢ p(xᵢ)",
-            "p(x₁,...,xₙ) = ∏ᵢ p(xᵢ) only",
-            "p(x₁,...,xₙ) = p(xₙ | x₁) only"
+            "p(x\u2081,...,x\u2099) = \u220f\u1d62 p(x\u1d62 | x\u2081,...,x\u1d62\u208b\u2081)",
+            "p(x\u2081,...,x\u2099) = \u2211\u1d62 p(x\u1d62)",
+            "p(x\u2081,...,x\u2099) = \u220f\u1d62 p(x\u1d62) only",
+            "p(x\u2081,...,x\u2099) = p(x\u2099 | x\u2081) only"
         ],
         "answer": 0,
         "explanation": "The autoregressive factorization decomposes the joint probability into conditional probabilities, where each element is predicted given all preceding elements."
@@ -35,65 +35,65 @@
     {
         "q": "What is the main purpose of a latent variable in a latent variable model?",
         "options": [
-            "To represent hidden factors that help explain observed data",
             "To replace every observed feature with a label",
+            "To store the training dataset directly",
             "To guarantee that the input sequence has no noise",
-            "To store the training dataset directly"
+            "To represent hidden factors that help explain observed data"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "Latent variables represent underlying or unobserved factors that can capture useful structure in the observed data."
     },
     {
         "q": "What is the key mechanism that allows a basic RNN to process a sequence step by step?",
         "options": [
-            "A hidden state that is carried from one time step to the next",
             "A separate unrelated model for every token",
-            "A fixed output that never changes with time",
-            "A convolution applied only once to the entire dataset"
+            "A hidden state that is carried from one time step to the next",
+            "A convolution applied only once to the entire dataset",
+            "A fixed output that never changes with time"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "An RNN maintains a hidden state that is updated at each time step, allowing information from earlier elements to influence later computations."
     },
     {
         "q": "In a basic RNN, what is the primary role of the hidden state?",
         "options": [
-            "To summarize relevant information from the sequence processed so far",
-            "To permanently store every training example",
+            "To calculate the optimizer learning rate",
             "To convert all tokens into one-hot vectors",
-            "To calculate the optimizer learning rate"
+            "To summarize relevant information from the sequence processed so far",
+            "To permanently store every training example"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "The hidden state acts as a running representation of information from previous time steps and is updated as new inputs are processed."
     },
     {
         "q": "Why can a basic RNN struggle to learn long-range dependencies?",
         "options": [
-            "Repeated multiplication through time can cause vanishing or exploding gradients",
+            "The hidden state is never updated",
             "RNNs cannot process more than one token",
             "RNNs always use a non-differentiable step function",
-            "The hidden state is never updated"
+            "Repeated multiplication through time can cause vanishing or exploding gradients"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "During backpropagation through time, gradients pass through many recurrent steps. Repeated multiplication can make gradients become extremely small or large."
     },
     {
         "q": "What is tokenisation in natural language processing?",
         "options": [
+            "Training an RNN without input data",
             "Converting text into smaller units such as words, subwords, or characters",
-            "Converting every sentence directly into a class label",
             "Removing all numerical values from text",
-            "Training an RNN without input data"
+            "Converting every sentence directly into a class label"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Tokenisation divides text into processing units called tokens. Depending on the tokenizer, tokens may represent words, subwords, characters, or other text units."
     },
     {
         "q": "Why are subword tokens often useful in NLP?",
         "options": [
             "They can represent unseen or rare words through reusable smaller units",
-            "They guarantee that every sentence has exactly one token",
+            "They ensure every word has a unique character",
             "They eliminate the need for embeddings",
-            "They ensure every word has a unique character"
+            "They guarantee that every sentence has exactly one token"
         ],
         "answer": 0,
         "explanation": "Subword tokenisation can represent rare or unseen words by combining known subword units, helping reduce out-of-vocabulary problems."
@@ -101,21 +101,21 @@
     {
         "q": "What is the main purpose of a word embedding?",
         "options": [
+            "To convert every word into an image",
             "To represent words as dense numerical vectors that can capture semantic relationships",
             "To assign every word a unique binary class label",
-            "To remove word order from every sequence",
-            "To convert every word into an image"
+            "To remove word order from every sequence"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Word embeddings map words to dense vectors. Words used in similar contexts often have related vector representations."
     },
     {
         "q": "What does the distributional hypothesis underlying word embeddings suggest?",
         "options": [
             "Words appearing in similar contexts tend to have related meanings",
-            "Every word must have a unique spelling",
             "Word meaning is independent of surrounding words",
-            "Only word frequency determines meaning"
+            "Only word frequency determines meaning",
+            "Every word must have a unique spelling"
         ],
         "answer": 0,
         "explanation": "The distributional hypothesis motivates learning word meaning from context: words occurring in similar contexts tend to acquire similar representations."
@@ -124,9 +124,9 @@
         "q": "In Word2Vec, what is the main distinction between the CBOW and Skip-gram objectives?",
         "options": [
             "CBOW predicts a target word from context, while Skip-gram predicts context words from a target word",
+            "CBOW produces probabilities while Skip-gram produces only labels",
             "CBOW uses characters while Skip-gram uses images",
-            "CBOW is autoregressive while Skip-gram cannot use text",
-            "CBOW produces probabilities while Skip-gram produces only labels"
+            "CBOW is autoregressive while Skip-gram cannot use text"
         ],
         "answer": 0,
         "explanation": "CBOW uses surrounding context to predict the target word. Skip-gram uses a target word to predict words occurring in its context."
@@ -134,75 +134,75 @@
     {
         "q": "What is one important property of Word2Vec embeddings?",
         "options": [
-            "They can learn useful relationships between words from their contexts",
             "They require every word to have exactly the same meaning",
-            "They encode every sentence using only one scalar",
-            "They do not require a training corpus"
+            "They do not require a training corpus",
+            "They can learn useful relationships between words from their contexts",
+            "They encode every sentence using only one scalar"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "Word2Vec learns word vectors from context relationships, allowing semantic and syntactic regularities to emerge in the embedding space."
     },
     {
         "q": "How does GloVe primarily learn word representations?",
         "options": [
-            "By using global word co-occurrence statistics",
             "By predicting image pixels from words",
+            "By using global word co-occurrence statistics",
             "By randomly assigning vectors without training",
             "By using only the first word of each sentence"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "GloVe, or Global Vectors, learns embeddings using statistics of word-word co-occurrences across a corpus."
     },
     {
         "q": "What is a major difference between Word2Vec and GloVe?",
         "options": [
-            "Word2Vec is based on predictive context objectives, while GloVe explicitly uses global co-occurrence statistics",
-            "Word2Vec produces images while GloVe produces audio",
             "Word2Vec cannot learn embeddings while GloVe can",
-            "GloVe requires no corpus while Word2Vec does"
+            "Word2Vec produces images while GloVe produces audio",
+            "GloVe requires no corpus while Word2Vec does",
+            "Word2Vec is based on predictive context objectives, while GloVe explicitly uses global co-occurrence statistics"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "Word2Vec learns embeddings through predictive objectives such as CBOW or Skip-gram, whereas GloVe uses global word co-occurrence information."
     },
     {
         "q": "What is the main motivation for LSTM networks compared with basic RNNs?",
         "options": [
-            "To better preserve and control information over long sequences",
+            "To replace tokenisation",
             "To eliminate all trainable parameters",
-            "To make every sequence independent of its previous elements",
-            "To replace tokenisation"
+            "To better preserve and control information over long sequences",
+            "To make every sequence independent of its previous elements"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "LSTMs introduce a memory cell and gates that help control what information is retained, added, and discarded, improving learning of long-range dependencies."
     },
     {
         "q": "Which set correctly identifies the main gates in a standard LSTM?",
         "options": [
-            "Input, forget, and output gates",
-            "Query, key, and value gates",
             "Encode, decode, and classify gates",
+            "Query, key, and value gates",
+            "Input, forget, and output gates",
             "Token, word, and sentence gates"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "A standard LSTM uses input, forget, and output gates to regulate information entering the cell, information retained in the cell, and information exposed through the hidden state."
     },
     {
         "q": "What is the main role of the forget gate in an LSTM?",
         "options": [
-            "To control how much previous cell-state information is retained",
-            "To calculate word-token boundaries",
             "To convert attention scores into embeddings",
-            "To generate the final vocabulary"
+            "To calculate word-token boundaries",
+            "To generate the final vocabulary",
+            "To control how much previous cell-state information is retained"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "The forget gate produces values that control which information from the previous cell state should be retained or discarded."
     },
     {
         "q": "What is the key idea behind a GRU?",
         "options": [
             "It uses gating mechanisms to control information flow with a simpler structure than an LSTM",
-            "It removes the recurrent hidden state entirely",
             "It requires a separate vocabulary for every time step",
+            "It removes the recurrent hidden state entirely",
             "It uses only convolutional filters"
         ],
         "answer": 0,
@@ -211,32 +211,32 @@
     {
         "q": "Which statement best compares a standard LSTM and GRU?",
         "options": [
-            "An LSTM has a separate cell state, while a GRU combines its recurrent memory into a hidden state",
-            "A GRU has no trainable parameters, while an LSTM does",
             "An LSTM cannot process sequences, while a GRU can",
-            "Both architectures are identical in their state structure"
+            "Both architectures are identical in their state structure",
+            "An LSTM has a separate cell state, while a GRU combines its recurrent memory into a hidden state",
+            "A GRU has no trainable parameters, while an LSTM does"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "A standard LSTM maintains both a cell state and hidden state. A GRU uses a simpler architecture in which its hidden state serves as the main recurrent memory."
     },
     {
         "q": "What is the main purpose of attention in sequence models?",
         "options": [
-            "To allow a model to focus on different parts of the input when producing a representation or output",
-            "To force every input token to have equal importance",
             "To remove all contextual information",
-            "To replace the vocabulary with numerical labels"
+            "To replace the vocabulary with numerical labels",
+            "To force every input token to have equal importance",
+            "To allow a model to focus on different parts of the input when producing a representation or output"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "Attention computes weights over relevant representations so the model can emphasize different input elements depending on the current task or query."
     },
     {
         "q": "In scaled dot-product attention, what are Q, K, and V?",
         "options": [
             "Query, Key, and Value",
-            "Question, Kernel, and Vector",
+            "Quantization, Keyframe, and Value",
             "Query, Knowledge, and Vocabulary",
-            "Quantization, Keyframe, and Value"
+            "Question, Kernel, and Vector"
         ],
         "answer": 0,
         "explanation": "Q, K, and V stand for Query, Key, and Value. Queries and keys determine attention compatibility, while values provide the information that is combined."
@@ -244,10 +244,10 @@
     {
         "q": "Which sequence correctly describes scaled dot-product attention?",
         "options": [
-            "Compute QKᵀ, scale the scores, apply softmax, then take a weighted sum of V",
-            "Apply softmax to V, then multiply Q by K without scaling",
+            "Compute QK\u1d40, scale the scores, apply softmax, then take a weighted sum of V",
             "Multiply Q and V, apply sigmoid, then add K",
-            "Tokenise V, concatenate Q and K, then apply ReLU"
+            "Tokenise V, concatenate Q and K, then apply ReLU",
+            "Apply softmax to V, then multiply Q by K without scaling"
         ],
         "answer": 0,
         "explanation": "Scaled dot-product attention computes query-key compatibility, scales the scores, converts them to attention weights with softmax, and uses those weights to combine the value vectors."
@@ -255,20 +255,20 @@
     {
         "q": "Why is the dot product in scaled dot-product attention divided by the square root of the key dimension?",
         "options": [
-            "To control the magnitude of attention scores and help keep softmax gradients well behaved",
             "To convert every key into a probability",
+            "To ensure all value vectors become zero",
             "To remove the need for softmax",
-            "To ensure all value vectors become zero"
+            "To control the magnitude of attention scores and help keep softmax gradients well behaved"
         ],
-        "answer": 0,
+        "answer": 3,
         "explanation": "Scaling by the square root of the key dimension helps prevent dot-product scores from becoming excessively large, which can make softmax overly peaked and gradients less useful."
     },
     {
         "q": "What is self-attention?",
         "options": [
             "Attention where queries, keys, and values are derived from the same sequence representation",
-            "Attention where only the labels are used as keys",
             "Attention that can only operate on a single token",
+            "Attention where only the labels are used as keys",
             "Attention that requires a separate model for each word"
         ],
         "answer": 0,
@@ -277,42 +277,42 @@
     {
         "q": "What is cross-attention?",
         "options": [
+            "Attention used only for tokenisation",
             "Attention where queries come from one sequence or representation and keys and values come from another",
             "Attention where Q, K, and V must all come from the same token",
-            "Attention that ignores the values",
-            "Attention used only for tokenisation"
+            "Attention that ignores the values"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Cross-attention connects two representations: queries are produced from one source, while keys and values are obtained from another source."
     },
     {
         "q": "What is causal or masked self-attention designed to prevent during autoregressive generation?",
         "options": [
-            "A position from attending to future positions that are not yet available",
-            "A position from attending to itself",
             "The model from using any previous token",
+            "A position from attending to itself",
+            "A position from attending to future positions that are not yet available",
             "The model from computing attention weights"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "Causal masking prevents each position from accessing future tokens, preserving the autoregressive property needed for left-to-right generation."
     },
     {
         "q": "What is the main purpose of multi-head attention?",
         "options": [
-            "To allow the model to learn different attention patterns in parallel representation subspaces",
-            "To reduce every sequence to one token before attention",
             "To eliminate all projection matrices",
-            "To make attention independent of the input"
+            "To allow the model to learn different attention patterns in parallel representation subspaces",
+            "To make attention independent of the input",
+            "To reduce every sequence to one token before attention"
         ],
-        "answer": 0,
+        "answer": 1,
         "explanation": "Multi-head attention uses multiple attention heads, enabling the model to learn different relationships or patterns in different representation subspaces."
     },
     {
         "q": "Why does a sequence model typically need positional information when using self-attention?",
         "options": [
             "Self-attention alone does not inherently encode the order of tokens",
-            "Self-attention cannot process numerical vectors",
             "Positional information replaces token embeddings completely",
+            "Self-attention cannot process numerical vectors",
             "Positional information is required only for word2vec"
         ],
         "answer": 0,
@@ -321,12 +321,12 @@
     {
         "q": "In attention, what does a high attention weight between a query and a particular key indicate?",
         "options": [
-            "The corresponding value is given relatively greater influence in the output",
-            "The key is removed from the sequence",
             "The query becomes a new vocabulary token",
-            "The value is guaranteed to be the correct class label"
+            "The value is guaranteed to be the correct class label",
+            "The corresponding value is given relatively greater influence in the output",
+            "The key is removed from the sequence"
         ],
-        "answer": 0,
+        "answer": 2,
         "explanation": "Attention weights determine how strongly each value contributes to the weighted sum. A higher weight gives the corresponding value greater influence."
     }
 ]

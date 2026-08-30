@@ -1,0 +1,332 @@
+[
+    {
+        "q": "How do CNNs, RNNs, and Self-Attention mechanisms primarily compare regarding sequence parallelization during training?",
+        "options": [
+            "RNNs allow full parallelization across sequence length, while Self-Attention must process tokens sequentially",
+            "Self-Attention and CNNs allow full parallelization across the sequence length, whereas standard RNNs are strictly sequential due to recurrent dependencies",
+            "CNNs, RNNs, and Self-Attention all require sequential step-by-step token processing during training",
+            "Self-Attention is strictly sequential during training, while RNNs and CNNs process all tokens simultaneously"
+        ],
+        "answer": 1,
+        "explanation": "RNNs require the hidden state of step t-1 to compute step t, preventing sequence-level parallelization during training. In contrast, CNNs (via convolutions across tokens) and Self-Attention (via matrix operations across all tokens at once) can parallelize computations across the entire sequence."
+    },
+    {
+        "q": "What is the maximum path length between any two distant tokens in a standard Self-Attention layer compared to a standard unidirectional RNN layer for a sequence of length n?",
+        "options": [
+            "O(n) in Self-Attention versus O(1) in RNNs",
+            "O(log n) in Self-Attention versus O(n^2) in RNNs",
+            "O(n^2) in Self-Attention versus O(log n) in RNNs",
+            "O(1) in Self-Attention versus O(n) in RNNs"
+        ],
+        "answer": 3,
+        "explanation": "In Self-Attention, any token directly attends to any other token in a single operation, resulting in an O(1) path length. In an RNN, information must traverse sequentially through all intermediate hidden states, giving a path length of O(n)."
+    },
+    {
+        "q": "Which of the following describes the inductive bias difference between CNNs and Transformers?",
+        "options": [
+            "CNNs make no structural assumptions about the data, whereas Transformers enforce strict temporal recurrence",
+            "CNNs have strong inductive biases of translation invariance and locality, while Transformers have weak inductive biases and must learn relationships from data",
+            "Transformers have strong inductive biases toward local 2D neighborhoods, while CNNs have none",
+            "Transformers assume strict translation equivariance across spatial grids, while CNNs assume permutation invariance"
+        ],
+        "answer": 1,
+        "explanation": "CNNs incorporate hard-coded inductive biases such as local connectivity and translation invariance via convolutional kernels. Transformers possess very weak structural inductive biases, making them flexible but reliant on larger datasets to learn relationships."
+    },
+    {
+        "q": "Why is positional information necessary in Transformer architectures?",
+        "options": [
+            "Softmax cannot be computed without sorting the tokens by position",
+            "Linear projection layers fail to converge unless input vectors have strictly increasing magnitudes",
+            "Self-Attention is inherently permutation-equivariant, meaning it treats the input as an unordered set without positional encoding",
+            "Feed-Forward Networks (FFN) can only process sequentially indexed matrices"
+        ],
+        "answer": 2,
+        "explanation": "Self-attention computes pair-wise dot products independent of token order (permutation equivariance). Without injecting positional encodings or embeddings, the model cannot distinguish between different orderings of the same set of words."
+    },
+    {
+        "q": "In the original Transformer architecture ('Attention Is All You Need'), how are sinusoidal positional encodings combined with token embeddings?",
+        "options": [
+            "They are concatenated to the vocabulary dimension inside the final softmax layer",
+            "They are element-wise added to the input token embeddings before the first Transformer block",
+            "They are concatenated along the sequence length dimension",
+            "They are multiplied element-wise with the query and key projection matrices"
+        ],
+        "answer": 1,
+        "explanation": "In the original Transformer, sinusoidal positional encoding vectors of dimension d_model are directly added element-wise to the input token embedding vectors before being fed to the first encoder/decoder layer."
+    },
+    {
+        "q": "How does Rotary Position Embedding (RoPE) inject positional information into the self-attention mechanism?",
+        "options": [
+            "By adding a learnable scalar bias directly to the softmax attention score matrix",
+            "By multiplying the Value vectors by sinusoidal frequencies before linear projection",
+            "By appending a positional integer index to the token embedding vector",
+            "By rotating the Query and Key vectors in the complex plane using orthogonal rotation matrices based on token positions"
+        ],
+        "answer": 3,
+        "explanation": "RoPE applies a 2D rotation matrix to pairs of coordinates in the Query and Key representations at position m and n, ensuring that their inner product depends purely on the relative distance (m - n)."
+    },
+    {
+        "q": "What key mathematical property makes Rotary Position Embedding (RoPE) particularly effective for relative position encoding?",
+        "options": [
+            "It guarantees that the attention matrix is strictly diagonal",
+            "It eliminates the need for Key and Value projections",
+            "The inner product of rotated Query at position m and Key at position n satisfies <R_m q, R_n k> = g(q, k, m - n)",
+            "It forces all attention weights between distant tokens to decay to zero unconditionally"
+        ],
+        "answer": 2,
+        "explanation": "RoPE is constructed such that the dot product between the rotated query vector at position m and the rotated key vector at position n depends only on the vector values and the relative offset (m - n), encoding relative position naturally."
+    },
+    {
+        "q": "In scaled dot-product attention, what is the purpose of dividing the dot product QK^T by sqrt(d_k)?",
+        "options": [
+            "To prevent the dot products from growing large in magnitude, which would push softmax into regions with extremely small gradients",
+            "To reduce the parameter count of the projection matrices",
+            "To ensure the resulting attention weights sum to 1 before applying softmax",
+            "To convert negative similarity scores into strictly positive values"
+        ],
+        "answer": 0,
+        "explanation": "For large projection dimensions d_k, the dot products of Q and K can grow large in magnitude, driving the softmax function into regions with near-zero gradients (vanishing gradients). Scaling by 1/sqrt(d_k) preserves unit variance."
+    },
+    {
+        "q": "Given an input sequence matrix X of shape (N, d_model), how are Query (Q), Key (K), and Value (V) matrices computed in standard self-attention?",
+        "options": [
+            "Q = X X^T, K = X^T X, V = X W_V",
+            "Q = Softmax(X), K = LayerNorm(X), V = ReLU(X)",
+            "Q = X W_Q, K = X W_K, V = X W_V, where W_Q, W_K, W_V are learnable projection matrices",
+            "Q = X + W_Q, K = X + W_K, V = X + W_V"
+        ],
+        "answer": 2,
+        "explanation": "Q, K, and V are obtained by linear transformations of the input sequence representation X using distinct learned weight matrices W_Q, W_K, and W_V."
+    },
+    {
+        "q": "In Multi-Head Attention (MHA) with h heads and model dimension d_model, what is the typical dimension d_k of each individual head?",
+        "options": [
+            "d_k = d_model * h",
+            "d_k = d_model / h",
+            "d_k = sqrt(d_model)",
+            "d_k = d_model"
+        ],
+        "answer": 1,
+        "explanation": "To keep the total computational cost comparable to single-head attention on full dimensionality, the projection dimension for each head is typically set to d_k = d_v = d_model / h."
+    },
+    {
+        "q": "What is the primary architectural motivation for using Multi-Head Attention instead of a single attention head?",
+        "options": [
+            "It guarantees that the attention weights will be sparse and strictly causal",
+            "It reduces the total number of floating-point operations by a factor of h",
+            "It removes the need for residual connections and normalization layers",
+            "It allows the model to jointly attend to information from different representation subspaces at different positions"
+        ],
+        "answer": 3,
+        "explanation": "Multi-Head Attention projects queries, keys, and values into multiple lower-dimensional subspaces, allowing different heads to concurrently focus on different types of linguistic or semantic relationships (e.g., syntax, coreference)."
+    },
+    {
+        "q": "How does Grouped-Query Attention (GQA) differ from Multi-Head Attention (MHA) and Multi-Query Attention (MQA)?",
+        "options": [
+            "GQA groups query heads to share a smaller number of Key/Value heads, serving as an intermediate trade-off between MHA and MQA",
+            "GQA computes attention independently across channels rather than across sequence tokens",
+            "GQA removes all Key projections and uses only Query-Value inner products",
+            "GQA uses one Query head for multiple Key and Value heads"
+        ],
+        "answer": 0,
+        "explanation": "In MHA, each Query head has its own Key/Value head; in MQA, all Query heads share a single Key/Value head. GQA groups Query heads into subsets where each group shares one Key/Value head, reducing KV cache size with minimal quality loss."
+    },
+    {
+        "q": "What is the primary role of the 'Add & Norm' (residual connection and layer normalization) component in a Transformer layer?",
+        "options": [
+            "To compress the sequence length by half at every layer",
+            "To stabilize deep network training, prevent vanishing/exploding gradients, and facilitate direct gradient flow",
+            "To enforce causality in bidirectional self-attention blocks",
+            "To project token embeddings into the vocabulary space for decoding"
+        ],
+        "answer": 1,
+        "explanation": "Residual connections ('Add') create direct gradient highways preventing vanishing gradients in deep stacks, while Layer Normalization ('Norm') stabilizes activations and training dynamics."
+    },
+    {
+        "q": "What is the primary difference between Pre-Layer Normalization (Pre-LN) and Post-Layer Normalization (Post-LN) in Transformers?",
+        "options": [
+            "Pre-LN cannot be used in autoregressive decoders, whereas Post-LN can",
+            "Post-LN applies normalization before the residual addition, whereas Pre-LN omits the residual connection",
+            "Pre-LN applies normalization to the sub-layer input before attention/FFN, leading to more stable gradients and easier warm-up than Post-LN",
+            "Pre-LN normalizes across the batch dimension, while Post-LN normalizes across the channel dimension"
+        ],
+        "answer": 2,
+        "explanation": "Pre-LN normalizes the input before the attention and FFN sub-layers (x + Sublayer(LN(x))), keeping the residual stream clean and allowing stable training of very deep networks without fragile learning rate warmups, unlike original Post-LN (LN(x + Sublayer(x)))."
+    },
+    {
+        "q": "How does RMSNorm (Root Mean Square Normalization) modify standard LayerNorm to improve computational efficiency?",
+        "options": [
+            "It replaces matrix division with fixed look-up tables",
+            "It scales inputs using the root mean square without computing or subtracting the mean",
+            "It calculates statistics across the sequence length rather than feature dimensions",
+            "It removes both scaling and shifting learnable parameters"
+        ],
+        "answer": 1,
+        "explanation": "RMSNorm simplifies LayerNorm by assuming zero mean and normalizing activations using strictly the root mean square of the features: RMSNorm(x) = (x / RMS(x)) * gamma. This saves compute without degrading model accuracy."
+    },
+    {
+        "q": "In autoregressive language models, why is Masked (Causal) Multi-Head Attention applied in the decoder?",
+        "options": [
+            "To filter out padding tokens from the input prompt",
+            "To force attention weights to sum to zero across all tokens",
+            "To mask out random tokens for the masked language modeling objective",
+            "To prevent positions from attending to subsequent (future) positions during training"
+        ],
+        "answer": 3,
+        "explanation": "Causal masking ensures that when predicting token at position t, the attention mechanism can only attend to positions <= t, preventing information leakage from future tokens during autoregressive training."
+    },
+    {
+        "q": "How is the causal attention mask computationally applied to the attention score matrix before softmax?",
+        "options": [
+            "By multiplying the upper-triangular elements by zero",
+            "By setting all lower-triangular elements below the main diagonal to -infinity",
+            "By setting the upper-triangular elements above the main diagonal to -infinity",
+            "By replacing all diagonal elements with zero"
+        ],
+        "answer": 2,
+        "explanation": "Setting future positions (upper triangle of the QK^T matrix) to -infinity ensures that when the softmax function is computed, exp(-infinity) becomes 0, resulting in zero attention weight on future tokens."
+    },
+    {
+        "q": "In a standard Transformer Encoder-Decoder architecture, what are the inputs to the Cross-Attention layer in the decoder?",
+        "options": [
+            "Keys (K) come from the decoder; Queries (Q) and Values (V) come from the encoder",
+            "Queries (Q) come from the preceding decoder layer; Keys (K) and Values (V) come from the final encoder output",
+            "Queries (Q), Keys (K), and Values (V) all come from the encoder output",
+            "Queries (Q) and Keys (K) come from the encoder; Values (V) come from the decoder"
+        ],
+        "answer": 1,
+        "explanation": "In cross-attention, the decoder generates Queries representing what information it currently seeks, which are compared against Keys and Values generated by the Encoder from the source sequence."
+    },
+    {
+        "q": "What is the standard architecture of the position-wise Feed-Forward Network (FFN) sub-layer in the original Transformer?",
+        "options": [
+            "A single convolution layer followed by a sigmoid activation function",
+            "A recurrent cell that connects consecutive tokens across the sequence",
+            "Three fully connected layers that down-project d_model to d_model / 4",
+            "Two linear transformations with a ReLU activation in between: FFN(x) = max(0, x W_1 + b_1) W_2 + b_2, typically expanding the inner dimension to 4 * d_model"
+        ],
+        "answer": 3,
+        "explanation": "The standard FFN consists of two affine transformations with an activation function (originally ReLU) applied independently to each position, typically with an intermediate hidden dimension d_ff = 4 * d_model."
+    },
+    {
+        "q": "Why do modern LLMs (such as LLaMA) commonly use SwiGLU / GeGLU variants instead of standard ReLU in their FFN layers?",
+        "options": [
+            "Standard ReLU cannot be computed on modern GPU hardware",
+            "Gated linear units with Swish/GELU activations provide smoother gradients and have empirically demonstrated superior training stability and convergence",
+            "SwiGLU eliminates the need for matrix multiplications in the FFN",
+            "SwiGLU reduces the parameter count of the FFN by 75%"
+        ],
+        "answer": 1,
+        "explanation": "SwiGLU combines Swish-activated linear projections with element-wise gating: SwiGLU(x) = (x W_gate * Swish(x W_up)) W_down. This gating mechanism empirically yields better performance and smoother optimization dynamics."
+    },
+    {
+        "q": "What is the function of the final Linear layer (often called the LM Head) before the Softmax in a language model?",
+        "options": [
+            "It computes the cross-entropy loss between generated logits and targets",
+            "It projects the vocabulary tokens into a continuous embedding vector space",
+            "It projects the hidden state representation of dimension d_model to a vector of logits of size equal to the vocabulary size V",
+            "It enforces causal masking on the output token probabilities"
+        ],
+        "answer": 2,
+        "explanation": "The final linear layer acts as a classifier/projection that maps the last hidden state of size d_model to an unnormalized logit vector of size V (the vocabulary size)."
+    },
+    {
+        "q": "What is the effect of setting a temperature T < 1.0 during softmax sampling from output logits (z / T)?",
+        "options": [
+            "It flattens the distribution toward a uniform distribution, maximizing randomness",
+            "It causes all logits to become negative, halting token generation",
+            "It sharpens the probability distribution, making high-probability tokens even more likely and reducing randomness",
+            "It removes all tokens that have an odd vocabulary ID"
+        ],
+        "answer": 2,
+        "explanation": "Dividing logits by T < 1 increases the relative differences between logit values, making the resulting softmax distribution peakier (lower entropy), favoring greedy, high-probability tokens."
+    },
+    {
+        "q": "How does Top-p (Nucleus) sampling differ from Top-k sampling during token generation?",
+        "options": [
+            "Top-p samples only punctuation marks and stopwords",
+            "Top-p selects the smallest set of top tokens whose cumulative probability exceeds threshold p, adapting the candidate pool size dynamically",
+            "Top-p always samples from a fixed number of p tokens regardless of the distribution shape",
+            "Top-k samples dynamically based on cumulative probability, whereas Top-p uses a fixed integer cutoff"
+        ],
+        "answer": 1,
+        "explanation": "Top-k keeps a fixed integer number k of top tokens. Top-p dynamically expands or contracts the candidate pool by selecting the smallest subset of highest-probability tokens whose cumulative mass reaches threshold p."
+    },
+    {
+        "q": "For a standard Multi-Head Attention layer without biases, where d_model = d, with projection matrices W_Q, W_K, W_V in R^(d x d) and output projection W_O in R^(d x d), how many total parameters are in the attention module?",
+        "options": [
+            "2 * d^2",
+            "d^2",
+            "4 * d^2",
+            "8 * d^2"
+        ],
+        "answer": 2,
+        "explanation": "The four projection matrices (W_Q, W_K, W_V, and W_O) each have dimensions d_model x d_model = d x d. Summing them yields 4 * d^2 parameters."
+    },
+    {
+        "q": "For a standard Transformer FFN sub-layer (without biases) where d_model = d and the hidden expansion dimension is d_ff = 4d, what is the parameter count?",
+        "options": [
+            "16 * d^2",
+            "4 * d^2",
+            "2 * d^2",
+            "8 * d^2"
+        ],
+        "answer": 3,
+        "explanation": "The first linear layer maps d -> 4d (parameters: d * 4d = 4d^2). The second linear layer maps 4d -> d (parameters: 4d * d = 4d^2). Total parameters = 4d^2 + 4d^2 = 8d^2."
+    },
+    {
+        "q": "In a SwiGLU FFN layer with hidden dimension d_ff = (8/3) * d_model (as in LLaMA), why does it use 3 weight matrices instead of 2?",
+        "options": [
+            "It requires separate gate, up-projection, and down-projection weight matrices: W_gate, W_up in R^(d x d_ff) and W_down in R^(d_ff x d)",
+            "It applies an additional projection matrix to compute positional biases",
+            "It computes keys, queries, and values inside the FFN sub-layer",
+            "It uses two down-projection matrices to handle both positive and negative values"
+        ],
+        "answer": 0,
+        "explanation": "A SwiGLU layer computes (Swish(x W_gate) * (x W_up)) W_down, requiring three linear projection matrices: W_gate, W_up, and W_down."
+    },
+    {
+        "q": "If an embedding layer has a vocabulary size V = 32,000 and hidden dimension d_model = 4,096, how many parameters are in the embedding matrix?",
+        "options": [
+            "32,000",
+            "131,072,000 (~131.1M)",
+            "1,048,576,000 (~1.05B)",
+            "4,096"
+        ],
+        "answer": 1,
+        "explanation": "The embedding matrix has dimensions V x d_model = 32,000 * 4,096 = 131,072,000 parameters."
+    },
+    {
+        "q": "What is the computational complexity of standard self-attention with respect to sequence length N and model dimension d?",
+        "options": [
+            "O(N^3 * d) time complexity and O(N^3) memory complexity",
+            "O(N * d^2) time complexity and O(N) memory complexity",
+            "O(N^2 * d) time complexity and O(N^2) memory complexity for attention scores",
+            "O(log N * d) time complexity and O(1) memory complexity"
+        ],
+        "answer": 2,
+        "explanation": "Computing QK^T requires multiplying an (N x d) matrix by a (d x N) matrix, which takes O(N^2 * d) operations and produces an (N x N) score matrix, leading to O(N^2) memory complexity."
+    },
+    {
+        "q": "According to the Chinchilla scaling laws (Hoffmann et al., 2022), how should model parameters (N) and training tokens (D) scale for compute-optimal training?",
+        "options": [
+            "Model parameters should scale exponentially while token counts remain constant",
+            "Model parameters (N) and training tokens (D) should be scaled in approximately equal proportion (1:1)",
+            "Training tokens should scale with N^2 while parameters scale linearly",
+            "Model parameters should be scaled 4x faster than training tokens"
+        ],
+        "answer": 1,
+        "explanation": "Hoffmann et al. (Chinchilla) found that for compute-optimal training, model size (parameters N) and training dataset size (tokens D) should be scaled in approximately equal proportions (~20 tokens per parameter)."
+    },
+    {
+        "q": "During autoregressive inference, what primary problem does the Key-Value (KV) Cache solve, and what is its memory requirement per token stored?",
+        "options": [
+            "It eliminates the need for weight matrices in the attention calculation, requiring O(1) memory total",
+            "It compresses generated tokens into a 1D scalar value to minimize RAM usage",
+            "It stores the intermediate gradients during backward pass generation",
+            "It avoids redundant recomputation of Keys and Values for past tokens, requiring memory proportional to 2 * n_layers * n_kv_heads * d_head per token"
+        ],
+        "answer": 3,
+        "explanation": "The KV cache stores precomputed Key and Value vectors for all past tokens so each step only computes Q, K, V for the new token. For each token and layer, storing both K and V requires 2 * n_kv_heads * d_head elements per layer."
+    }
+]

@@ -1,0 +1,332 @@
+[
+    {
+        "q": "How do CNNs, RNNs, and Self-Attention layers compare in per-layer computational complexity for a sequence of length n and representation dimension d (with kernel width k for CNNs)?",
+        "options": [
+            "Self-Attention: O(n * d^2); RNN: O(n^2 * d); CNN: O(k * n * d)",
+            "Self-Attention: O(n^2 * d); RNN: O(n * d^2); CNN: O(k * n * d^2)",
+            "Self-Attention: O(k * n * d); RNN: O(n^2 * d); CNN: O(n * d^2)",
+            "Self-Attention: O(log n); RNN: O(n * d); CNN: O(d^2)"
+        ],
+        "answer": 1,
+        "explanation": "Per layer, self-attention costs O(n^2 * d) from pairwise dot products across n tokens; a recurrent layer costs O(n * d^2) from n sequential matrix-vector operations of size d; a convolutional layer with kernel width k costs O(k * n * d^2). Self-attention is often cheaper than RNNs/CNNs when the sequence length n is smaller than the representation dimension d."
+    },
+    {
+        "q": "Which statement correctly compares the receptive field achieved by a single layer of each architecture?",
+        "options": [
+            "A single self-attention layer gives every token a global receptive field in one step, whereas a single CNN layer is limited to its kernel width and a single RNN layer only connects to the immediately preceding step",
+            "A single CNN layer always achieves a global receptive field regardless of kernel size",
+            "A single RNN layer achieves a global receptive field because hidden states are shared across all timesteps simultaneously",
+            "None of the three architectures can achieve a global receptive field within a single layer"
+        ],
+        "answer": 0,
+        "explanation": "Self-attention directly connects every pair of tokens in one layer, giving an immediate global receptive field. CNNs need many stacked layers (or dilation) to expand their receptive field beyond the kernel width, and RNNs only propagate information one step at a time per layer."
+    },
+    {
+        "q": "What is the primary memory/compute trade-off between self-attention and RNNs for very long sequences?",
+        "options": [
+            "Self-attention's O(n^2) memory footprint for the attention matrix becomes a bottleneck at long sequence lengths, while RNNs use O(1) additional memory per step but cannot be parallelized across time",
+            "RNNs require O(n^2) memory for hidden states, while self-attention requires only O(n)",
+            "Both architectures scale linearly in memory and time with sequence length",
+            "Self-attention memory usage is independent of sequence length due to weight sharing"
+        ],
+        "answer": 0,
+        "explanation": "The full attention score matrix has shape (n, n), so memory grows quadratically with sequence length n. RNNs avoid this by carrying a fixed-size hidden state, but pay for it with strictly sequential, non-parallelizable computation."
+    },
+    {
+        "q": "In the original 'Attention Is All You Need' base configuration, how many identical layers are stacked in the encoder and decoder respectively?",
+        "options": [
+            "12 encoder layers and 12 decoder layers",
+            "6 encoder layers and 6 decoder layers",
+            "1 encoder layer and 6 decoder layers",
+            "24 encoder layers and 24 decoder layers"
+        ],
+        "answer": 1,
+        "explanation": "The base Transformer configuration in Vaswani et al. (2017) uses N = 6 identical layers in both the encoder stack and the decoder stack."
+    },
+    {
+        "q": "What were the model dimension (d_model) and number of attention heads (h) used in the base Transformer configuration from the original paper?",
+        "options": [
+            "d_model = 512, h = 8",
+            "d_model = 4096, h = 32",
+            "d_model = 768, h = 12",
+            "d_model = 1024, h = 16"
+        ],
+        "answer": 0,
+        "explanation": "The base model in the original Transformer paper uses d_model = 512 and h = 8 attention heads, giving a per-head dimension d_k = d_v = 64."
+    },
+    {
+        "q": "In the original Transformer, why are the token embeddings multiplied by sqrt(d_model) before adding positional encodings?",
+        "options": [
+            "To normalize the embeddings so their magnitude is comparable to that of the sinusoidal positional encodings, preventing positional information from being overwhelmed",
+            "To ensure the embedding matrix parameters sum to exactly 1",
+            "To convert the embeddings into probability distributions before the softmax layer",
+            "To reduce the vocabulary size needed for large vocabularies"
+        ],
+        "answer": 0,
+        "explanation": "Token embeddings are scaled by sqrt(d_model) so their magnitude is on a comparable scale to the fixed-magnitude sinusoidal positional encodings that are added to them, keeping neither signal from dominating the other."
+    },
+    {
+        "q": "How do learned absolute positional embeddings (as used in BERT and GPT-2) differ from the sinusoidal positional encodings of the original Transformer?",
+        "options": [
+            "Learned positional embeddings are a fixed function of position with no trainable parameters, whereas sinusoidal encodings are trained end-to-end",
+            "Learned positional embeddings are trainable vectors indexed by position (a lookup table optimized during training), whereas sinusoidal encodings are fixed, deterministic functions of position that are not updated by gradient descent",
+            "Learned and sinusoidal positional embeddings are mathematically identical after training converges",
+            "Sinusoidal encodings can only be used with masked attention, while learned embeddings require bidirectional attention"
+        ],
+        "answer": 1,
+        "explanation": "Learned positional embeddings are simply another embedding table indexed by absolute position, updated via backpropagation like token embeddings, while sinusoidal encodings are fixed mathematical functions of position with no learnable parameters."
+    },
+    {
+        "q": "What is 'weight tying' in the context of Transformer input embeddings and the output projection layer?",
+        "options": [
+            "Sharing the same weight matrix between the input token embedding table and the final output (LM head) projection, reducing parameter count and often improving performance",
+            "Freezing all embedding weights so they cannot be updated during backpropagation",
+            "Tying the Query and Key projection matrices together so W_Q = W_K",
+            "Concatenating embeddings from multiple heads into a single tied vector"
+        ],
+        "answer": 0,
+        "explanation": "Weight tying reuses the (V x d_model) input embedding matrix as the transpose of the output logit projection matrix, saving V * d_model parameters and often acting as a useful regularizer."
+    },
+    {
+        "q": "Which statement about RoPE (Rotary Position Embedding) implementation is correct?",
+        "options": [
+            "RoPE introduces additional learnable parameters for each position that must be trained from scratch",
+            "RoPE is applied only to the Query and Key vectors (not the Value vectors), and requires no additional learnable parameters since the rotation matrices are fixed functions of position",
+            "RoPE replaces the Value projection matrix entirely",
+            "RoPE can only be applied after the softmax operation on attention scores"
+        ],
+        "answer": 1,
+        "explanation": "RoPE rotates the Query and Key vectors using fixed, non-learnable rotation matrices derived from token position; the Value vectors are left untouched, and no extra trainable parameters are introduced."
+    },
+    {
+        "q": "In RoPE, what role does the base frequency parameter (commonly denoted theta, e.g. 10000) play?",
+        "options": [
+            "It sets the vocabulary size used for token embeddings",
+            "It controls the range of rotation frequencies across embedding dimension pairs, determining how relative position information decays/wraps and influencing a model's ability to extrapolate to longer context lengths",
+            "It determines the number of attention heads in the model",
+            "It sets the dropout probability applied to positional encodings"
+        ],
+        "answer": 1,
+        "explanation": "The base theta sets the geometric progression of rotation frequencies across dimension pairs (analogous to the sinusoidal encoding's wavelengths); different choices of theta affect how well the resulting relative position encoding generalizes to sequence lengths beyond those seen in training."
+    },
+    {
+        "q": "What role does the softmax function play in the self-attention mechanism after computing scaled QK^T scores?",
+        "options": [
+            "It converts the raw similarity scores into a non-negative probability distribution over tokens that sums to 1, which is then used to weight the Value vectors",
+            "It discards all negative similarity scores by setting them to positive infinity",
+            "It projects the scores into the vocabulary space for token prediction",
+            "It reduces the dimensionality of the Value matrix"
+        ],
+        "answer": 0,
+        "explanation": "Softmax exponentiates and normalizes the scaled attention scores so that, for each query, the resulting weights over all keys are non-negative and sum to 1, forming a valid weighting distribution over the Value vectors."
+    },
+    {
+        "q": "What is the output of a self-attention operation for a given token, expressed in terms of the attention weights and Value vectors?",
+        "options": [
+            "The token's original embedding unchanged, since attention only affects Keys",
+            "A weighted sum of all Value vectors in the sequence, where the weights are the softmax-normalized attention scores between that token's Query and every token's Key",
+            "The concatenation of all Key vectors in the sequence",
+            "The maximum Value vector among all attention scores"
+        ],
+        "answer": 1,
+        "explanation": "Self-attention output for a token is computed as sum_j(alpha_ij * V_j), where alpha_ij are the softmax-normalized scaled dot-product scores between query i and key j."
+    },
+    {
+        "q": "After computing attention outputs for each of the h heads in MHA, how are they combined into the final MHA output?",
+        "options": [
+            "The head outputs are averaged element-wise across heads",
+            "Only the output of the last head is used; the others are discarded",
+            "The per-head outputs are concatenated along the feature dimension and then passed through a final learned output projection matrix W_O",
+            "The head outputs are summed and then divided by sqrt(d_k)"
+        ],
+        "answer": 2,
+        "explanation": "Multi-Head Attention concatenates the h per-head output vectors (each of dimension d_v) into a single vector of dimension h * d_v, then applies a learned linear projection W_O to map it back to d_model."
+    },
+    {
+        "q": "How does Multi-Query Attention (MQA) reduce memory usage compared to standard Multi-Head Attention?",
+        "options": [
+            "MQA uses a single shared Key and Value projection (one K/V head) across all Query heads, drastically shrinking the KV cache while keeping separate Query heads",
+            "MQA removes the Query projection entirely and relies only on Keys and Values",
+            "MQA increases the number of Key/Value heads beyond the number of Query heads",
+            "MQA eliminates the softmax operation to save computation"
+        ],
+        "answer": 0,
+        "explanation": "In MQA, all query heads share a single Key and Value projection instead of each having its own, which significantly reduces the size of the KV cache needed during autoregressive inference at the cost of some representational diversity."
+    },
+    {
+        "q": "How does standard Layer Normalization compute its normalized output for a token's activation vector x?",
+        "options": [
+            "It normalizes x using statistics (mean and variance) computed across the batch dimension for each feature independently",
+            "It normalizes x using the mean and variance computed across the feature dimension for that single token, then applies learnable scale (gamma) and shift (beta) parameters",
+            "It normalizes x by dividing every element by the maximum value in the vocabulary",
+            "It replaces x entirely with a fixed constant vector"
+        ],
+        "answer": 1,
+        "explanation": "LayerNorm computes the mean and variance across the feature dimension of a single token's activation vector (not across the batch), normalizes using those statistics, and then rescales/shifts with learnable parameters gamma and beta."
+    },
+    {
+        "q": "Why is Layer Normalization generally preferred over Batch Normalization in Transformer architectures?",
+        "options": [
+            "LayerNorm normalizes per-token across features, making it independent of batch size and effective for variable-length sequences, whereas BatchNorm depends on batch statistics that are unstable for sequential/variable-length data",
+            "BatchNorm is computationally impossible to implement on GPUs",
+            "LayerNorm requires no learnable parameters while BatchNorm requires millions",
+            "BatchNorm can only be used with convolutional architectures, never with linear layers"
+        ],
+        "answer": 0,
+        "explanation": "Because LayerNorm's statistics are computed per token rather than per batch, it does not depend on batch size or padding patterns, making it well-suited to variable-length sequence data, unlike BatchNorm which relies on batch-level statistics."
+    },
+    {
+        "q": "During training of an autoregressive Transformer decoder, how is 'teacher forcing' typically combined with the causal mask?",
+        "options": [
+            "The entire ground-truth target sequence is fed into the decoder at once, and the causal mask prevents each position from attending to future tokens, allowing all positions to be trained in parallel while still simulating step-by-step generation",
+            "The model must generate one token at a time during training, exactly as it does during inference, with no parallelization possible",
+            "Teacher forcing removes the need for a causal mask entirely",
+            "Teacher forcing only applies to the encoder, not the decoder"
+        ],
+        "answer": 0,
+        "explanation": "Teacher forcing feeds the true target sequence into the decoder in one forward pass; the causal mask ensures each position's prediction only depends on earlier ground-truth tokens, letting training be fully parallelized despite the model being autoregressive at inference."
+    },
+    {
+        "q": "Where in a standard Transformer Encoder-Decoder model is causal (look-ahead) masking applied?",
+        "options": [
+            "In the encoder's self-attention, to prevent it from seeing the whole source sentence at once",
+            "In the decoder's self-attention only; the encoder's self-attention remains fully bidirectional/unmasked, and cross-attention is not causally masked either",
+            "In both encoder self-attention and cross-attention, but never in decoder self-attention",
+            "Causal masking is applied uniformly to every attention operation in the model, including the encoder"
+        ],
+        "answer": 1,
+        "explanation": "Causal masking is only needed in the decoder's self-attention so it cannot see future target tokens. The encoder processes the entire source sequence bidirectionally, and cross-attention lets the decoder attend to the full encoder output without a look-ahead mask."
+    },
+    {
+        "q": "In what scenario is a full Encoder-Decoder Transformer architecture typically preferred over a decoder-only architecture?",
+        "options": [
+            "When there is no input sequence to condition on, such as unconditional text generation",
+            "Sequence-to-sequence tasks with a distinct source and target sequence (e.g., machine translation, summarization), where the encoder fully processes the source before the decoder generates the target",
+            "When the model must only ever process a single token at a time",
+            "When positional encodings are not required"
+        ],
+        "answer": 1,
+        "explanation": "Encoder-Decoder architectures are well suited to tasks with a clearly separate source and target sequence, such as translation or summarization, where the encoder builds a full bidirectional representation of the source before the decoder autoregressively generates the target."
+    },
+    {
+        "q": "Why is the encoder in an Encoder-Decoder Transformer typically bidirectional while the decoder is causal?",
+        "options": [
+            "The encoder has access to the entire source sequence at once and benefits from letting each token attend to all other source tokens (including those after it) for richer context, whereas the decoder must generate tokens sequentially and cannot be allowed to see future target tokens it hasn't generated yet",
+            "The encoder is causal because it processes tokens in reverse order",
+            "Both encoder and decoder are always causal in every Transformer variant",
+            "Bidirectionality in the encoder is achieved by doubling the number of attention heads"
+        ],
+        "answer": 0,
+        "explanation": "The full source sequence is available upfront, so the encoder can safely use bidirectional self-attention for maximal context. The decoder, however, generates tokens one at a time and must not be allowed to attend to target tokens it hasn't produced yet, hence the causal mask."
+    },
+    {
+        "q": "Why is a position-wise Feed-Forward Network (FFN) necessary after the (Multi-Head) Self-Attention sub-layer, given that attention already mixes information across tokens?",
+        "options": [
+            "Attention output is a weighted linear combination of Value vectors, which alone cannot introduce the nonlinear, per-token feature transformations needed to increase the model's representational capacity; the FFN supplies this nonlinearity",
+            "FFNs are only needed to reduce the sequence length",
+            "FFNs replace the need for residual connections",
+            "FFNs are optional and removing them causes no change in model expressiveness"
+        ],
+        "answer": 0,
+        "explanation": "Self-attention produces a linear (weighted average) combination of Value vectors; it does not, by itself, apply a nonlinear transformation to each token's representation. The FFN sub-layer adds the position-wise nonlinearity and extra capacity needed to model complex functions."
+    },
+    {
+        "q": "How is the same Feed-Forward Network sub-layer applied across a Transformer layer's input sequence?",
+        "options": [
+            "A different set of FFN weights is learned independently for every token position in the sequence",
+            "The identical FFN weights (W_1, b_1, W_2, b_2) are applied independently and identically to every position in the sequence, similar to a position-wise (1x1 convolution) transformation",
+            "The FFN weights change depending on the attention scores computed for that position",
+            "The FFN is applied once to the entire sequence as a single flattened vector"
+        ],
+        "answer": 1,
+        "explanation": "The FFN sub-layer shares the same set of weights across all sequence positions, applying the identical two-layer transformation independently to each token, which is why it is often compared to a position-wise 1x1 convolution."
+    },
+    {
+        "q": "What defines 'greedy decoding' when generating text from a language model's output probability distribution?",
+        "options": [
+            "Randomly sampling a token from the full vocabulary with uniform probability",
+            "Selecting the token with the highest probability (the argmax of the softmax output) at every generation step",
+            "Selecting the lowest-probability token to maximize diversity",
+            "Sampling multiple full sequences and averaging their logits"
+        ],
+        "answer": 1,
+        "explanation": "Greedy decoding always picks the single highest-probability token (argmax) at each step, producing a deterministic output sequence that is not guaranteed to be globally optimal."
+    },
+    {
+        "q": "How does beam search differ from greedy decoding during text generation?",
+        "options": [
+            "Beam search maintains only a single highest-probability sequence, identical to greedy decoding",
+            "Beam search maintains a fixed number (beam width) of the most probable partial sequences at each step, expanding all of them and keeping the top candidates, rather than committing to a single best token at each step like greedy decoding",
+            "Beam search removes the softmax function from decoding entirely",
+            "Beam search only works with bidirectional encoders and cannot be applied to decoder-only models"
+        ],
+        "answer": 1,
+        "explanation": "Beam search tracks multiple candidate partial sequences (the beam) simultaneously, expanding each by one token and pruning back to the top-scoring candidates at every step, which can find higher-probability full sequences than the purely greedy, single-path approach."
+    },
+    {
+        "q": "For a Transformer layer with model dimension d and a standard (non-gated) FFN expansion of 4d, what is the approximate total parameter count contributed by one full layer (MHA + FFN), ignoring bias terms and normalization parameters?",
+        "options": [
+            "4 * d^2 (from the FFN only)",
+            "8 * d^2 (from MHA only)",
+            "12 * d^2, since MHA contributes 4d^2 (W_Q, W_K, W_V, W_O) and the FFN contributes 8d^2 (up- and down-projections)",
+            "16 * d^2, from doubling both MHA and FFN parameter counts"
+        ],
+        "answer": 2,
+        "explanation": "MHA's four d x d projection matrices (W_Q, W_K, W_V, W_O) contribute 4d^2 parameters, and the FFN's up-projection (d -> 4d) and down-projection (4d -> d) each contribute 4d^2, for 8d^2 total. Combined, one full layer has approximately 12d^2 parameters."
+    },
+    {
+        "q": "For a decoder-only Transformer with L layers, model dimension d, vocabulary size V, and tied input/output embeddings, which expression best approximates the total parameter count?",
+        "options": [
+            "V * d (embeddings only, ignoring all layers)",
+            "L * 12 * d^2 + V * d, combining the per-layer attention and FFN parameters with a single tied embedding/output matrix",
+            "L * V * d^2, treating each layer as a full embedding-sized projection",
+            "L * d, since parameter count only scales linearly with depth regardless of width"
+        ],
+        "answer": 1,
+        "explanation": "Summing the per-layer attention and FFN parameters (approximately 12d^2 per layer) across L layers, and adding the single tied embedding/output matrix of size V * d, gives an overall approximation of L * 12d^2 + V * d parameters."
+    },
+    {
+        "q": "A decoder-only Transformer has L = 24 layers, d_model = 1024, and each layer has 12 * d^2 parameters from attention and FFN combined (ignoring norm/bias). Approximately how many parameters do the 24 transformer layers contribute (excluding embeddings)?",
+        "options": [
+            "~25.2 million parameters",
+            "~302 million parameters",
+            "~1.05 billion parameters",
+            "~12.6 billion parameters"
+        ],
+        "answer": 1,
+        "explanation": "Per layer: 12 * 1024^2 = 12 * 1,048,576 = 12,582,912 parameters. Across 24 layers: 12,582,912 * 24 = 301,989,888, which is approximately 302 million parameters."
+    },
+    {
+        "q": "How many learnable parameters does a single standard LayerNorm sub-layer contribute, relative to the attention and FFN parameter counts in the same Transformer layer?",
+        "options": [
+            "LayerNorm contributes only 2 * d parameters (a scale vector gamma and a shift vector beta of size d each), which is negligible compared to the O(d^2) parameters in attention and FFN sub-layers",
+            "LayerNorm contributes d^2 parameters, comparable to a full attention projection matrix",
+            "LayerNorm contributes zero parameters and is a purely deterministic operation with no learnable components",
+            "LayerNorm contributes 4 * d^2 parameters, equal to the entire attention module"
+        ],
+        "answer": 0,
+        "explanation": "LayerNorm has two learnable vectors of size d (gamma for scaling and beta for shifting), totaling 2d parameters per instance, which is negligible next to the O(d^2) parameters found in the attention and FFN sub-layers."
+    },
+    {
+        "q": "What did Kaplan et al. (2020) find about the relationship between Transformer language model test loss and model size, dataset size, and compute, prior to the Chinchilla results?",
+        "options": [
+            "Test loss is entirely independent of model size once a minimum threshold is reached",
+            "Test loss follows a power-law relationship with each of model parameters (N), dataset size (D), and compute (C) when the other factors are not the bottleneck, motivating training very large but relatively undertrained models",
+            "Test loss increases monotonically with model size regardless of data or compute",
+            "Test loss depends only on the number of attention heads, not on parameter count or data"
+        ],
+        "answer": 1,
+        "explanation": "Kaplan et al. showed empirical power-law scaling of loss with N, D, and C individually, and their conclusions favored allocating additional compute mostly toward larger models rather than proportionally more data -- a recommendation later revised by the Chinchilla study."
+    },
+    {
+        "q": "What is the commonly used approximate rule for estimating the total training compute (in FLOPs) required for a Transformer model, given N non-embedding parameters and D training tokens?",
+        "options": [
+            "Compute is approximately N + D",
+            "Compute is approximately N * D^2",
+            "Compute is approximately 6 * N * D, since each token requires roughly 2 FLOPs per parameter for the forward pass and about 4 more FLOPs per parameter for the backward pass",
+            "Compute is approximately N^2 / D"
+        ],
+        "answer": 2,
+        "explanation": "A widely used rule of thumb estimates training compute as C ~= 6ND: about 2ND FLOPs for the forward pass and roughly twice that (4ND) for the backward pass, summing to approximately 6ND total FLOPs."
+    }
+]
