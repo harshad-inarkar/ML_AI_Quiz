@@ -296,7 +296,7 @@ class AuthManager {
 
   generateRestrictedHTML(title, type) {
     if (type === 'login') {
-        return `<div class="restricted-box"><h2>Unlock ${title}</h2><p>To keep your progress and our learning community secure, please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Log in or Register</a>.</p></div>`;
+        return `<div class="restricted-box"><h2>Unlock ${title}</h2><p>To keep your progress and  join community (Discord), please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Log in or Register</a>.</p></div>`;
     }
     if (type === 'verify') {
         return `<div class="restricted-box"><h2>Verification Required</h2><p>For your security, please verify your email address to access ${title.toLowerCase()}. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()">Resend Link</a></p></div>`;
