@@ -294,9 +294,16 @@ class AuthManager {
     this.auth.signOut().then(() => window.location.reload());
   }
 
+  // --- UPDATED: New Catchy Button-Driven Promo HTML ---
   generateRestrictedHTML(title, type) {
     if (type === 'login') {
-        return `<div class="restricted-box"><h2>Unlock ${title}</h2><p>To keep your progress and  join community (Discord), please <a href="javascript:void(0)" onclick="document.getElementById('auth-modal').style.display='flex'">Log in or Register</a>.</p></div>`;
+        return `
+        <div class="restricted-box">
+            <h2 style="margin-bottom: 10px;">Unlock ${title}</h2>
+            <p style="margin-bottom: 20px; color: var(--text-secondary);">Save your quiz progress, track your top scores, and collaborate with peers in our private Discord community.</p>
+            <button class="btn btn-primary" onclick="window.authManager.switchTab('register'); document.getElementById('auth-modal').style.display='flex'">Create Free Account</button>
+            <p style="margin-top: 15px; font-size: 13px;">Already have an account? <a href="javascript:void(0)" onclick="window.authManager.switchTab('login'); document.getElementById('auth-modal').style.display='flex'">Log in here</a>.</p>
+        </div>`;
     }
     if (type === 'verify') {
         return `<div class="restricted-box"><h2>Verification Required</h2><p>For your security, please verify your email address to access ${title.toLowerCase()}. <a href="javascript:void(0)" onclick="window.authManager.resendVerification()">Resend Link</a></p></div>`;
@@ -304,10 +311,8 @@ class AuthManager {
     return '';
   }
 
-  // --- NEW: Intercept Click and Store Preference ---
   async dismissDiscordPromo(redirectUrl) {
     if (confirm("Already in the community? We'll redirect you to Discord and hide this banner from now on. Proceed?")) {
-        // Open window synchronously to avoid popup blockers
         window.open(redirectUrl, '_blank');
         
         const user = this.auth.currentUser;
@@ -326,7 +331,6 @@ class AuthManager {
   }
 
   injectDiscordPromo(settings) {
-    // --- UPDATED: Check for the hide_discord_promo flag ---
     if (!settings.show_discord_promo || !this.userProfile || this.userProfile.hide_discord_promo) return;
     if (document.getElementById('discord-promo-strip')) return; 
 
