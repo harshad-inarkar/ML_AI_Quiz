@@ -2,14 +2,24 @@ class ResourcesApp {
   constructor(database) {
     this.database = database;
     
-    // --- Dynamic Routing Logic for Code Workspace ---
+    // Default config (overridden by DB if exists)
+    this.resourceTypes = {
+        standard: { id: "standard", title: "Study Resources", db_node: "resources", quiz_key: "resources_keys", desc: "Review the materials below to assist with your learning.", view_path: "resources", dl_path: "resources" },
+        workspace: { id: "workspace", title: "Code Workspace", db_node: "code_workspace", quiz_key: "workspace_keys", desc: "Access Python notebooks, hands-on coding labs, and GitHub projects.", view_path: "workspace", dl_path: "workspace" },
+        courses: { id: "courses", title: "Video Courses", db_node: "courses", quiz_key: "course_keys", desc: "Access video lectures and course materials.", view_path: "courses", dl_path: "courses" }
+    };
+    
     const urlParams = new URLSearchParams(window.location.search);
     this.quizKey = urlParams.get("quiz_key");
-    this.type = urlParams.get("type") === 'workspace' ? 'workspace' : 'standard';
+    this.typeId = urlParams.get("type") || 'standard';
     
-    this.dbPath = this.type === 'workspace' ? 'configs/code_workspace' : 'configs/resources';
-    this.quizKeyField = this.type === 'workspace' ? 'workspace_keys' : 'resources_keys';
-    this.pageTitleName = this.type === 'workspace' ? 'Code Workspace' : 'Study Resources';
+    // Fallback to standard if unknown parameter is passed
+    if (!this.resourceTypes[this.typeId]) this.typeId = 'standard';
+    
+    this.activeConfig = this.resourceTypes[this.typeId];
+    this.dbPath = `configs/${this.activeConfig.db_node}`;
+    this.quizKeyField = this.activeConfig.quiz_key;
+    this.pageTitleName = this.activeConfig.title;
     
     this.requestedKeys = null; 
     this.quizTitle = null;     
@@ -21,9 +31,9 @@ class ResourcesApp {
 
   init() {
     // Dynamically update Tracking Paths
-    const viewsPath = this.type === 'workspace' ? "portal_views/workspace" : "portal_views/resources";
-    const dlPath = this.type === 'workspace' ? "portal_downloads/workspace/total" : "portal_downloads/resources/total";
-    const viewsKey = this.type === 'workspace' ? "visited_workspace_page" : "visited_resources_page";
+    const viewsPath = `portal_views/${this.activeConfig.view_path}`;
+    const dlPath = `portal_downloads/${this.activeConfig.dl_path}/total`;
+    const viewsKey = `visited_${this.activeConfig.view_path}_page`;
 
     new ViewCounter(this.database, viewsPath, viewsKey, "visitor-count").track();
     this.database.ref(dlPath).on("value", (snap) => {
@@ -34,45 +44,8 @@ class ResourcesApp {
     const dlBtn = document.getElementById("download-btn");
     if (dlBtn) dlBtn.addEventListener("click", () => this.downloadResources());
 
-    // Dynamically update DOM Text
-    document.title = this.pageTitleName;
-    const h1 = document.querySelector('.header-card h1');
-    if (h1) h1.innerText = this.pageTitleName;
-
-    const descParams = this.type === 'workspace' 
-        ? "Access Python notebooks, hands-on coding labs, and GitHub projects." 
-        : "Review the materials below to assist with your learning.";
-    const pList = document.querySelectorAll('.header-card p');
-    pList.forEach(p => {
-        if (p.innerText.includes("Review the materials")) p.innerText = descParams;
-    });
-
-    // --- Inject Cross-link Toggle Button first (so it stays on the right) ---
-    if (dlBtn && dlBtn.parentElement && !document.getElementById('toggle-resource-type-btn')) {
-        const toggleBtn = document.createElement("a");
-        toggleBtn.id = "toggle-resource-type-btn";
-        toggleBtn.className = "btn btn-secondary";
-        
-        if (this.type === 'workspace') {
-            toggleBtn.href = this.quizKey ? `resources_template.html?quiz_key=${this.quizKey}` : `resources_template.html`;
-            toggleBtn.innerText = "Study Resources";
-        } else {
-            toggleBtn.href = this.quizKey ? `resources_template.html?type=workspace&quiz_key=${this.quizKey}` : `resources_template.html?type=workspace`;
-            toggleBtn.innerText = "Code Workspace";
-        }
-        
-        dlBtn.parentElement.insertBefore(toggleBtn, dlBtn.parentElement.firstChild);
-    }
-
-    // --- Inject "Practice Quizzes" Button second (pushes it to the far left) ---
-    if (dlBtn && dlBtn.parentElement && !document.getElementById('practice-quizzes-btn')) {
-        const practiceBtn = document.createElement("a");
-        practiceBtn.id = "practice-quizzes-btn";
-        practiceBtn.href = "index.html";
-        practiceBtn.className = "btn btn-secondary";
-        practiceBtn.innerText = "Practice Quizzes";
-        dlBtn.parentElement.insertBefore(practiceBtn, dlBtn.parentElement.firstChild);
-    }
+    // Render initial headers synchronously for fast UI loading
+    this.renderHeaders();
 
     this.dataLoaded = false;
 
@@ -84,6 +57,52 @@ class ResourcesApp {
             this.renderResources(this.resourceDataRaw);
         }
     });
+  }
+
+  renderHeaders() {
+    document.title = this.pageTitleName;
+    const h1 = document.querySelector('.header-card h1');
+    if (h1) h1.innerText = this.pageTitleName;
+
+    const pList = document.querySelectorAll('.header-card p');
+    pList.forEach(p => {
+        // Only target the main description, not the view count
+        if (p.innerText.includes("Review the materials") || p.innerText.includes("Access") || p.dataset.dynamicDesc) {
+            p.innerText = this.activeConfig.desc;
+            p.dataset.dynamicDesc = "true"; 
+        }
+    });
+
+    const dlBtn = document.getElementById("download-btn");
+    if (dlBtn && dlBtn.parentElement) {
+        const headerFlex = dlBtn.parentElement;
+
+        // Clear existing dynamically injected buttons to prevent duplicates
+        document.querySelectorAll('.injected-nav-btn').forEach(e => e.remove());
+
+        // 1. Inject Practice Quizzes Button FIRST (Leftmost)
+        const practiceBtn = document.createElement("a");
+        practiceBtn.id = "practice-quizzes-btn";
+        practiceBtn.href = "index.html";
+        practiceBtn.className = "btn btn-secondary injected-nav-btn";
+        practiceBtn.innerText = "Practice Quizzes";
+        headerFlex.insertBefore(practiceBtn, headerFlex.firstChild);
+
+        // 2. Loop through all resource types to generate sibling cross-links
+        let lastInserted = practiceBtn;
+        for (const [tId, tConf] of Object.entries(this.resourceTypes)) {
+            // Only inject buttons for the *other* workspaces
+            if (tId !== this.typeId) {
+                const toggleBtn = document.createElement("a");
+                toggleBtn.className = "btn btn-secondary injected-nav-btn";
+                const uParam = tId === 'standard' ? '' : `type=${tId}&`;
+                toggleBtn.href = this.quizKey ? `resources_template.html?${uParam}quiz_key=${this.quizKey}` : (tId === 'standard' ? 'resources_template.html' : `resources_template.html?type=${tId}`);
+                toggleBtn.innerText = tConf.title;
+                headerFlex.insertBefore(toggleBtn, lastInserted.nextSibling);
+                lastInserted = toggleBtn;
+            }
+        }
+    }
   }
 
   async loadResources() {
@@ -111,6 +130,20 @@ class ResourcesApp {
     }
 
     try {
+      // Fetch dynamic configuration AND active quiz parameters
+      const typesSnap = await this.database.ref("settings/resource_types").once("value");
+      if (typesSnap.exists()) {
+          const dbTypes = typesSnap.val();
+          for (const key in dbTypes) {
+              this.resourceTypes[key] = { ...this.resourceTypes[key], ...dbTypes[key] };
+          }
+          // Re-sync active config in case properties (like titles) changed in DB
+          this.activeConfig = this.resourceTypes[this.typeId];
+          this.dbPath = `configs/${this.activeConfig.db_node}`;
+          this.pageTitleName = this.activeConfig.title;
+          this.renderHeaders(); // Force UI update
+      }
+
       if (this.quizKey) {
         const quizSnap = await this.database.ref(`configs/index/${this.quizKey}`).once("value");
         if (quizSnap.exists()) {
@@ -351,7 +384,7 @@ class ResourcesApp {
       const a = document.createElement("a");
       a.href = url;
       
-      const filePrefix = this.type === 'workspace' ? 'workspace_' : 'resources_';
+      const filePrefix = this.activeConfig.id === 'standard' ? 'resources_' : `${this.activeConfig.id}_`;
       if (this.quizTitle) {
         a.download = `${filePrefix}${this.quizTitle.replace(/[^a-z0-9]+/gi, ' ').trim().replace(/\s+/g, '_').toLowerCase()}_offline.html`;
       } else {
@@ -359,7 +392,7 @@ class ResourcesApp {
       }
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
       
-      const dlPath = this.type === 'workspace' ? "portal_downloads/workspace/total" : "portal_downloads/resources/total";
+      const dlPath = `portal_downloads/${this.activeConfig.dl_path}/total`;
       this.database.ref(dlPath).set(firebase.database.ServerValue.increment(1));
     } catch (e) { alert("Failed to download."); } finally { btn.innerHTML = originalHtml; btn.disabled = false; }
   }

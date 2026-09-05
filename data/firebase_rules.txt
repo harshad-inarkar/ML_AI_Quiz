@@ -1,0 +1,99 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "settings": { 
+      ".read": true, 
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'" 
+    },
+    
+    "allowed_admins": { 
+      ".read": true, 
+      ".write": false 
+    },
+    
+ "configs": { 
+      "index": {
+        ".read": "(auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin') || !root.child('settings/QUIZ_ACCESS_LEVEL').exists() || root.child('settings/QUIZ_ACCESS_LEVEL').val() === 'unrestricted' || (auth != null && root.child('settings/QUIZ_ACCESS_LEVEL').val() === 'enforce_register') || (auth != null && root.child('settings/QUIZ_ACCESS_LEVEL').val() === 'enforce_verify_email' && auth.token.email_verified === true)",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin' && auth.token.email_verified === true" 
+      },
+      "resources": {
+        ".read": "(auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin') || !root.child('settings/RESOURCES_ACCESS_LEVEL').exists() || root.child('settings/RESOURCES_ACCESS_LEVEL').val() === 'unrestricted' || (auth != null && root.child('settings/RESOURCES_ACCESS_LEVEL').val() === 'enforce_register') || (auth != null && root.child('settings/RESOURCES_ACCESS_LEVEL').val() === 'enforce_verify_email' && auth.token.email_verified === true)",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin' && auth.token.email_verified === true" 
+      },
+      "code_workspace": {
+        ".read": "(auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin') || !root.child('settings/RESOURCES_ACCESS_LEVEL').exists() || root.child('settings/RESOURCES_ACCESS_LEVEL').val() === 'unrestricted' || (auth != null && root.child('settings/RESOURCES_ACCESS_LEVEL').val() === 'enforce_register') || (auth != null && root.child('settings/RESOURCES_ACCESS_LEVEL').val() === 'enforce_verify_email' && auth.token.email_verified === true)",
+        ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin' && auth.token.email_verified === true" 
+      }
+    },
+    
+    "quizzes": { 
+      ".read": "(auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin') || !root.child('settings/QUIZ_ACCESS_LEVEL').exists() || root.child('settings/QUIZ_ACCESS_LEVEL').val() === 'unrestricted' || (auth != null && root.child('settings/QUIZ_ACCESS_LEVEL').val() === 'enforce_register') || (auth != null && root.child('settings/QUIZ_ACCESS_LEVEL').val() === 'enforce_verify_email' && auth.token.email_verified === true)",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin' && auth.token.email_verified === true" 
+    },
+
+    "usernames": { 
+      ".read": true, 
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'", 
+      
+      "$username": { 
+        ".write": "auth != null && (!data.exists() || data.val() === auth.uid)",
+        ".validate": "newData.val() === auth.uid" 
+      } 
+    },
+
+    "portal_views": { 
+      ".read": true, 
+      "$pageId": { 
+        "total": { ".write": true, ".validate": "newData.isNumber() && (!data.exists() ? newData.val() === 1 : newData.val() === data.val() + 1)" }, 
+        "unique": { ".write": true, ".validate": "newData.isNumber() && (!data.exists() ? newData.val() === 1 : newData.val() === data.val() + 1)" } 
+      } 
+    },
+    
+    "quiz_views": { 
+      ".read": true, 
+      "$quizId": { 
+        "total": { ".write": true, ".validate": "newData.isNumber() && (!data.exists() ? newData.val() === 1 : newData.val() === data.val() + 1)" }, 
+        "unique": { ".write": true, ".validate": "newData.isNumber() && (!data.exists() ? newData.val() === 1 : newData.val() === data.val() + 1)" } 
+      } 
+    },
+    
+    "portal_downloads": { 
+      ".read": true, 
+      "$pageId": { 
+        "total": { ".write": true, ".validate": "newData.isNumber() && (!data.exists() ? newData.val() === 1 : newData.val() === data.val() + 1)" } 
+      } 
+    },
+
+    "users": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$uid": {
+        ".read": "auth != null && ($uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && ($uid === auth.uid || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        
+        "role": { ".validate": "!data.exists() || data.val() === newData.val()" },
+        "username": { ".validate": "!data.exists() || data.val() === newData.val()" },
+        "email": { ".validate": "newData.isString() && (!data.exists() || data.val() === newData.val())" }
+      }
+    },
+    
+    "scores": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$uid": {
+        ".read": "auth != null && $uid === auth.uid",
+        ".write": "auth != null && $uid === auth.uid"
+      }
+    },
+    
+    "quiz_states": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      "$uid": {
+        ".read": "auth != null && $uid === auth.uid",
+        ".write": "auth != null && $uid === auth.uid"
+      }
+    }
+  }
+}

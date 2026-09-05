@@ -15,8 +15,10 @@
                 <h2 id="quiz-modal-title">Add New Quiz</h2>
                 <input type="hidden" id="quiz-edit-key">
                 <div class="form-group"><label>Quiz Title</label><input type="text" id="cms-quiz-title" placeholder="e.g. Quiz 5: Advanced CNNs"></div>
-                <div class="form-group"><label>Resources Keys (Comma separated)</label><input type="text" id="cms-quiz-resources" placeholder="e.g. 1, 4, 7"></div>
-                <div class="form-group"><label>Quiz JSON Data File <span id="cms-json-hint" style="color:var(--secondary-accent);"></span></label><input type="file" id="cms-quiz-file" accept=".json"></div>
+                
+                <!-- JS will inject dynamic resource key inputs here -->
+                
+                <div class="form-group" id="cms-json-group"><label>Quiz JSON Data File <span id="cms-json-hint" style="color:var(--secondary-accent);"></span></label><input type="file" id="cms-quiz-file" accept=".json"></div>
                 <div class="form-actions">
                     <button class="btn btn-secondary" onclick="document.getElementById('quiz-modal').style.display='none'">Cancel</button>
                     <button class="btn btn-primary" id="save-quiz-btn">Save Quiz</button>

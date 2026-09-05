@@ -4,6 +4,13 @@ class PortalApp {
     this.listContainer = document.getElementById("quiz-list");
     this.quizConfigData = {};
     
+    // Default config (overridden by DB if exists)
+    this.resourceTypes = {
+        standard: { id: "standard", title: "Study Resources", db_node: "resources", quiz_key: "resources_keys" },
+        workspace: { id: "workspace", title: "Code Workspace", db_node: "code_workspace", quiz_key: "workspace_keys" },
+        courses: { id: "courses", title: "Video Courses", db_node: "courses", quiz_key: "course_keys" }
+    };
+    
     document.getElementById('save-quiz-btn').addEventListener('click', () => this.saveQuiz());
   }
 
@@ -13,17 +20,6 @@ class PortalApp {
       const el = document.getElementById("portal-download-count");
       if (el) el.innerText = snap.val() || 0;
     });
-
-    // --- Inject Code Workspace Global Link ---
-    const resLink = document.querySelector('a[href="resources_template.html"]');
-    if (resLink && !document.getElementById('global-workspace-btn')) {
-        const wsBtn = document.createElement("a");
-        wsBtn.id = "global-workspace-btn";
-        wsBtn.href = "resources_template.html?type=workspace";
-        wsBtn.className = "btn btn-secondary";
-        wsBtn.innerText = "Code Workspace";
-        resLink.parentNode.insertBefore(wsBtn, resLink.nextSibling);
-    }
 
     this.dataLoaded = false; 
 
@@ -61,8 +57,21 @@ class PortalApp {
     }
 
     try {
-      const snapshot = await this.database.ref("configs/index").once("value");
+      // Fetch Quiz Data AND Dynamic Resource Types simultaneously
+      const [snapshot, typesSnap] = await Promise.all([
+          this.database.ref("configs/index").once("value"),
+          this.database.ref("settings/resource_types").once("value")
+      ]);
+      
       if (!snapshot.exists()) throw new Error("Config not found");
+      
+      if (typesSnap.exists()) {
+          const dbTypes = typesSnap.val();
+          for (const key in dbTypes) {
+              this.resourceTypes[key] = { ...this.resourceTypes[key], ...dbTypes[key] };
+          }
+      }
+
       this.quizConfigData = snapshot.val();
       this.renderQuizzes();
     } catch (error) {
@@ -128,14 +137,15 @@ class PortalApp {
 
     const scoreDisplayHTML = this._generateBadgeHTML(key);
     const attemptText = this._getAttemptText(key);
-    const resourcesBtnHTML = quizData.resources_keys?.length > 0 
-      ? `<a href="resources_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Study Resources</a>` 
-      : '';
     
-    // Generate Workspace Button inside Quiz Card
-    const workspaceBtnHTML = quizData.workspace_keys?.length > 0 
-      ? `<a href="resources_template.html?type=workspace&quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">Code Workspace</a>` 
-      : '';
+    // Dynamically generate resource buttons based on configuration
+    let dynamicButtonsHTML = '';
+    for (const [tId, tConf] of Object.entries(this.resourceTypes)) {
+        if (quizData[tConf.quiz_key]?.length > 0) {
+            const uParam = tId === 'standard' ? '' : `type=${tId}&`;
+            dynamicButtonsHTML += `<a href="resources_template.html?${uParam}quiz_key=${encodeURIComponent(key)}" class="btn btn-secondary">${tConf.title}</a> `;
+        }
+    }
     
     card.innerHTML = `
       <div class="card-header-flex">
@@ -145,8 +155,7 @@ class PortalApp {
       <div class="action-links-wrapper">
         <div class="action-links-left">
           <a href="quiz_template.html?quiz_key=${encodeURIComponent(key)}" class="btn btn-primary">${attemptText}</a>
-          ${resourcesBtnHTML}
-          ${workspaceBtnHTML}
+          ${dynamicButtonsHTML}
           <button class="btn btn-secondary admin-only" onclick="window.portalApp.openQuizModal('${key}')">Edit Quiz</button>
         </div>
         <button class="btn btn-secondary download-quiz-btn btn-icon" data-key="${key}" title="Save for Offline Use">
@@ -162,26 +171,29 @@ class PortalApp {
     document.getElementById('quiz-modal-title').innerText = editKey ? "Edit Quiz" : "Add New Quiz";
     document.getElementById('quiz-edit-key').value = editKey || "";
     
-    // Dynamically Inject CMS Workspace Input if missing
-    let wsInput = document.getElementById('cms-quiz-workspace');
-    if (!wsInput) {
+    // Clean up old dynamic inputs first to prevent duplicates
+    document.querySelectorAll('.dynamic-cms-input').forEach(e => e.remove());
+    
+    // Dynamically inject CMS inputs for ALL configured resource types
+    const jsonInputGroup = document.getElementById('cms-json-group');
+    
+    for (const [tId, tConf] of Object.entries(this.resourceTypes)) {
         const formGroup = document.createElement('div');
-        formGroup.className = 'form-group';
-        formGroup.innerHTML = '<label>Workspace Keys (Comma separated)</label><input type="text" id="cms-quiz-workspace" placeholder="e.g. 1, 2">';
-        const resInputGroup = document.getElementById('cms-quiz-resources').parentNode;
-        resInputGroup.parentNode.insertBefore(formGroup, resInputGroup.nextSibling);
-        wsInput = document.getElementById('cms-quiz-workspace');
+        formGroup.className = 'form-group dynamic-cms-input';
+        formGroup.innerHTML = `<label>${tConf.title} Keys (Comma separated)</label><input type="text" id="cms-quiz-${tId}" placeholder="e.g. 1, 2">`;
+        jsonInputGroup.parentNode.insertBefore(formGroup, jsonInputGroup);
+
+        const el = document.getElementById(`cms-quiz-${tId}`);
+        if (editKey && this.quizConfigData[editKey]) {
+            el.value = this.quizConfigData[editKey][tConf.quiz_key] ? this.quizConfigData[editKey][tConf.quiz_key].join(", ") : "";
+        }
     }
 
     if (editKey && this.quizConfigData[editKey]) {
       document.getElementById('cms-quiz-title').value = this.quizConfigData[editKey].title;
-      document.getElementById('cms-quiz-resources').value = this.quizConfigData[editKey].resources_keys ? this.quizConfigData[editKey].resources_keys.join(", ") : "";
-      wsInput.value = this.quizConfigData[editKey].workspace_keys ? this.quizConfigData[editKey].workspace_keys.join(", ") : "";
       document.getElementById('cms-json-hint').innerText = "(Leave empty to keep existing questions)";
     } else {
       document.getElementById('cms-quiz-title').value = "";
-      document.getElementById('cms-quiz-resources').value = "";
-      wsInput.value = "";
       document.getElementById('cms-json-hint').innerText = "* (Required)";
     }
     
@@ -192,15 +204,10 @@ class PortalApp {
   async saveQuiz() {
     const key = document.getElementById('quiz-edit-key').value;
     const title = document.getElementById('cms-quiz-title').value;
-    const resString = document.getElementById('cms-quiz-resources').value;
-    const wsString = document.getElementById('cms-quiz-workspace')?.value || "";
     const fileInput = document.getElementById('cms-quiz-file');
     
     if (!title) return alert("Title is required.");
     
-    const resourcesKeys = resString.split(',').map(s => s.trim()).filter(s => s);
-    const workspaceKeys = wsString.split(',').map(s => s.trim()).filter(s => s);
-
     const targetKey = key || window.generateNewDatabaseKey(this.quizConfigData);
     const inputFile = key ? this.quizConfigData[key].input_file : `input_quiz_${targetKey}.json`;
 
@@ -215,8 +222,13 @@ class PortalApp {
       }
 
       const configPayload = { title: title, input_file: inputFile };
-      if (resourcesKeys.length > 0) configPayload.resources_keys = resourcesKeys;
-      if (workspaceKeys.length > 0) configPayload.workspace_keys = workspaceKeys;
+      
+      // Dynamically extract and save array keys for all resource types
+      for (const [tId, tConf] of Object.entries(this.resourceTypes)) {
+          const val = document.getElementById(`cms-quiz-${tId}`)?.value || "";
+          const keys = val.split(',').map(s => s.trim()).filter(s => s);
+          if (keys.length > 0) configPayload[tConf.quiz_key] = keys;
+      }
       
       await this.database.ref(`configs/index/${targetKey}`).set(configPayload);
       
