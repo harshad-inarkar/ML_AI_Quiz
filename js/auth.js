@@ -301,7 +301,7 @@ class AuthManager {
         <div class="restricted-box">
             <h2 style="margin-bottom: 10px;">Unlock ${title}</h2>
             <p style="margin-bottom: 20px; color: var(--text-secondary);">Save your quiz progress, track your top scores, and collaborate with peers in our private Discord community.</p>
-            <button class="btn btn-primary" onclick="window.authManager.switchTab('register'); document.getElementById('auth-modal').style.display='flex'">Create Free Account</button>
+            <button class="btn btn-primary" onclick="window.authManager.switchTab('register'); document.getElementById('auth-modal').style.display='flex'">Create Account</button>
             <p style="margin-top: 15px; font-size: 13px;">Already have an account? <a href="javascript:void(0)" onclick="window.authManager.switchTab('login'); document.getElementById('auth-modal').style.display='flex'">Log in here</a>.</p>
         </div>`;
     }
