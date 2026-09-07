@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # The base Colab URL for your specific folder
-BASE_URL = "https://colab.research.google.com/github/harshad-inarkar/ML_AI_Quiz/blob/main/code_workspace/d2l/pytorch/"
+BASE_URL = "https://colab.research.google.com/github/harshad-inarkar/ML_AI_Quiz/blob/main/code_workspace/d2l/"
 
 # Start looking in the current directory (where the script is located)
 current_dir = Path(".")
