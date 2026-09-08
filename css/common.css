@@ -2,15 +2,17 @@
 
 :root {
     --bg-main: #000000;
-    --surface: rgba(11, 21, 23, 0.4);      
-    --surface-alt: rgba(19, 34, 37, 0.6);  
-    --surface-border: rgba(26, 47, 51, 0.6);
+    /* Darker, thicker glass surface for the super-dark aesthetic */
+    --surface: rgba(8, 15, 17, 0.45);      
+    --surface-alt: rgba(14, 25, 28, 0.65);  
+    /* Delicate, softer border to catch the light */
+    --surface-border: rgba(74, 124, 123, 0.25);
+    
     --primary-accent: #4a7c7b;             
     --secondary-accent: #6da4a3;           
     --text-primary: #cbd5e1;
-    --text-heading: #e2e8f0;
+    --text-heading: #ffffff; /* Brighter white headings for high contrast */
     --text-secondary: #94a3b8;
-    --glow-spread: 35%;
 
     --green-bg: rgba(74, 124, 123, 0.15);
     --green-text: #6da4a3;
@@ -28,9 +30,11 @@
 body {
     font-family: "Inter", Arial, sans-serif;
     background-color: var(--bg-main);
+    /* Sweeping elliptical gradients create a fluid, liquid mesh look */
     background-image: 
-        radial-gradient(circle at 15% 0%, var(--secondary-accent) 0%, transparent var(--glow-spread)),
-        radial-gradient(circle at 85% 100%, var(--primary-accent) 0%, transparent var(--glow-spread));
+        radial-gradient(ellipse at 0% 0%, var(--secondary-accent) 0%, transparent 55%),
+        radial-gradient(ellipse at 100% 100%, var(--primary-accent) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(74, 124, 123, 0.1) 0%, transparent 65%);
     background-attachment: fixed;
     color: var(--text-primary);
     margin: 0;
@@ -41,12 +45,12 @@ body {
     min-height: 100vh;
 }
 
-/* Dark overlay to push the glowing orbs further back and soften them */
+/* Super dark overlay to crush the brightness and create the deep stealth look */
 body::before {
     content: "";
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0,0,0,0.85);
     z-index: -1;
     pointer-events: none;
 }
@@ -78,9 +82,11 @@ body::before {
     border-radius: 16px;
     padding: 30px 28px 26px;
     margin-bottom: 26px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    /* Increased blur for thicker liquid glass distortion */
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    /* Deeper outer shadow, subtle inner top-light reflection */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     overflow: hidden;
 }
 
