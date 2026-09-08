@@ -3,6 +3,11 @@
 :root {
     --bg-main: #000000;
     
+    /* Restored the beautiful teal-tinted glass base */
+    --surface: rgba(15, 30, 33, 0.5);      
+    --surface-alt: rgba(22, 43, 46, 0.7);  
+    --surface-border: rgba(109, 164, 163, 0.35); /* Stronger teal border */
+    
     /* Original Palette */
     --primary-accent: #4a7c7b;             
     --secondary-accent: #6da4a3;           
@@ -22,19 +27,19 @@
     box-sizing: border-box;
 }
 
-/* --- THE LIQUID GLASS ENGINE (Bodhan Style) --- */
+/* --- THE LIQUID GLASS ENGINE --- */
 body {
     font-family: "Inter", Arial, sans-serif;
     background-color: var(--bg-main);
     
     /* 
-       A wide, sweeping "spotlight" of original Teal/Cyan at the very top of the page.
-       The header card sits right over this, absorbing the lush color.
-       The rest of the page falls away into pure black.
+       Wide, sweeping ambient lights that don't overpower the black background.
+       This gives the frosted glass something colorful to blur.
     */
     background-image: 
-        radial-gradient(ellipse 100% 40% at 50% 0%, rgba(109, 164, 163, 0.25) 0%, rgba(74, 124, 123, 0.1) 50%, transparent 100%),
-        radial-gradient(ellipse 50% 50% at 100% 100%, rgba(74, 124, 123, 0.08) 0%, transparent 100%);
+        radial-gradient(ellipse 100% 50% at 50% -10%, rgba(74, 124, 123, 0.2) 0%, transparent 100%),
+        radial-gradient(ellipse 70% 70% at 100% 100%, rgba(109, 164, 163, 0.12) 0%, transparent 100%),
+        radial-gradient(ellipse 70% 70% at 0% 100%, rgba(74, 124, 123, 0.1) 0%, transparent 100%);
     background-attachment: fixed;
     
     color: var(--text-primary);
@@ -68,23 +73,31 @@ body {
 .modal-content,
 .restricted-box {
     position: relative;
+    /* A subtle gradient gives the liquid glass 3D volume */
+    background: linear-gradient(145deg, rgba(22, 43, 46, 0.55), rgba(11, 21, 23, 0.35));
+    border: 1px solid var(--surface-border);
     border-radius: 16px;
+    padding: 30px 28px 26px;
+    margin-bottom: 26px;
+    
+    /* Heavy blur for thick glass distortion */
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
+    
+    /* Rich shadow for depth, crisp white inset for the glass edge reflection */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
     overflow: hidden;
-    margin-bottom: 26px;
 }
 
-/* --- 1. THE HEADER CARD (Vibrant Original Teal) --- */
-.header-card {
-    /* Slightly lighter surface to catch the light */
-    background: rgba(19, 34, 37, 0.4); 
-    /* Distinct teal border */
-    border: 1px solid rgba(109, 164, 163, 0.3);
-    padding: 30px 28px 26px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.1), /* Top glass reflection */
-                inset 0 -10px 30px rgba(109, 164, 163, 0.05); /* Subtle inner glow */
+/* Specific Card Layouts */
+.quiz-card, 
+.resource-card,
+.question-card,
+.restricted-box {
+    border-left: 4px solid var(--primary-accent);
+    margin-bottom: 18px; 
+    padding: 24px;
 }
 
 .header-card::before {
@@ -112,22 +125,6 @@ body {
     line-height: 1.6;
 }
 
-/* --- 2. STANDARD CARDS (Super Dark Stealth) --- */
-.quiz-card, 
-.resource-card,
-.question-card,
-.restricted-box {
-    /* Pitch dark surface */
-    background: rgba(8, 15, 17, 0.6);
-    /* Stealthy, thin white border instead of teal */
-    border: 1px solid rgba(255, 255, 255, 0.06); 
-    border-left: 4px solid var(--primary-accent); /* Keeps brand consistency */
-    padding: 24px;
-    margin-bottom: 18px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.03);
-}
-
 .quiz-card h2, 
 .resource-card h2,
 .restricted-box h2 {
@@ -146,7 +143,7 @@ body {
     color: var(--secondary-accent);
     font-weight: 500;
     background: rgba(109, 164, 163, 0.1);
-    border: 1px solid rgba(109, 164, 163, 0.3);
+    border: 1px solid var(--surface-border);
     padding: 4px 12px;
     border-radius: 999px;
 }
@@ -193,9 +190,9 @@ body {
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.03); /* Stealthier button background */
+    background: var(--surface-alt);
     color: var(--secondary-accent);
-    border: 1px solid rgba(109, 164, 163, 0.3);
+    border: 1px solid var(--surface-border);
     backdrop-filter: blur(8px);
 }
 
@@ -203,7 +200,7 @@ body {
     border-color: var(--secondary-accent);
     color: var(--text-heading);
     transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255,255,255,0.05);
 }
 
 .btn-small {
@@ -216,7 +213,7 @@ body {
     width: 28px;
     height: 28px;
     padding: 0;
-    background: rgba(8, 15, 17, 0.8);
+    background: rgba(22, 43, 46, 0.8);
     border: 2px solid var(--primary-accent);
     color: var(--primary-accent);
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -292,7 +289,7 @@ body {
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--surface-border);
     position: relative;
 }
 
@@ -354,8 +351,8 @@ body.admin-mode .admin-only-block { display: block !important; }
     justify-content: center; align-items: center; padding: 20px;
 }
 .modal-content {
-    background: rgba(8, 15, 17, 0.85); /* Deep dark glass for modals */
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(15, 30, 33, 0.95); /* Deep dark teal glass for modals */
+    border: 1px solid var(--surface-border);
     padding: 30px; width: 100%; max-width: 500px;
     max-height: 90vh; overflow-y: auto; 
     box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05);
@@ -366,7 +363,7 @@ body.admin-mode .admin-only-block { display: block !important; }
 .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); }
 .form-group input, .form-group textarea, .form-group select {
     width: 100%; padding: 10px 12px; border-radius: 8px;
-    background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(109, 164, 163, 0.3);
     color: var(--text-primary); font-family: "Inter", sans-serif;
 }
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--secondary-accent); }
@@ -375,7 +372,7 @@ body.admin-mode .admin-only-block { display: block !important; }
 /* Auth Modal Tabs */
 .auth-tabs {
     display: flex;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 2px solid var(--surface-border);
     margin-bottom: 20px;
 }
 .auth-tab {
