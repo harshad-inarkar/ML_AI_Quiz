@@ -2,16 +2,12 @@
 
 :root {
     --bg-main: #000000;
-    /* Darker, thicker glass surface for the super-dark aesthetic */
-    --surface: rgba(8, 15, 17, 0.45);      
-    --surface-alt: rgba(14, 25, 28, 0.65);  
-    /* Delicate, softer border to catch the light */
-    --surface-border: rgba(74, 124, 123, 0.25);
     
+    /* Original Palette */
     --primary-accent: #4a7c7b;             
     --secondary-accent: #6da4a3;           
     --text-primary: #cbd5e1;
-    --text-heading: #ffffff; /* Brighter white headings for high contrast */
+    --text-heading: #ffffff; 
     --text-secondary: #94a3b8;
 
     --green-bg: rgba(74, 124, 123, 0.15);
@@ -26,16 +22,21 @@
     box-sizing: border-box;
 }
 
-/* --- THE LIQUID GLASS ENGINE --- */
+/* --- THE LIQUID GLASS ENGINE (Bodhan Style) --- */
 body {
     font-family: "Inter", Arial, sans-serif;
     background-color: var(--bg-main);
-    /* Sweeping elliptical gradients create a fluid, liquid mesh look */
+    
+    /* 
+       A wide, sweeping "spotlight" of original Teal/Cyan at the very top of the page.
+       The header card sits right over this, absorbing the lush color.
+       The rest of the page falls away into pure black.
+    */
     background-image: 
-        radial-gradient(ellipse at 0% 0%, var(--secondary-accent) 0%, transparent 55%),
-        radial-gradient(ellipse at 100% 100%, var(--primary-accent) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 50%, rgba(74, 124, 123, 0.1) 0%, transparent 65%);
+        radial-gradient(ellipse 100% 40% at 50% 0%, rgba(109, 164, 163, 0.25) 0%, rgba(74, 124, 123, 0.1) 50%, transparent 100%),
+        radial-gradient(ellipse 50% 50% at 100% 100%, rgba(74, 124, 123, 0.08) 0%, transparent 100%);
     background-attachment: fixed;
+    
     color: var(--text-primary);
     margin: 0;
     padding: 24px 20px 48px;
@@ -43,16 +44,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
     font-synthesis: none;
     min-height: 100vh;
-}
-
-/* Super dark overlay to crush the brightness and create the deep stealth look */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: -1;
-    pointer-events: none;
 }
 
 /* Shared max-width inner wrapper */
@@ -69,7 +60,7 @@ body::before {
     min-height: 100vh;
 }
 
-/* --- Base Glass Surfaces --- */
+/* --- BASE GLASS SHARED PROPERTIES --- */
 .header-card,
 .quiz-card,
 .question-card,
@@ -77,27 +68,23 @@ body::before {
 .modal-content,
 .restricted-box {
     position: relative;
-    background: var(--surface);
-    border: 1px solid var(--surface-border);
     border-radius: 16px;
-    padding: 30px 28px 26px;
-    margin-bottom: 26px;
-    /* Increased blur for thicker liquid glass distortion */
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    /* Deeper outer shadow, subtle inner top-light reflection */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     overflow: hidden;
+    margin-bottom: 26px;
 }
 
-/* Standardized Card Extensions */
-.quiz-card, 
-.resource-card,
-.question-card,
-.restricted-box {
-    border-left: 4px solid var(--primary-accent);
-    margin-bottom: 18px; 
-    padding: 24px;
+/* --- 1. THE HEADER CARD (Vibrant Original Teal) --- */
+.header-card {
+    /* Slightly lighter surface to catch the light */
+    background: rgba(19, 34, 37, 0.4); 
+    /* Distinct teal border */
+    border: 1px solid rgba(109, 164, 163, 0.3);
+    padding: 30px 28px 26px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1), /* Top glass reflection */
+                inset 0 -10px 30px rgba(109, 164, 163, 0.05); /* Subtle inner glow */
 }
 
 .header-card::before {
@@ -125,6 +112,22 @@ body::before {
     line-height: 1.6;
 }
 
+/* --- 2. STANDARD CARDS (Super Dark Stealth) --- */
+.quiz-card, 
+.resource-card,
+.question-card,
+.restricted-box {
+    /* Pitch dark surface */
+    background: rgba(8, 15, 17, 0.6);
+    /* Stealthy, thin white border instead of teal */
+    border: 1px solid rgba(255, 255, 255, 0.06); 
+    border-left: 4px solid var(--primary-accent); /* Keeps brand consistency */
+    padding: 24px;
+    margin-bottom: 18px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
 .quiz-card h2, 
 .resource-card h2,
 .restricted-box h2 {
@@ -143,7 +146,7 @@ body::before {
     color: var(--secondary-accent);
     font-weight: 500;
     background: rgba(109, 164, 163, 0.1);
-    border: 1px solid var(--surface-border);
+    border: 1px solid rgba(109, 164, 163, 0.3);
     padding: 4px 12px;
     border-radius: 999px;
 }
@@ -190,9 +193,9 @@ body::before {
 }
 
 .btn-secondary {
-    background: var(--surface-alt);
+    background: rgba(255, 255, 255, 0.03); /* Stealthier button background */
     color: var(--secondary-accent);
-    border: 1px solid var(--surface-border);
+    border: 1px solid rgba(109, 164, 163, 0.3);
     backdrop-filter: blur(8px);
 }
 
@@ -200,7 +203,7 @@ body::before {
     border-color: var(--secondary-accent);
     color: var(--text-heading);
     transform: translateY(-2px);
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .btn-small {
@@ -213,7 +216,7 @@ body::before {
     width: 28px;
     height: 28px;
     padding: 0;
-    background: var(--surface);
+    background: rgba(8, 15, 17, 0.8);
     border: 2px solid var(--primary-accent);
     color: var(--primary-accent);
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -289,7 +292,7 @@ body::before {
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    border: 1px solid var(--surface-border);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     position: relative;
 }
 
@@ -351,9 +354,11 @@ body.admin-mode .admin-only-block { display: block !important; }
     justify-content: center; align-items: center; padding: 20px;
 }
 .modal-content {
-    background: var(--surface); border: 1px solid var(--surface-border);
-    border-radius: 16px; padding: 30px; width: 100%; max-width: 500px;
-    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+    background: rgba(8, 15, 17, 0.85); /* Deep dark glass for modals */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 30px; width: 100%; max-width: 500px;
+    max-height: 90vh; overflow-y: auto; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .modal-content h2 { margin-top: 0; color: var(--text-heading); font-family: "Poppins", sans-serif; }
 .form-group { margin-bottom: 16px; }
@@ -361,7 +366,7 @@ body.admin-mode .admin-only-block { display: block !important; }
 .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); }
 .form-group input, .form-group textarea, .form-group select {
     width: 100%; padding: 10px 12px; border-radius: 8px;
-    background: var(--surface-alt); border: 1px solid var(--surface-border);
+    background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-primary); font-family: "Inter", sans-serif;
 }
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--secondary-accent); }
@@ -370,7 +375,7 @@ body.admin-mode .admin-only-block { display: block !important; }
 /* Auth Modal Tabs */
 .auth-tabs {
     display: flex;
-    border-bottom: 2px solid var(--surface-border);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.08);
     margin-bottom: 20px;
 }
 .auth-tab {
