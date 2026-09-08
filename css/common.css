@@ -2,14 +2,15 @@
 
 :root {
     --bg-main: #000000;
-    --surface: #0b1517;
-    --surface-alt: #132225;
-    --surface-border: #1a2f33;
-    --primary-accent: #4a7c7b;
-    --secondary-accent: #6da4a3;
+    --surface: rgba(11, 21, 23, 0.4);      
+    --surface-alt: rgba(19, 34, 37, 0.6);  
+    --surface-border: rgba(26, 47, 51, 0.6);
+    --primary-accent: #4a7c7b;             
+    --secondary-accent: #6da4a3;           
     --text-primary: #cbd5e1;
     --text-heading: #e2e8f0;
     --text-secondary: #94a3b8;
+    --glow-spread: 35%;
 
     --green-bg: rgba(74, 124, 123, 0.15);
     --green-text: #6da4a3;
@@ -23,38 +24,80 @@
     box-sizing: border-box;
 }
 
+/* --- THE LIQUID GLASS ENGINE --- */
 body {
     font-family: "Inter", Arial, sans-serif;
     background-color: var(--bg-main);
+    background-image: 
+        radial-gradient(circle at 15% 0%, var(--secondary-accent) 0%, transparent var(--glow-spread)),
+        radial-gradient(circle at 85% 100%, var(--primary-accent) 0%, transparent var(--glow-spread));
+    background-attachment: fixed;
     color: var(--text-primary);
     margin: 0;
     padding: 24px 20px 48px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-synthesis: none;
+    min-height: 100vh;
 }
 
-/* Header card, shared by every page */
-.header-card {
+/* Dark overlay to push the glowing orbs further back and soften them */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Shared max-width inner wrapper */
+.page-content {
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Full-viewport shell */
+.page-shell {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* --- Base Glass Surfaces --- */
+.header-card,
+.quiz-card,
+.question-card,
+.resource-card,
+.modal-content,
+.restricted-box {
     position: relative;
-    background-color: var(--surface);
+    background: var(--surface);
     border: 1px solid var(--surface-border);
+    border-radius: 16px;
     padding: 30px 28px 26px;
-    border-radius: 20px;
     margin-bottom: 26px;
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(109, 164, 163, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03);
     overflow: hidden;
+}
+
+/* Standardized Card Extensions */
+.quiz-card, 
+.resource-card,
+.question-card,
+.restricted-box {
+    border-left: 4px solid var(--primary-accent);
+    margin-bottom: 18px; 
+    padding: 24px;
 }
 
 .header-card::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
+    top: 0; left: 0; right: 0; height: 5px;
     background: linear-gradient(90deg, var(--secondary-accent), var(--primary-accent));
 }
 
@@ -74,6 +117,16 @@ body {
     font-size: 14px;
     font-weight: 400;
     line-height: 1.6;
+}
+
+.quiz-card h2, 
+.resource-card h2,
+.restricted-box h2 {
+    margin: 0 0 16px 0;
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    color: var(--text-heading);
+    font-weight: 500;
 }
 
 .view-count {
@@ -103,52 +156,66 @@ body {
     color: var(--text-heading);
 }
 
-/* Buttons, shared by every page */
+/* --- BUTTONS --- */
 .btn {
-    display: inline-block;
-    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 18px;
     border-radius: 8px;
-    text-decoration: none;
     font-size: 13px;
-    font-weight: 500;
-    border: none;
+    font-weight: 600;
     cursor: pointer;
-    transition:
-        background-color 0.2s,
-        border-color 0.2s,
-        color 0.2s,
-        opacity 0.2s;
+    border: none;
+    transition: all 0.2s ease;
+    text-decoration: none;
 }
 
 .btn-primary {
     background: linear-gradient(120deg, var(--secondary-accent), var(--primary-accent));
     color: #000000;
-    border: 1px solid transparent;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .btn-primary:hover {
     opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 124, 123, 0.4);
 }
 
 .btn-secondary {
-    background-color: rgba(109, 164, 163, 0.05);
+    background: var(--surface-alt);
     color: var(--secondary-accent);
-    border: 1px solid rgba(109, 164, 163, 0.3);
+    border: 1px solid var(--surface-border);
+    backdrop-filter: blur(8px);
 }
 
 .btn-secondary:hover {
-    background-color: rgba(109, 164, 163, 0.15);
     border-color: var(--secondary-accent);
     color: var(--text-heading);
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.05);
 }
 
-/* Standardized Icon Button Utility */
+.btn-small {
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+.btn-circle {
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: var(--surface);
+    border: 2px solid var(--primary-accent);
+    color: var(--primary-accent);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
 .btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex;
     gap: 6px;
-    padding: 6px 12px;
 }
 
 .btn-icon svg {
@@ -156,7 +223,7 @@ body {
     height: 16px;
 }
 
-/* Loading / status messaging */
+/* --- UTILITIES & FORMS --- */
 #status-msg {
     text-align: center;
     color: var(--text-secondary);
@@ -164,7 +231,6 @@ body {
     font-size: 15px;
 }
 
-/* Error banner */
 .error-box {
     display: none;
     background-color: var(--red-bg);
@@ -176,45 +242,60 @@ body {
     font-size: 14px;
 }
 
-/* Shared max-width inner wrapper */
-.page-content {
-    max-width: 640px;
-    width: 100%;
-    margin: 0 auto;
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
 }
 
-/* Full-viewport shell */
-.page-shell {
+.card-title-text {
+    margin: 0;
+    padding-right: 15px;
+}
+
+.action-links-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.action-links-left {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.insert-btn-wrapper {
     display: flex;
     justify-content: center;
-    min-height: 100vh;
+    margin-top: -10px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 10;
 }
 
-/* Base surface card - Applied directly to dynamic elements */
-.quiz-card,
-.question-card,
-.resource-card {
-    background: var(--surface);
+.cms-row {
+    background: rgba(0,0,0,0.2);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
     border: 1px solid var(--surface-border);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    position: relative;
 }
 
-/* Standardized Card Extensions */
-.quiz-card, 
-.resource-card {
-    border-left: 4px solid var(--primary-accent);
-    margin-bottom: 18px; 
-}
-
-.quiz-card h2, 
-.resource-card h2 {
-    margin: 0 0 16px 0;
-    font-family: "Poppins", sans-serif;
-    font-size: 18px;
-    color: var(--text-heading);
-    font-weight: 500;
+.btn-close-row {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: transparent;
+    border: none;
+    color: var(--red-text);
+    cursor: pointer;
+    font-weight: bold;
 }
 
 /* --- Authentication & CMS Styles --- */
@@ -270,6 +351,7 @@ body.admin-mode .admin-only-block { display: block !important; }
 }
 .modal-content h2 { margin-top: 0; color: var(--text-heading); font-family: "Poppins", sans-serif; }
 .form-group { margin-bottom: 16px; }
+.form-group-sm { margin-bottom: 8px; }
 .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary); }
 .form-group input, .form-group textarea, .form-group select {
     width: 100%; padding: 10px 12px; border-radius: 8px;
@@ -302,6 +384,9 @@ body.admin-mode .admin-only-block { display: block !important; }
 }
 .auth-form-section { display: none; }
 .auth-form-section.active { display: block; }
+.auth-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+.auth-group-header { display: flex; justify-content: space-between; }
+.auth-link { font-size: 12px; color: var(--primary-accent); text-decoration: none; }
 
 /* Shared Guest Promo Message */
 .guest-promo-msg {
@@ -311,11 +396,7 @@ body.admin-mode .admin-only-block { display: block !important; }
     font-weight: 600;
     font-size: 14px;
 }
-
-.guest-promo-msg a {
-    color: inherit;
-    text-decoration: underline;
-}
+.guest-promo-msg a { color: inherit; text-decoration: underline; }
 
 /* --- Discord Promo Strip --- */
 .discord-promo {
@@ -331,157 +412,19 @@ body.admin-mode .admin-only-block { display: block !important; }
     gap: 12px;
     position: relative;
     z-index: 2;
+    backdrop-filter: blur(8px);
 }
 
-.discord-promo-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-heading);
-    font-size: 14px;
-    font-weight: 500;
-}
+.discord-promo-content { display: flex; align-items: center; gap: 10px; color: var(--text-heading); font-size: 14px; font-weight: 500; }
+.discord-promo-actions { display: flex; gap: 10px; }
+.btn-discord { background: #5865F2; color: #ffffff; border: 1px solid #5865F2; }
+.btn-discord:hover { background: #4752C4; border-color: #4752C4; color: #ffffff; }
+.btn-discord-outline { background: transparent; color: #5865F2; border: 1px solid #5865F2; }
+.btn-discord-outline:hover { background: rgba(88, 101, 242, 0.1); color: #ffffff; }
 
-.discord-promo-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-discord {
-    background: #5865F2;
-    color: #ffffff;
-    border: 1px solid #5865F2;
-}
-
-.btn-discord:hover {
-    background: #4752C4;
-    border-color: #4752C4;
-    color: #ffffff;
-}
-
-.btn-discord-outline {
-    background: transparent;
-    color: #5865F2;
-    border: 1px solid #5865F2;
-}
-
-.btn-discord-outline:hover {
-    background: rgba(88, 101, 242, 0.1);
-    color: #ffffff;
-}
-
-/* --- Extracted JavaScript Inline Styles (DRY) --- */
 .restricted-box {
     text-align: center;
-    padding: 40px;
-    background: var(--surface);
-    border-radius: 16px;
-    border: 1px solid var(--surface-border);
-    margin-top: 20px;
 }
-
-.restricted-box h2 {
-    margin-top: 0;
-    color: var(--text-heading);
-}
-
-.restricted-box a {
-    color: var(--primary-accent);
-    text-decoration: underline;
-}
-
-.error-text {
-    text-align: center;
-    color: var(--red-text);
-}
-
-.card-header-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 16px;
-}
-
-.card-title-text {
-    margin: 0;
-    padding-right: 15px;
-}
-
-.action-links-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.action-links-left {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-small {
-    padding: 4px 10px;
-    font-size: 12px;
-}
-
-.insert-btn-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: -10px;
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 10;
-}
-
-.btn-circle {
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    padding: 0;
-    background: var(--surface);
-    border: 2px solid var(--primary-accent);
-    color: var(--primary-accent);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-.cms-row {
-    background: rgba(0,0,0,0.2);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border: 1px solid var(--surface-border);
-    position: relative;
-}
-
-.btn-close-row {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    background: transparent;
-    border: none;
-    color: var(--red-text);
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.form-group-sm {
-    margin-bottom: 8px;
-}
-
-.auth-subtitle {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-}
-
-.auth-group-header {
-    display: flex;
-    justify-content: space-between;
-}
-
-.auth-link {
-    font-size: 12px;
-    color: var(--primary-accent);
-    text-decoration: none;
-}
+.restricted-box h2 { margin-top: 0; color: var(--text-heading); }
+.restricted-box a { color: var(--primary-accent); text-decoration: underline; }
+.error-text { text-align: center; color: var(--red-text); }

@@ -59,7 +59,9 @@
     padding: 28px;
     border-radius: 20px;
     margin-bottom: 26px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03);
     text-align: center;
 }
 
@@ -103,8 +105,8 @@
 
 /* --- Header Action Buttons (Save / Reset) Container --- */
 .quiz-header-actions {
-    display: none; /* JS toggles this to 'flex' for logged-in users */
-    justify-content: flex-end; /* Aligns buttons to the right */
+    display: none; 
+    justify-content: flex-end; 
     gap: 8px;
-    margin-top: 16px; /* Provides breathing room between text and buttons */
+    margin-top: 16px; 
 }

@@ -11,7 +11,6 @@
     margin-bottom: 20px;
 }
 
-/* Loading text styling */
 #loading {
     text-align: center;
     color: var(--text-secondary);
@@ -21,8 +20,8 @@
 
 .quiz-card {
     transition:
-        transform 0.15s ease,
-        border-color 0.15s ease;
+        transform 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .quiz-card:hover {
@@ -36,7 +35,7 @@
     flex-wrap: wrap;
 }
 
-/* Elegant Quiz Card Adjustments */
+/* Elegant Quiz Card Adjustments with Glass */
 .smart-badge {
     padding: 4px 12px;
     border-radius: 12px;
@@ -51,6 +50,7 @@
         var(--badge-bg-fill, rgba(74, 124, 123, 0.25)) var(--fill-percent, 0%), 
         rgba(26, 47, 51, 0.4) var(--fill-percent, 0%)
     );
+    backdrop-filter: blur(4px);
 }
 
 .fallback-badge {
