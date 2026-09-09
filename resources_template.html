@@ -15,9 +15,12 @@
                 <input type="hidden" id="res-edit-key">
                 <div class="form-group"><label>Group Title</label><input type="text" id="cms-res-title" placeholder="e.g. 1. Classical Machine Learning"></div>
                 
-                <h3 style="font-size: 14px; margin-bottom: 5px; color: var(--text-heading);">Links / Sub-resources</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h3 style="font-size: 14px; margin: 0; color: var(--text-heading);">Links / Sub-resources</h3>
+                    <button class="btn btn-secondary btn-small" onclick="window.resourcesApp.addSubResourceRow(undefined, document.getElementById('sub-resources-container').firstElementChild)">+ Add at Top</button>
+                </div>
                 <div id="sub-resources-container"></div>
-                <button class="btn btn-secondary" style="margin-top:10px; width:100%;" onclick="window.resourcesApp.addSubResourceRow()">+ Add Link</button>
+                <button class="btn btn-secondary" style="margin-top:10px; width:100%;" onclick="window.resourcesApp.addSubResourceRow()">+ Add Link at Bottom</button>
 
                 <div class="form-actions">
                     <button class="btn btn-secondary" onclick="document.getElementById('resource-modal').style.display='none'">Cancel</button>

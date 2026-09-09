@@ -276,17 +276,23 @@ class ResourcesApp {
     modal.style.display = 'flex';
   }
 
-  addSubResourceRow(data = {title: "", desc: "", link: ""}) {
+  addSubResourceRow(data = {title: "", desc: "", link: ""}, insertBeforeElement = null) {
     const container = document.getElementById('sub-resources-container');
     const row = document.createElement('div');
     row.className = "cms-row";
     row.innerHTML = `
-      <button type="button" class="btn-close-row" onclick="this.parentElement.remove()">X</button>
+      <button type="button" class="btn-close-row" onclick="this.parentElement.remove()" title="Delete Row">X</button>
+      <button type="button" class="btn-close-row" style="right: 35px; color: var(--secondary-accent);" title="Insert Link Below" onclick="window.resourcesApp.addSubResourceRow(undefined, this.parentElement.nextSibling)">+</button>
       <div class="form-group form-group-sm"><label>Bullet Title</label><input type="text" class="sub-title" value="${data.title || ''}"></div>
       <div class="form-group form-group-sm"><label>Link Text (Description)</label><input type="text" class="sub-desc" value="${data.desc || ''}"></div>
       <div class="form-group"><label>URL Link</label><input type="text" class="sub-link" value="${data.link || ''}"></div>
     `;
-    container.appendChild(row);
+    
+    if (insertBeforeElement) {
+        container.insertBefore(row, insertBeforeElement);
+    } else {
+        container.appendChild(row);
+    }
   }
 
   async saveResourceGroup() {
