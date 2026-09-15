@@ -18,6 +18,17 @@
     padding: 40px 0;
 }
 
+.quiz-card {
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.quiz-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary-accent);
+}
+
 .action-links {
     display: flex;
     gap: 10px;
@@ -28,13 +39,22 @@
 .smart-badge {
     padding: 4px 12px;
     border-radius: 12px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     white-space: nowrap; 
     
-    color: var(--hover-green);
-    border: 1px solid rgba(0, 230, 184, 0.3);
-    background: rgba(0, 230, 184, 0.1); 
+    /* Dynamically controlled by portal.js (Red, Yellow, Teal, Green) */
+    color: var(--badge-color, var(--hover-green));
+    border: 1px solid var(--badge-color, rgba(0, 230, 184, 0.3));
+    
+    /* Restored the progress bar gradient fill, blending into a dark translucent glass */
+    background: linear-gradient(
+        to right, 
+        var(--badge-bg-fill, rgba(0, 230, 184, 0.15)) var(--fill-percent, 0%), 
+        rgba(8, 15, 17, 0.4) var(--fill-percent, 0%)
+    );
+    
+    /* Retains the modern liquid glass feel */
     backdrop-filter: blur(4px);
 }
 
