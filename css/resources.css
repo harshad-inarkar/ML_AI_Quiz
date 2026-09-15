@@ -1,33 +1,51 @@
 .resource-list {
     margin: 0;
-    padding-left: 22px;
+    padding-left: 20px;
 }
 
 .resource-list li {
     margin-bottom: 14px;
     font-size: 14px;
     line-height: 1.6;
-    color: var(--text-primary);
+    color: var(--text-secondary); /* Muted description text */
+}
+
+.resource-list strong {
+    color: var(--text-heading); /* Bright white for titles */
+    font-weight: 500;
 }
 
 .resource-list a {
-    color: var(--secondary-accent);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    text-decoration-color: rgba(109, 164, 163, 0.3);
+    color: var(--secondary-accent); /* Base teal color for links */
+    text-decoration: none; /* Modern sites drop the underline by default */
     font-weight: 500;
     word-break: break-all;
+    transition: color 0.25s ease;
+    position: relative;
     display: inline-block;
-    will-change: color;
-    transition:
-        color 0.2s ease,
-        text-decoration-color 0.2s ease;
+}
+
+/* Modern animated sliding underline */
+.resource-list a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--hover-green);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
 }
 
 .resource-list a:hover {
-    color: var(--text-heading);
-    text-decoration-color: var(--secondary-accent);
+    color: var(--hover-green); /* Turns bright green on hover */
+}
+
+.resource-list a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
 }
 
 .resource-empty-message {

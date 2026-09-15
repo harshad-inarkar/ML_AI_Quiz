@@ -3,17 +3,25 @@
 :root {
     --bg-main: #000000;
     
-    /* Restored the beautiful teal-tinted glass base */
-    --surface: rgba(15, 30, 33, 0.5);      
-    --surface-alt: rgba(22, 43, 46, 0.7);  
-    --surface-border: rgba(109, 164, 163, 0.35); /* Stronger teal border */
+    /* Original Teal Card Backgrounds */
+    --surface: rgba(18, 38, 40, 0.45);      
+    --surface-alt: rgba(26, 53, 56, 0.65);  
+    --surface-border: rgba(109, 164, 163, 0.35); 
+    --glass-edge: rgba(255, 255, 255, 0.08); /* Crisp top edge reflection */
     
-    /* Original Palette */
+    /* Primary / Secondary Defaults */
     --primary-accent: #4a7c7b;             
     --secondary-accent: #6da4a3;           
+    --hover-green: #00e6b8; /* Vibrant green reserved for modern hovers */
+    
     --text-primary: #cbd5e1;
     --text-heading: #ffffff; 
     --text-secondary: #94a3b8;
+    
+    /* Deep Liquid Mesh Lights */
+    --mesh-1: rgba(74, 124, 123, 0.18);
+    --mesh-2: rgba(109, 164, 163, 0.12);
+    --mesh-3: rgba(40, 70, 75, 0.2);
 
     --green-bg: rgba(74, 124, 123, 0.15);
     --green-text: #6da4a3;
@@ -27,21 +35,15 @@
     box-sizing: border-box;
 }
 
-/* --- THE LIQUID GLASS ENGINE --- */
+/* --- THE COMPLEX LIQUID MESH BACKGROUND --- */
 body {
     font-family: "Inter", Arial, sans-serif;
     background-color: var(--bg-main);
-    
-    /* 
-       Wide, sweeping ambient lights that don't overpower the black background.
-       This gives the frosted glass something colorful to blur.
-    */
     background-image: 
-        radial-gradient(ellipse 100% 50% at 50% -10%, rgba(74, 124, 123, 0.2) 0%, transparent 100%),
-        radial-gradient(ellipse 70% 70% at 100% 100%, rgba(109, 164, 163, 0.12) 0%, transparent 100%),
-        radial-gradient(ellipse 70% 70% at 0% 100%, rgba(74, 124, 123, 0.1) 0%, transparent 100%);
+        radial-gradient(ellipse 80% 50% at 20% -10%, var(--mesh-1) 0%, transparent 100%),
+        radial-gradient(ellipse 60% 80% at 90% 40%, var(--mesh-2) 0%, transparent 100%),
+        radial-gradient(ellipse 100% 60% at 50% 110%, var(--mesh-3) 0%, transparent 100%);
     background-attachment: fixed;
-    
     color: var(--text-primary);
     margin: 0;
     padding: 24px 20px 48px;
@@ -51,21 +53,19 @@ body {
     min-height: 100vh;
 }
 
-/* Shared max-width inner wrapper */
 .page-content {
     max-width: 640px;
     width: 100%;
     margin: 0 auto;
 }
 
-/* Full-viewport shell */
 .page-shell {
     display: flex;
     justify-content: center;
     min-height: 100vh;
 }
 
-/* --- BASE GLASS SHARED PROPERTIES --- */
+/* --- ORIGINAL TEAL GLASS CARDS --- */
 .header-card,
 .quiz-card,
 .question-card,
@@ -73,24 +73,19 @@ body {
 .modal-content,
 .restricted-box {
     position: relative;
-    /* A subtle gradient gives the liquid glass 3D volume */
-    background: linear-gradient(145deg, rgba(22, 43, 46, 0.55), rgba(11, 21, 23, 0.35));
+    background: linear-gradient(160deg, var(--surface), rgba(8, 15, 17, 0.4));
     border: 1px solid var(--surface-border);
     border-radius: 16px;
     padding: 30px 28px 26px;
     margin-bottom: 26px;
-    
-    /* Heavy blur for thick glass distortion */
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    
-    /* Rich shadow for depth, crisp white inset for the glass edge reflection */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 
+                inset 0 1px 0 var(--glass-edge);
+    transition: all 0.3s ease;
     overflow: hidden;
 }
 
-/* Specific Card Layouts */
 .quiz-card, 
 .resource-card,
 .question-card,
@@ -98,6 +93,15 @@ body {
     border-left: 4px solid var(--primary-accent);
     margin-bottom: 18px; 
     padding: 24px;
+}
+
+.quiz-card:hover,
+.resource-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary-accent);
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.9), 
+                inset 0 1px 0 var(--glass-edge),
+                0 0 20px rgba(109, 164, 163, 0.05);
 }
 
 .header-card::before {
@@ -184,9 +188,10 @@ body {
 }
 
 .btn-primary:hover {
+    background: linear-gradient(135deg, var(--secondary-accent), var(--hover-green));
     opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 124, 123, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 230, 184, 0.4);
 }
 
 .btn-secondary {
@@ -197,10 +202,10 @@ body {
 }
 
 .btn-secondary:hover {
-    border-color: var(--secondary-accent);
-    color: var(--text-heading);
-    transform: translateY(-2px);
-    background: rgba(255,255,255,0.05);
+    border-color: var(--hover-green);
+    color: var(--hover-green);
+    background: rgba(0, 230, 184, 0.05);
+    transform: translateY(-1px);
 }
 
 .btn-small {
@@ -213,7 +218,7 @@ body {
     width: 28px;
     height: 28px;
     padding: 0;
-    background: rgba(22, 43, 46, 0.8);
+    background: rgba(26, 53, 56, 0.8);
     border: 2px solid var(--primary-accent);
     color: var(--primary-accent);
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -351,7 +356,7 @@ body.admin-mode .admin-only-block { display: block !important; }
     justify-content: center; align-items: center; padding: 20px;
 }
 .modal-content {
-    background: rgba(15, 30, 33, 0.95); /* Deep dark teal glass for modals */
+    background: rgba(15, 30, 33, 0.95);
     border: 1px solid var(--surface-border);
     padding: 30px; width: 100%; max-width: 500px;
     max-height: 90vh; overflow-y: auto; 
@@ -366,7 +371,7 @@ body.admin-mode .admin-only-block { display: block !important; }
     background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(109, 164, 163, 0.3);
     color: var(--text-primary); font-family: "Inter", sans-serif;
 }
-.form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--secondary-accent); }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--hover-green); }
 .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
 
 /* Auth Modal Tabs */
