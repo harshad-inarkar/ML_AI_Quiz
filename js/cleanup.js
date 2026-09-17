@@ -1,9 +1,9 @@
 /**
- * Admin utility to scan the Realtime Database and remove orphaned records 
- * (scores, quiz_states, usernames) that belong to deleted users.
+ * Admin utility to scan the Realtime Database and remove orphaned records.
+ * Performs Strict Two-Way Validation between 'users' and 'usernames'.
  */
 async function runClientCleanup() {
-    if (!confirm("Run database cleanup?\n\nThis will scan and remove orphaned DB records belonging to deleted users.")) return;
+    if (!confirm("Run strict database cleanup?\n\nThis will scan for mismatches between users and usernames, and permanently remove all dangling/orphaned records.")) return;
     
     const db = firebase.database();
     try {
@@ -20,8 +20,6 @@ async function runClientCleanup() {
         const users = usersSnap.val();
         
         // --- STRICT SAFETY CHECK ---
-        // If the users node is null or empty (due to a rule block or network error), 
-        // abort immediately so we don't accidentally wipe everyone's scores!
         if (!users || Object.keys(users).length === 0) {
             alert("⚠️ SAFETY ABORT: Could not read the 'users' node, or it is empty. Cleanup cancelled to prevent data loss. Please check your Database Rules.");
             return;
@@ -31,19 +29,36 @@ async function runClientCleanup() {
         const scores = scoresSnap.val() || {};
         const states = statesSnap.val() || {};
 
-        const validUids = new Set(Object.keys(users));
+        const validUids = new Set();
         let deletedCount = 0;
-        const updates = {}; // We will perform a single atomic multi-path update
+        const updates = {}; // Atomic multi-path update
 
-        // 2. Scan for orphaned usernames
+        // 2. TWO-WAY VALIDATION: Check Users against Usernames
+        for (const [uid, profile] of Object.entries(users)) {
+            const claimedUsername = profile.username;
+            
+            // If the username mapping points exactly back to this UID, it is perfectly valid
+            if (claimedUsername && usernames[claimedUsername] === uid) {
+                validUids.add(uid);
+            } else {
+                // MISMATCH: The user exists, but the username mapping is missing or points to someone else.
+                console.log(`[Mismatch] Invalidating dangling user profile: ${uid}`);
+                updates[`users/${uid}`] = null;
+                deletedCount++;
+            }
+        }
+
+        // 3. Scan for orphaned/dangling usernames
         for (const [uname, uid] of Object.entries(usernames)) {
+            // If the UID this username points to wasn't validated in Step 2, wipe it.
             if (!validUids.has(uid)) {
+                console.log(`[Orphan] Deleting dangling username: ${uname}`);
                 updates[`usernames/${uname}`] = null;
                 deletedCount++;
             }
         }
         
-        // 3. Scan for orphaned scores
+        // 4. Scan for orphaned scores
         for (const uid of Object.keys(scores)) {
             if (!validUids.has(uid)) {
                 updates[`scores/${uid}`] = null;
@@ -51,7 +66,7 @@ async function runClientCleanup() {
             }
         }
         
-        // 4. Scan for orphaned quiz states
+        // 5. Scan for orphaned quiz states
         for (const uid of Object.keys(states)) {
             if (!validUids.has(uid)) {
                 updates[`quiz_states/${uid}`] = null;
@@ -59,12 +74,12 @@ async function runClientCleanup() {
             }
         }
 
-        // 5. Execute deletion safely
+        // 6. Execute deletion safely
         if (deletedCount > 0) {
             await db.ref().update(updates);
-            alert(`✅ Cleanup complete!\n\nRemoved ${deletedCount} orphaned records from the database.`);
+            alert(`✅ Cleanup complete!\n\nRemoved ${deletedCount} inconsistent or orphaned records from the database.`);
         } else {
-            alert("✅ Database is clean.\n\nNo orphaned records found.");
+            alert("✅ Database is perfectly consistent.\n\nNo mismatched or orphaned records found.");
         }
 
     } catch (e) {

@@ -91,6 +91,11 @@
             "desc": "Perceptron Practice NewsGroup data [By Harshad]",
             "link": "https://colab.research.google.com/drive/1vZp5SPfvq2Q7vhsAFmCnwVq-9gpZABu0",
             "title": "Perceptron Practice Assignment [By Harshad]"
+          },
+          {
+            "desc": "pytorch_colab_d2l",
+            "link": "https://colab.research.google.com/github/harshad-inarkar/ML_AI_Quiz/blob/main/code_workspace/d2l/pytorch/index.ipynb",
+            "title": "Colab notebooks: Book: Dive into Deep Learning"
           }
         ],
         "title": "Colab Notebooks: Module-2-Deeplearning"
@@ -103,14 +108,29 @@
             "title": "Attention Visualisation"
           },
           {
-            "desc": "Transformer_for_Translation_GREAT_LEARNING.ipynb",
-            "link": "https://colab.research.google.com/drive/15AChTVgpDHmflAb7m28tn64DLfWgi8Tv",
-            "title": "Transformer for Translation - EN to HI"
-          },
-          {
             "desc": "Great_Learning_Transformer_for_Translation_29/Aug.ipynb",
             "link": "https://colab.research.google.com/drive/1eAuZPoo05nfdEazRE_lWD1nfUH6jkR2i",
             "title": "Transformer for Translation - EN to HI TA Session 29-Aug"
+          },
+          {
+            "desc": "transformer-EN-HI-first-10k-harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/1v5gsfCFlBxH2jTFhvFeIxw4sYJPRFLk6",
+            "title": "Transformer- EN to HI -Fix-First-10k - by Harshad"
+          },
+          {
+            "desc": "transformer-EN-HI-fixed-50k_random_harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/1JY6y6pCEWxYfNP0L__Qu__Lb4Ivat946",
+            "title": "Transformer - EN to HI -Fix-random-50k - by Harshad"
+          },
+          {
+            "desc": "transformer_en_hi_structured_opt_harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/1I3bN_dNQ-bl6qAhPf23WTTLh0FnQsdUg",
+            "title": "Transformer-New-Structured-Optimised-random-50k - by Harshad"
+          },
+          {
+            "desc": "transformer_en_hi_en_mr_structured_opt_harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/1xRsvUx13JPhsmFfNWtDBWB-9Ras_g6cu",
+            "title": "Transformer-Structured-50k-EN-HI  & EN-MR - by Harshad"
           },
           {
             "desc": "Great_Learning_BERT_30/Aug.ipynb",
@@ -121,20 +141,273 @@
             "desc": "BERT_NSP_Explained.ipynb",
             "link": "https://colab.research.google.com/drive/1CQmSuMxoMYBMLKfPUOMv1sK76izWEY6-",
             "title": "Next Sentence Prediction (NSP) with BERT"
+          },
+          {
+            "desc": "GenAI_LLM_Classification_and_Data_Labelling_Final.ipynb",
+            "link": "https://colab.research.google.com/drive/12yIXhsXy7is1qTxF4Ov8MyKSHDhJF2IR",
+            "title": "LLM Text Classification & LLM-Based Data Labelling (Live session)"
+          },
+          {
+            "desc": "llm-classification-fixed-optimised-harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/15GQa3agK7CW8ISpij00iUi-dfhcfLbPR",
+            "title": "LLM Classification -Fixed/Optimised - by Harshad)"
+          },
+          {
+            "desc": "GenAI_LLM_Classification_and_Data_Labelling_Final_smallQwenmodel.ipynb",
+            "link": "https://colab.research.google.com/drive/149LqjWyc87jTad9uQRldYNF8HOkHKaLi",
+            "title": "LLM Classification  Small model (Live session)"
+          },
+          {
+            "desc": "LLM_Classification_small_model_harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/1mbGe8JFmjbR2UXbMWfkdIrt_QNtHp4pB",
+            "title": "LLM Classification  Small model (Fixed/Optimised/Exercise Soution)"
+          },
+          {
+            "desc": "GenAI_LLM_Generation_and_Summarization_Final.ipynb",
+            "link": "https://colab.research.google.com/drive/1M2rTf2WyoYOQcmqHrx09QvndjUJVLLg_",
+            "title": "LLM Text Generation & Summarization (Live Session)"
+          },
+          {
+            "desc": "LLM_Generation_and_Summarization_harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/1TQeYOwZ6nOF7hrxX4QUEMZ-rTBEaheRR",
+            "title": "LLM Text Generation & Summarization (Optimised by Harshad)"
+          },
+          {
+            "desc": "llm_translation_EN-HI_EN-MR_optimised_harshad.ipynb",
+            "link": "https://colab.research.google.com/drive/1O8GKLRFbt5JQJr6vhqC0NBwWPgwyEIdc",
+            "title": "LLM LoRA Fine tuning Translation EN-HI & EN-MR  by Harshad"
           }
         ],
         "title": "Colab Notebooks: Module-3-NLP"
+      },
+      {
+        "resources": [
+          {
+            "desc": "depression_detection_speech.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/code_workspace/depression_detection_speech.pdf",
+            "title": "Depression Detection using speech as Input Signal: Aniket, Prinkle, Bhavya ,Bhakti"
+          },
+          {
+            "desc": "bhagavadgita_slm_architecture",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/code_workspace/bhagavadgita_slm_architecture.pdf",
+            "title": "Sanskrit To Eng Translation Bhagavadgita SLM"
+          },
+          {
+            "desc": "whatsapp_chatbot_architecture",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/code_workspace/whatsapp_chatbot_architecture.pdf",
+            "title": "WhatsApp Group Chat Q&A Chatbot"
+          },
+          {
+            "desc": "gameofthrones_chatbot_architecture",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/code_workspace/gameofthrones_chatbot_architecture.pdf",
+            "title": "Game of Thrones Book Q&A Chatbot"
+          },
+          {
+            "desc": "mahabharata_translation_chatbot_slm_architecture",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/code_workspace/mahabharata_slm_architecture.pdf",
+            "title": "Mahabharata Translation Engine & Strictly Guardrailed Q&A Architecture"
+          },
+          {
+            "desc": "small-language-model-from-scratch-trained-bhagavadgita",
+            "link": "https://www.linkedin.com/pulse/i-built-small-language-model-from-scratch-trained-bhagavad-pratap-gx0ac/",
+            "title": "Linkedin Pulse: SLM from Scratch: Trained on the Bhagavad Gita"
+          },
+          {
+            "desc": "github-learn-slm",
+            "link": "https://github.com/AdityaDaksha/learn-slm",
+            "title": "Github Repo: SLM from Scratch: Trained on the Bhagavad Gita"
+          },
+          {
+            "desc": "gpt-dev.ipynb",
+            "link": "https://colab.research.google.com/drive/1JMLa53HDuA-i7ZBmqV7ZnA3c_fvtXnx-",
+            "title": "Andrej Karpathy:  GPT from Scratch Code Pytorch"
+          },
+          {
+            "desc": "github_nanogpt",
+            "link": "https://github.com/karpathy/nanoGPT",
+            "title": "Andrej Karpathy: Github Repo:  Nanogpt"
+          },
+          {
+            "desc": "github_nanochat",
+            "link": "https://github.com/karpathy/nanochat",
+            "title": "Andrej Karpathy: Github Repo:  Nanochat"
+          },
+          {
+            "desc": "AI4Bharat_IndicTrans2",
+            "link": "https://github.com/AI4Bharat/IndicTrans2",
+            "title": "Github Repo: AI4Bharat : IndicTrans2:  Transformer-based  on 22 scheduled Indic languages"
+          }
+        ],
+        "title": "Projects"
+      }
+    ],
+    "courses": [
+      null,
+      {
+        "resources": [
+          {
+            "desc": "python_corey_schafer",
+            "link": "https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU",
+            "title": "Youtube: Python Tutorials by Corey Schafer"
+          },
+          {
+            "desc": "kaggle_python_certificate",
+            "link": "https://www.kaggle.com/learn/python",
+            "title": "Kaggle: Python Fundamentals"
+          }
+        ],
+        "title": "Python Fundamentals"
+      },
+      {
+        "resources": [
+          {
+            "desc": "ML Spec",
+            "link": "https://www.deeplearning.ai/specializations/machine-learning",
+            "title": "Machine Learning Specialization"
+          },
+          {
+            "desc": "GenAI_LLM",
+            "link": "https://www.deeplearning.ai/courses/generative-ai-with-llms",
+            "title": "Generative AI with Large Language Models"
+          },
+          {
+            "desc": "attention-in-transformers-concepts-and-code-in-pytorch",
+            "link": "https://www.deeplearning.ai/courses/attention-in-transformers-concepts-and-code-in-pytorch",
+            "title": "Attention in Transformers: Concepts and Code in PyTorch"
+          },
+          {
+            "desc": "langchain",
+            "link": "https://www.deeplearning.ai/courses/langchain",
+            "title": "LangChain for LLM Application Development"
+          },
+          {
+            "desc": "retrieval-augmented-generation",
+            "link": "https://www.deeplearning.ai/courses/retrieval-augmented-generation",
+            "title": "Retrieval Augmented Generation (RAG)"
+          },
+          {
+            "desc": "reasoning-with-o1",
+            "link": "https://www.deeplearning.ai/courses/reasoning-with-o1",
+            "title": "Reasoning with o1"
+          },
+          {
+            "desc": "functions-tools-agents-langchain",
+            "link": "https://www.deeplearning.ai/courses/functions-tools-agents-langchain",
+            "title": "Functions, Tools and Agents with LangChain"
+          },
+          {
+            "desc": "ai-agents-in-langgraph",
+            "link": "https://www.deeplearning.ai/courses/ai-agents-in-langgraph",
+            "title": "AI Agents in LangGraph"
+          },
+          {
+            "desc": "multi-ai-agent-systems-with-crewai",
+            "link": "https://www.deeplearning.ai/courses/multi-ai-agent-systems-with-crewai",
+            "title": "Multi AI Agent Systems with crewAI"
+          },
+          {
+            "desc": "evaluating-ai-agents",
+            "link": "https://www.deeplearning.ai/courses/evaluating-ai-agents",
+            "title": "Evaluating AI Agents"
+          },
+          {
+            "desc": "building-multimodal-data-pipelines",
+            "link": "https://www.deeplearning.ai/courses/building-multimodal-data-pipelines",
+            "title": "Building Multimodal Data Pipelines"
+          }
+        ],
+        "title": "Deeplearning.ai:  Gen AI Learning Path"
+      },
+      {
+        "resources": [
+          {
+            "desc": "Deeplearning by Prof. Bryce",
+            "link": "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=1",
+            "title": "Youtube: Deeplearning lecture series by Prof. Bryce"
+          },
+          {
+            "desc": "MIT:2026: Deep Learning",
+            "link": "https://www.youtube.com/watch?v=II4giR4vOOo&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI",
+            "title": "Youtube: MIT:  Introduction to Deep Learning by Alexander Amini"
+          },
+          {
+            "desc": "MIT: Intro Deeplearning Materials",
+            "link": "https://introtodeeplearning.com/#schedule",
+            "title": "MIT: Intro Deeplearning | 6.S191  Slides/Labs"
+          },
+          {
+            "desc": "llm-course",
+            "link": "https://huggingface.co/learn/llm-course/chapter1/1",
+            "title": "Huggingface: LLM Course"
+          },
+          {
+            "desc": "build_llms_yann_dubois",
+            "link": "https://www.youtube.com/watch?si=meC12mscwMAorfjs&v=9vM4p9NN0Ts",
+            "title": "Youtube: Stanford: ML and Building LLMs by Yann Dubois"
+          },
+          {
+            "desc": "llm_agents_yann_dubois",
+            "link": "https://www.youtube.com/watch?v=r1qZpYAmqmg",
+            "title": "Youtube:LLM Agents Overview by Yann Dubois"
+          },
+          {
+            "desc": "3B1B_Visualization_nn_llm_series",
+            "link": "https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=1",
+            "title": "Youtube:  Best Visualization Series: 3Blue1Brown: NN, Transformer, LLM"
+          },
+          {
+            "desc": "3b1b_grant_visualizing_transformers",
+            "link": "https://www.youtube.com/watch?v=KJtZARuO3JY",
+            "title": "Youtube: Best Visualization : 3Blue1Brown : Grant :  Transformers Attention"
+          }
+        ],
+        "title": "Video Course Series"
+      },
+      {
+        "resources": [
+          {
+            "desc": "gpt_from_scratch",
+            "link": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+            "title": "Code Track: GPT from scratch"
+          },
+          {
+            "desc": "gpt_tokenizer",
+            "link": "https://www.youtube.com/watch?v=zduSFxRajkE",
+            "title": "Code Track: Let's build the GPT Tokenizer"
+          },
+          {
+            "desc": "reproduce_gpt2",
+            "link": "https://www.youtube.com/watch?v=l8pRSuU81PU",
+            "title": "Code Track: Let's reproduce GPT-2 (124M)"
+          },
+          {
+            "desc": "intro_transformers",
+            "link": "https://www.youtube.com/watch?v=XfpMkf4rD6E",
+            "title": "Stanford: Introduction to Transformers w/ Andrej Karpathy"
+          },
+          {
+            "desc": "intro_llm",
+            "link": "https://www.youtube.com/watch?v=zjkBMFhNj_g",
+            "title": "Nocode Track: Intro to Large Language Models"
+          },
+          {
+            "desc": "deepdive_llm",
+            "link": "https://www.youtube.com/watch?v=7xTGNNLPyMI",
+            "title": "Nocode Track: Deep Dive into LLMs like ChatGPT"
+          },
+          {
+            "desc": "usecase_llm",
+            "link": "https://www.youtube.com/watch?v=EWvNQjAaOHw",
+            "title": "Nocode Track: How I use LLMs"
+          }
+        ],
+        "title": "Andrej Karpathy LLM Video Series"
       }
     ],
     "index": [
       null,
       {
         "input_file": "input_mlp_quiz_1.json",
-        "resources_keys": [
-          "3",
-          "4",
-          "5"
-        ],
         "title": "Quiz 1: MLP, Act Funcs, GD"
       },
       {
@@ -151,11 +424,6 @@
       },
       {
         "input_file": "input_quiz_5.json",
-        "resources_keys": [
-          "6",
-          "7",
-          "8"
-        ],
         "title": "Quiz 5: RNN, Attention"
       },
       {
@@ -168,20 +436,10 @@
       },
       {
         "input_file": "input_quiz_8.json",
-        "resources_keys": [
-          "6",
-          "7",
-          "8"
-        ],
         "title": "Quiz 8: Transformers"
       },
       {
         "input_file": "input_quiz_9.json",
-        "resources_keys": [
-          "6",
-          "7",
-          "8"
-        ],
         "title": "Quiz 9: Transformers"
       }
     ],
@@ -192,7 +450,7 @@
           {
             "desc": "Module-1-ML",
             "link": "https://olympus.mygreatlearning.com/courses/149817",
-            "title": "Module-1 Foundations of Gen AI: Machine Learning"
+            "title": "Olympus: Module-1 Foundations of Gen AI: Machine Learning"
           },
           {
             "desc": "Book_ML_Tom_Mitchell",
@@ -203,36 +461,56 @@
             "desc": "Book_ML_with_Python",
             "link": "https://www.nrigroupindia.com/e-book/Introduction%20to%20Machine%20Learning%20with%20Python%20(%20PDFDrive.com%20)-min.pdf",
             "title": "Book: Introduction to Machine Learning with Python"
-          }
-        ],
-        "title": "Olympus: Module-1: Foundations of Gen AI"
-      },
-      {
-        "resources": [
+          },
           {
             "desc": "Kaggle Guide: OHE",
             "link": "https://www.kaggle.com/code/marcinrutecki/one-hot-encoding-everything-you-need-to-know/code",
-            "title": "One-Hot Encoding: Everything you need to know"
+            "title": "Preprocessing: One-Hot Encoding"
           },
           {
-            "desc": "Scikit-learn Documentation",
+            "desc": "scikit_col_transformer",
             "link": "https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html",
-            "title": "Column Transformer with Mixed Types"
+            "title": "Preprocessing: Column Transformer with Mixed Types"
           },
           {
             "desc": "DataCamp Tutorial",
             "link": "https://www.datacamp.com/tutorial/one-hot-encoding-python-tutorial",
-            "title": "One-Hot Encoding Python Tutorial"
+            "title": "Preprocessing: One-Hot Encoding Python Tutorial"
+          },
+          {
+            "desc": "ML_primer.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/ML_primer.pdf",
+            "title": "A Machine Learning Primer: Mihail Eric"
+          },
+          {
+            "desc": "Bishop_Pattern_Reco_ML.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/Bishop_Pattern_Reco_ML.pdf",
+            "title": "Bishop: Pattern Reco and ML"
+          },
+          {
+            "desc": "Introduction_to_Machine_Learning_with_Python.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/Introduction_to_Machine_Learning_with_Python.pdf",
+            "title": "Introduction to Machine Learning with Python"
+          },
+          {
+            "desc": "ml_berkeley.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/ml_berkeley.pdf",
+            "title": "Berkley Machine Learning"
+          },
+          {
+            "desc": "ML_qa.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/ML_qa.pdf",
+            "title": "Machine Learning Questions"
           }
         ],
-        "title": "Pre-processing Resources"
+        "title": "Module-1: Foundations of Gen AI- Classical ML"
       },
       {
         "resources": [
           {
             "desc": "Module-2-Deeplearning",
             "link": "https://olympus.mygreatlearning.com/courses/157286",
-            "title": "Module-2 Fundamentals of Deeplearning"
+            "title": "Olympus: Module-2 Fundamentals of Deeplearning"
           },
           {
             "desc": "Deep Learning Book",
@@ -240,154 +518,44 @@
             "title": "Deep Learning book: Ian Goodfellow and Yoshua Bengio and Aaron Courville"
           },
           {
-            "desc": "Perceptron Deck1",
-            "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8957909",
-            "title": "Perceptron Slide 18th July"
+            "desc": "DL-Book-tablet-pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/deeplearningbook_tablet.pdf",
+            "title": "Deep Learning Book"
           },
           {
-            "desc": "Module-2-Session1",
-            "link": "https://olympus.mygreatlearning.com/recordings/3084339",
-            "title": "Perceptron 18th July Recording"
-          },
-          {
-            "desc": "MLP Deck2",
-            "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8973903",
-            "title": "MLP Slide 25th July"
-          },
-          {
-            "desc": "Module-2-Session2",
-            "link": "https://olympus.mygreatlearning.com/recordings/3089921",
-            "title": "MLP 25th July Recording"
-          },
-          {
-            "desc": "MLP and Gradient Deck3",
-            "link": "https://olympus.mygreatlearning.com/courses/157286/modules/items/8997795",
-            "title": "MLP Gradients Slide 1st Aug"
-          },
-          {
-            "desc": "Module-2-Session3",
-            "link": "https://olympus.mygreatlearning.com/recordings/3095125",
-            "title": "MLP Gradients 1st Aug Recording"
-          }
-        ],
-        "title": "Olympus: Module-2: DeepLearning"
-      },
-      {
-        "resources": [
-          {
-            "desc": "Deeplearning by Prof. Bryce",
-            "link": "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=1",
-            "title": "Deeplearning lecture series by Prof. Bryce"
-          },
-          {
-            "desc": "MLP Feed Forward Networks",
-            "link": "https://www.youtube.com/watch?v=AsyPA69QBks&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9&index=7",
-            "title": "Feed Forward Network by Prof. Bryce"
-          },
-          {
-            "desc": "Deep Learning by Alexander Amini",
-            "link": "https://www.youtube.com/watch?v=II4giR4vOOo",
-            "title": "MIT:  Introduction to Deep Learning by Prof. Alexander Amini"
-          },
-          {
-            "desc": "Introduction to Deep Learning Lecture Series",
-            "link": "https://www.youtube.com/watch?v=II4giR4vOOo&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI&index=1",
-            "title": "MIT Introduction to Deep Learning | 6.S191 by  Alexander/Ava Amini"
-          },
-          {
-            "desc": "MIT: Intro Deeplearning Materials",
-            "link": "https://introtodeeplearning.com/#schedule",
-            "title": "MIT: Intro Deeplearning | 6.S191  Slides/Labs"
-          }
-        ],
-        "title": "Youtube: Deeplearning"
-      },
-      {
-        "resources": [
-          {
-            "desc": "Medium_link1",
+            "desc": "vanishing_gradient",
             "link": "https://medium.com/@ilyurek/understanding-the-vanishing-gradient-problem-and-the-role-of-activation-functions-f7cf33507925",
-            "title": "Vanishing Gradient in Neural Networks"
+            "title": "Medium: Vanishing Gradient in Neural Networks"
           },
           {
-            "desc": "Medium_link2",
+            "desc": "vanishing-gradient-problem-in-deep-learning",
             "link": "https://medium.com/@piyushkashyap045/understanding-the-vanishing-gradient-problem-in-deep-learning-840a9da6567f",
-            "title": "Vanishing Gradient in Neural Networks"
+            "title": "Medium: Vanishing Gradient in Neural Networks"
           },
           {
-            "desc": "Medium_link3",
+            "desc": "gradient-descent-adam-and-beyond",
             "link": "https://medium.com/@ilyurek/optimizers-a-deep-dive-into-gradient-descent-adam-and-beyond-e6a1d00bc9b0",
-            "title": "Gradient Descent Optimisers"
+            "title": "Medium: Gradient Descent Optimisers"
+          },
+          {
+            "desc": "deeplearning",
+            "link": "https://d2l.ai/index.html",
+            "title": "Book: Dive into Deep Learning: Aston Zhang, Zack, Mu Li, Alex J. Smola"
+          },
+          {
+            "desc": "d2l-en.pdf",
+            "link": "https://d2l.ai/d2l-en.pdf",
+            "title": "Book: PDF: Dive into Deep Learning:"
           }
         ],
-        "title": "Medium: Deeplearning Resources Gradients"
+        "title": "Module-2: DeepLearning"
       },
       {
         "resources": [
           {
             "desc": "Module-3-NLP",
             "link": "https://olympus.mygreatlearning.com/courses/149818",
-            "title": "Module-3 NLP"
-          }
-        ],
-        "title": "Olympus: Module-3: NLP-Attention-Transformers-LLMs"
-      },
-      {
-        "resources": [
-          {
-            "desc": "Build LLMs by Prof. Yann",
-            "link": "https://www.youtube.com/watch?si=meC12mscwMAorfjs&v=9vM4p9NN0Ts",
-            "title": "Stanford: ML and Building LLMs"
-          },
-          {
-            "desc": "Transformers by Andrej Karpathy",
-            "link": "https://www.youtube.com/watch?v=XfpMkf4rD6E",
-            "title": "Stanford: Introduction to Transformers w/ Andrej Karpathy"
-          },
-          {
-            "desc": "Transformers and Self-Attention by Prof. Bryce",
-            "link": "https://www.youtube.com/watch?v=e9-0BxyKG10",
-            "title": "Transformers and Self-Attention (DL 19) by Prof. Bryce"
-          },
-          {
-            "desc": "Deep Learning 6.S191: Lecture 2 by Ava Amini",
-            "link": "https://www.youtube.com/watch?v=d02VkQ9MP44",
-            "title": "MIT: 6.S191: RNN, Transformers, and Attention"
-          },
-          {
-            "desc": "Deep Learning 6.S191: Lecture 3",
-            "link": "https://www.youtube.com/watch?v=pqIcoskUuWs",
-            "title": "MIT: CNN by Alexander Amini"
-          },
-          {
-            "desc": "Deep Learning 6.S191: Slides/Labs",
-            "link": "https://introtodeeplearning.com/#schedule",
-            "title": "MIT: Deep Learning 6.S191: Slides/Labs by  Alexander/Ava Amini"
-          },
-          {
-            "desc": "attention-in-transformers-concepts-and-code-in-pytorch",
-            "link": "https://www.deeplearning.ai/courses/attention-in-transformers-concepts-and-code-in-pytorch",
-            "title": "Deeplearning.ai: Attention in Transformers"
-          },
-          {
-            "desc": "generative-ai-with-llms",
-            "link": "https://www.deeplearning.ai/courses/generative-ai-with-llms",
-            "title": "Deeplearning.ai: Generative AI with Large Language Models"
-          },
-          {
-            "desc": "llm-course",
-            "link": "https://huggingface.co/learn/llm-course/chapter1/1",
-            "title": "Huggingface: LLM Course"
-          }
-        ],
-        "title": "Video Sources:  RNN, Attention, Transformers, LLMs"
-      },
-      {
-        "resources": [
-          {
-            "desc": "Andrew NG: AI Engineering",
-            "link": "https://www.deeplearning.ai/the-batch/he-ai-engineering-skills-map-in-detail-building-and-deploying-ai-applications",
-            "title": "The AI Engineering Skills Map In Detail — Building and Deploying AI Applications"
+            "title": "Olympus: Module-3 NLP for GenAI"
           },
           {
             "desc": "criodo: attention-mechanism-math",
@@ -413,9 +581,124 @@
             "desc": "primer-llm-embedding",
             "link": "https://huggingface.co/spaces/hesamation/primer-llm-embedding?section=what_are_embeddings%3F",
             "title": "Huggingface: Primer Embeddings"
+          },
+          {
+            "desc": "Andrew NG: AI Engineering",
+            "link": "https://www.deeplearning.ai/the-batch/he-ai-engineering-skills-map-in-detail-building-and-deploying-ai-applications",
+            "title": "The AI Engineering Skills Map In Detail — Building and Deploying AI Applications"
+          },
+          {
+            "desc": "projector.tensorflow",
+            "link": "https://projector.tensorflow.org/",
+            "title": "Word2vec  - 200 dimensions, 10k points plotted"
+          },
+          {
+            "desc": "similarity_math.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/similarity_math.pdf",
+            "title": "Similarity Math"
+          },
+          {
+            "desc": "Generative-AI-and-LLMs-for-Dummies.pdf",
+            "link": "https://harshad-inarkar.github.io/ML_AI_Quiz/resources_dir/Generative-AI-and-LLMs-for-Dummies.pdf",
+            "title": "Snowflake: Generative AI and LLM"
+          },
+          {
+            "desc": "glove-word-embedding-in-nlp",
+            "link": "https://www.geeksforgeeks.org/nlp/glove-word-embedding-in-nlp/",
+            "title": "Geeksforgeeks: Glove Word Embedding in NLP"
+          },
+          {
+            "desc": "glove-global-vector-an-extension-to-word2vec",
+            "link": "https://medium.com/@abhishekjainindore24/glove-global-vector-an-extension-to-word2vec-embedding-technique-359ce4289908",
+            "title": "Medium: GloVe: extension to word2vec"
           }
         ],
-        "title": "NLP Attention Transformers  LLMs"
+        "title": "Module-3: NLP-Attention-Transformers-LLMs"
+      },
+      {
+        "resources": [
+          {
+            "desc": "transformer-explainer",
+            "link": "https://poloclub.github.io/transformer-explainer/",
+            "title": "Transformer Explainer"
+          },
+          {
+            "desc": "llm-visualization",
+            "link": "https://bbycroft.net/llm",
+            "title": "LLM Visualization"
+          },
+          {
+            "desc": "3blue1brown",
+            "link": "https://www.3blue1brown.com/?topic=neural-networks",
+            "title": "3Blue1Brown"
+          },
+          {
+            "desc": "illustrated-transformer",
+            "link": "https://jalammar.github.io/illustrated-transformer/",
+            "title": "Illustrated Transformer"
+          },
+          {
+            "desc": "tf-playground",
+            "link": "https://playground.tensorflow.org/",
+            "title": "TensorFlow Playground"
+          },
+          {
+            "desc": "pair-ai",
+            "link": "https://pair.withgoogle.com/explorables/",
+            "title": "PAIR AI Explorables"
+          },
+          {
+            "desc": "distill",
+            "link": "https://distill.pub/",
+            "title": "Distill"
+          },
+          {
+            "desc": "transformer-viz",
+            "link": "https://www.abhik.ai/concepts/category/transformers",
+            "title": "Transformer Viz"
+          },
+          {
+            "desc": "attention-variants",
+            "link": "https://magazine.sebastianraschka.com/p/visual-attention-variants",
+            "title": "Attention Variants"
+          },
+          {
+            "desc": "moe-guide",
+            "link": "https://maartengrootendorst.substack.com/p/a-visual-guide-to-mixture-of-experts",
+            "title": "Mixture of Experts"
+          },
+          {
+            "desc": "llm-inference",
+            "link": "https://handbook.modular.com/",
+            "title": "LLM Inference"
+          },
+          {
+            "desc": "embedding-atlas",
+            "link": "https://apple.github.io/embedding-atlas",
+            "title": "Apple Embedding Atlas"
+          },
+          {
+            "desc": "diffusion-explainer",
+            "link": "https://poloclub.github.io/diffusion-explainer/",
+            "title": "Diffusion Explainer"
+          },
+          {
+            "desc": "neuronpedia",
+            "link": "https://www.neuronpedia.org/",
+            "title": "Neuronpedia"
+          },
+          {
+            "desc": "seeing-theory",
+            "link": "https://seeing-theory.brown.edu/",
+            "title": "Seeing Theory"
+          },
+          {
+            "desc": "cnn-explainer",
+            "link": "https://poloclub.github.io/cnn-explainer/",
+            "title": "CNN Explainer"
+          }
+        ],
+        "title": "Visual AI Resources"
       },
       {
         "resources": [
@@ -1015,31 +1298,44 @@
     ]
   },
   "portal_downloads": {
+    "courses": {
+      "total": 4
+    },
     "main": {
-      "total": 21
+      "total": 30
     },
     "resources": {
-      "total": 43
+      "total": 47
     },
     "workspace": {
-      "total": 5
+      "total": 7
     }
   },
   "portal_views": {
+    "courses": {
+      "total": 153,
+      "unique": 21
+    },
     "main": {
-      "total": 1222,
-      "unique": 132
+      "total": 1397,
+      "unique": 151
     },
     "resources": {
-      "total": 858,
-      "unique": 144
+      "total": 1170,
+      "unique": 170
     },
     "workspace": {
-      "total": 165,
-      "unique": 31
+      "total": 480,
+      "unique": 76
     }
   },
   "quiz_states": {
+    "8MqmEybmToRQSp6t1XT1VibETEf2": {
+      "6": [
+        1,
+        0
+      ]
+    },
     "ExbTh2twaIPjX201DwrbBXCyDBs1": {
       "3": [
         1,
@@ -1092,6 +1388,28 @@
       ]
     },
     "mAnrJ7mq15QDdp9hpG0VbHJ2lV02": {
+      "1": [
+        1,
+        2
+      ],
+      "5": [
+        1,
+        3,
+        2,
+        3,
+        3,
+        2,
+        3,
+        1,
+        0,
+        1,
+        0,
+        0,
+        2,
+        1,
+        3,
+        2
+      ],
       "6": [
         0,
         0,
@@ -1146,11 +1464,11 @@
   },
   "quiz_views": {
     "quiz_1": {
-      "total": 248,
-      "unique": 76
+      "total": 252,
+      "unique": 78
     },
     "quiz_2": {
-      "total": 140,
+      "total": 142,
       "unique": 46
     },
     "quiz_3": {
@@ -1162,11 +1480,11 @@
       "unique": 26
     },
     "quiz_5": {
-      "total": 32,
+      "total": 33,
       "unique": 7
     },
     "quiz_6": {
-      "total": 15,
+      "total": 22,
       "unique": 7
     },
     "quiz_7": {
@@ -1174,12 +1492,12 @@
       "unique": 5
     },
     "quiz_8": {
-      "total": 5,
-      "unique": 3
+      "total": 6,
+      "unique": 4
     },
     "quiz_9": {
-      "total": 3,
-      "unique": 3
+      "total": 4,
+      "unique": 4
     }
   },
   "quizzes": {
@@ -5143,6 +5461,35 @@
     "autosave_interval_ms": 15000,
     "discord_link1_join": "https://discord.gg/fMsJHSfTtN",
     "discord_link2_channel": "https://discord.com/channels/1540056204926124152/1540212946540564570",
+    "resource_types": {
+      "courses": {
+        "db_node": "courses",
+        "desc": "Access video lectures and course materials.",
+        "dl_path": "courses",
+        "id": "courses",
+        "quiz_key": "course_keys",
+        "title": "Video Courses",
+        "view_path": "courses"
+      },
+      "standard": {
+        "db_node": "resources",
+        "desc": "Review the materials below to assist with your learning.",
+        "dl_path": "resources",
+        "id": "standard",
+        "quiz_key": "resources_keys",
+        "title": "Study Resources",
+        "view_path": "resources"
+      },
+      "workspace": {
+        "db_node": "code_workspace",
+        "desc": "Access Python notebooks, hands-on coding labs, and GitHub projects.",
+        "dl_path": "workspace",
+        "id": "workspace",
+        "quiz_key": "workspace_keys",
+        "title": "Code Workspace",
+        "view_path": "workspace"
+      }
+    },
     "show_discord_promo": true
   },
   "usernames": {
@@ -5152,10 +5499,18 @@
     "Gaikwad_kiran": "tBcKQgltsMQrUQklqGaukVzQE463",
     "Harshad": "boDMfecge5aagRBadzO4OyrNblx2",
     "Harshad_1": "mIWfEWSPPEhXVTsF0GJ1kocLjwn1",
+    "Jagruuti": "XaxDNymG19M3V9WwnCMYVk5SFXj1",
+    "Mamta": "1pUu8nGMZghFUv3f6g3qSjdLpFl2",
+    "Mayur_Chitte": "VUrkG39wRlWJjsVnmwDL0n0M6vc2",
     "Namrata_Patil": "lyt1JOvUAOb2Kzh5FZuClNxm9Vr1",
     "Nirmalya": "JSrgxSqlRdYhzdeespzmnW9nuTb2",
+    "Preethi_S": "Nb7SHzguWVadUAINmhldnsJDn2q2",
+    "Rajat_Sharan": "dCSr1kBa7IUw5qC8Wag9q2s9gH12",
+    "Ratul_Chatterjee": "h5BcdaFxWMaonsoktvKKIu4aZY92",
     "Sahil": "kSfGqHi4t6NewwMIEXQqsZKTQL13",
     "Salil_Gavhankar": "gyq7Y9vjsFNhJXxvPbNSIrN6DKv2",
+    "SharadMD": "79gJJLEeQ5QW3GEeHUkxQ1kiTu53",
+    "Shrinivas_N": "VpyjiBr6uRafw8YYdYu9c2xn7at1",
     "Sumeet": "m6i96VECzsf7b38R7v6zd7cHKuI2",
     "Suresh": "mAnrJ7mq15QDdp9hpG0VbHJ2lV02",
     "Tejashree_bhosale": "Fr93NBygzAOKz8Fxu3V4oXZS7b23",
@@ -5166,10 +5521,19 @@
     "leelakrishna": "8sk3oQkZSoOmhVNcYhJLlWTdEyk2",
     "mahesh1104": "NDu4n40iZbUp0Y5Go6k6zAoo5Ov2",
     "nitant": "mxNXvgCj4iS0Kkqh1APGfFKanK33",
+    "nrj": "X0Efl8DSDMTs6RhXUCmlUXt5CnS2",
+    "raghu76s": "63NuNilsbedGxM1p5SRDEPZo7Sz1",
     "ranjanri": "2Po8UI7y2iXv7Sf82yjCj4BMXI13",
+    "sat_senapati": "NdGefAkzIvV0Ec1Ov7ueQSIxAxq1",
+    "suhas_mali": "cBoGSizhs1Xe1HsbPjHZlzNWrCE2",
     "zohra_golwala_yahoo_com": "eL9gwKfTtWau2LkHW1ZCANbHQyt2"
   },
   "users": {
+    "1pUu8nGMZghFUv3f6g3qSjdLpFl2": {
+      "email": "leafbyleaf05@gmail.com",
+      "role": "user",
+      "username": "Mamta"
+    },
     "2Po8UI7y2iXv7Sf82yjCj4BMXI13": {
       "email": "ranjan_17@hotmail.com",
       "role": "user",
@@ -5180,6 +5544,16 @@
       "hide_discord_promo": true,
       "role": "user",
       "username": "Ashu21"
+    },
+    "63NuNilsbedGxM1p5SRDEPZo7Sz1": {
+      "email": "raghunandan.sahu@gmail.com",
+      "role": "user",
+      "username": "raghu76s"
+    },
+    "79gJJLEeQ5QW3GEeHUkxQ1kiTu53": {
+      "email": "sharaddeorukhakar@gmail.com",
+      "role": "user",
+      "username": "SharadMD"
     },
     "8MqmEybmToRQSp6t1XT1VibETEf2": {
       "email": "farz.mistry@gmail.com",
@@ -5224,11 +5598,52 @@
       "role": "user",
       "username": "mahesh1104"
     },
+    "Nb7SHzguWVadUAINmhldnsJDn2q2": {
+      "email": "reachprth@gmail.com",
+      "role": "user",
+      "username": "Preethi_S"
+    },
+    "NdGefAkzIvV0Ec1Ov7ueQSIxAxq1": {
+      "email": "satya.senapati2010@gmail.com",
+      "role": "user",
+      "username": "sat_senapati"
+    },
+    "VUrkG39wRlWJjsVnmwDL0n0M6vc2": {
+      "email": "mayurbchitte@gmail.com",
+      "role": "user",
+      "username": "Mayur_Chitte"
+    },
+    "VpyjiBr6uRafw8YYdYu9c2xn7at1": {
+      "email": "shrinivasn49@gmail.com",
+      "role": "user",
+      "username": "Shrinivas_N"
+    },
+    "X0Efl8DSDMTs6RhXUCmlUXt5CnS2": {
+      "email": "mailtoneerajhr19@gmail.com",
+      "hide_discord_promo": true,
+      "role": "user",
+      "username": "nrj"
+    },
+    "XaxDNymG19M3V9WwnCMYVk5SFXj1": {
+      "email": "jagruutichaudhari@gmail.com",
+      "role": "user",
+      "username": "Jagruuti"
+    },
     "boDMfecge5aagRBadzO4OyrNblx2": {
       "email": "harshad.inarkar@gmail.com",
       "hide_discord_promo": true,
       "role": "admin",
       "username": "Harshad"
+    },
+    "cBoGSizhs1Xe1HsbPjHZlzNWrCE2": {
+      "email": "suhasmali1005@gmail.com",
+      "role": "user",
+      "username": "suhas_mali"
+    },
+    "dCSr1kBa7IUw5qC8Wag9q2s9gH12": {
+      "email": "sharanrajat05@gmail.com",
+      "role": "user",
+      "username": "Rajat_Sharan"
     },
     "eL9gwKfTtWau2LkHW1ZCANbHQyt2": {
       "email": "zohra.golwala@yahoo.com",
@@ -5242,8 +5657,15 @@
     },
     "gyq7Y9vjsFNhJXxvPbNSIrN6DKv2": {
       "email": "salilgavhankar123@gmail.com",
+      "hide_discord_promo": true,
       "role": "user",
       "username": "Salil_Gavhankar"
+    },
+    "h5BcdaFxWMaonsoktvKKIu4aZY92": {
+      "email": "ratul_c@yahoo.com",
+      "hide_discord_promo": true,
+      "role": "user",
+      "username": "Ratul_Chatterjee"
     },
     "kSfGqHi4t6NewwMIEXQqsZKTQL13": {
       "email": "gsahil307@gmail.com",
